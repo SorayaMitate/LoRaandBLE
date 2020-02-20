@@ -14,7 +14,7 @@ df = pd.read_csv(path + 'data/traj_2000.csv', index_col=0)
 trans_prob_mat = np.loadtxt(path + 'data/TransProb_matrix.txt')
 index_clusterNo_df = pd.read_csv(path + 'data/IndextoClusterNo_df.csv', index_col=0, \
     usecols=['indexName','ClusterNo'])
-with open('path + data/Trajectory_list') as f:
+with open(path + 'data/Trajectory_list') as f:
     reader = csv.reader(f)
     traj_list = [row for row in reader]
 
