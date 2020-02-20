@@ -9,7 +9,7 @@ from const import *
 from func import *
 
 #各種ファイル読み込み
-path = 'home/owner/mitate/MieSCOPE/data/usingHMM/'
+path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
 df = pd.read_csv(path + 'data/traj_2000.csv', index_col=0)
 trans_prob_mat = np.loadtxt(path + 'data/TransProb_matrix.txt')
 index_clusterNo_df = pd.read_csv(path + 'data/IndextoClusterNo_df.csv', index_col=0, \
