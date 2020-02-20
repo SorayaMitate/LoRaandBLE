@@ -1,0 +1,164 @@
+import csv
+from math import pi, log10, sqrt, exp, cos
+import random
+import matplotlib.pyplot as plt
+from collections import deque
+from sympy import *
+
+#自作モジュール
+import Node
+import const 
+import Result
+from func import *
+from LoRa import *
+from BLE import *
+from AHP import *
+from select_system import *
+
+const = Const()
+
+def comm(ITERATION, NUM_NODE, queue):
+
+    results = Result.Result()
+
+    #AHPで使用する用
+    #1パケット当たりの電流
+    ahp_current = {const.SF7:1.42, const.SF8:2.48, const.SF10:7.9, \
+        const.SF11:14.4, const.SF12:26.8, const.BLE:1.0}
+    #Delay
+    ahp_delay = {const.SF7:const.PACKET/const.RATE[const.SF7], \
+        const.SF8:const.PACKET/const.RATE[const.SF8], \
+        const.SF10:const.PACKET/const.RATE[const.SF10], \
+        const.SF11:const.PACKET/const.RATE[const.SF11], \
+        const.SF12:const.PACKET/const.RATE[const.SF12], \
+        const.BLE:0.0}
+
+    for ite in range(ITERATION):
+
+        results.clear()
+        
+        Node()
+        #ノードとアクセスポイントの初期化
+        node_list = [Agent(1) for i in range(NUM_NODE)]
+        ap_list = [AP() for i in range(const.AP_MAX)]
+        ble_ap_list = [AP() for i in range(const.BLE_AP_NUM)]
+
+        #APの位置定義
+        for ap in ap_list:
+            ap.x = int(const.A / 2)
+            ap.y = int(const.B / 2)
+
+        for ap in ble_ap_list:
+            #メッシュの作成
+            #ap.map = [(i, j, calc_dist(ap.x, ap.y, i, j), Shadowing())\
+            #    for i in range(const.A,const.B+1) for j in range(const.A, const.B+1) \
+            #        if sqrt((ap.x-i)**2+(ap.y-j)**2) <= 200]
+            ap.cluNum = randomCluNum()
+            ap.x, ap.y = CluNumtoPosi(ap.cluNum)
+
+        #ノードの状態、モード設定
+        for node in node_list:
+            node.mode_tmp = const.WAIT
+            node.state_tmp = const.SLEEP
+            node.sf_tmp = const.SF7
+            #node.output()
+ 
+        #APの状態定義
+        for ap in ap_list:
+            ap.mode_tmp = const.WAIT
+            ap.state_tmp = const.DATA_R
+
+        #BLE APの状態定義
+        for ap in ble_ap_list:
+            ap.mode_tmp = const.WAIT
+            ap.state_tmp = const.DATA_R
+
+        #-----デバック-----#
+        #print('node list len =',len(node_l))
+        #print('AP list len =',len(ap_l))
+        #-----------------#
+
+        #軌跡の選択
+        traj_list = randomTraj()
+        print('traj_list = ', traj_list) 
+        traj_len = len(traj_list)*2
+
+        for flame in range(traj_len):
+            
+            #ノードの状態変更と移動
+            for node in node_list:
+                #node.run()
+                node.mode = node.mode_tmp
+                node.state = node.state_tmp
+                node.sf = node.sf_tmp
+                node.rate = const.RATE[node.sf]
+
+                if flame % 2 == 0:
+                    #Nodeの遷移
+                    node.cluNum = convertIndex(traj_list.pop(0))
+                    node.x, node.y = CluNumtoPosi(node.cluNum)
+
+                    #使用可能拡散率の選定(現在の位置から)
+                    dist_tmp = float(calc_dist(node.x, node.y, ap_list[0].x, ap_list[0].y))
+                    node.system_list = [sf for sf in const.SF_LIST \
+                        if const.SENSING_LEVEL[sf] <= PL(node.freq, dist_tmp)*(-1)-15]
+
+                    #normrize
+                    #ahp_current_norm = ahp_normrize(ahp_current)
+                    #ahp_delay[const.BLE] = calc_delay_ble(node.cluNum, ble_ap_list)
+                    #ahp_delay_norm = ahp_normrize(ahp_delay)
+                    print('PER =',calc_per(node.cluNum))
+                    #AHP計算とシステム選択
+                    #node.sf_tmp = AdaptionAlgorithm_AHP(node.system_list, node.qos_matrix,\
+                    #    ahp_current_norm, ahp_delay_norm)
+
+                    #utilityのカウント
+                    results.utiity[node.sf] += 1
+
+                else :
+                    pass
+
+            #APの状態変更
+            for ap in ap_list:
+                ap.mode = ap.mode_tmp
+                ap.state = ap.state_tmp
+                ap.rpow = [const.AWGN] * NUM_NODE
+
+            for ap in ble_ap_list:
+                ap.mode = ap.mode_tmp
+                ap.state = ap.state_tmp
+                ap.rpow = [const.AWGN] * NUM_NODE
+
+            #パケット生起
+            for node in node_list:
+            #    if float(flame) >= node.interval and ( node.state == const.SLEEP
+            #        or node.state == const.BLE_SLEEP or node.state == const.BLE_ADV): 
+                if flame % 2 == 0:        
+                    node.toDATA_T()
+                    results.packet_occur += 1
+                else:
+                    pass
+
+            #LoRa通信処理
+            tx_index = [i for i in range(NUM_NODE) if node_list[i].state == const.DATA_T]
+            if len(tx_index) != 0:
+                results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index)
+
+            #BLE通信処理
+            ble_tx_index = [i for i in range(NUM_NODE) if node_list[i].state == const.BLE_DATA_T]
+            if len(ble_tx_index) != 0:
+                results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)
+
+            #BLE ADV処理
+            ble_adv_index = [i for i in range(NUM_NODE) if node_list[i].state == const.BLE_ADV]
+            if len(ble_adv_index) != 0:
+                results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_adv_index)
+
+        results.output(NUM_NODE)
+        results.sum(NUM_NODE)
+
+    result = results.average(ITERATION, NUM_NODE)
+    print('-------------Node ', end='')
+    print(NUM_NODE, end='')
+    print('-------------')
+    queue.put(result)
