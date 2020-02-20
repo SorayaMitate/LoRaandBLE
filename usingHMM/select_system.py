@@ -1,3 +1,5 @@
+#データに関するあれこれを行う処理
+
 import csv
 import numpy as np
 import pandas as pd
@@ -7,17 +9,18 @@ from const import *
 from func import *
 
 #各種ファイル読み込み
-df = pd.read_csv('data/traj_2000.csv', index_col=0)
-trans_prob_mat = np.loadtxt('data/TransProb_matrix.txt')
-index_clusterNo_df = pd.read_csv('data/IndextoClusterNo_df.csv', index_col=0, \
+path = '~/mitate/MieSCOPE/data/usingHMM/'
+df = pd.read_csv(path + 'data/traj_2000.csv', index_col=0)
+trans_prob_mat = np.loadtxt(path + 'data/TransProb_matrix.txt')
+index_clusterNo_df = pd.read_csv(path + 'data/IndextoClusterNo_df.csv', index_col=0, \
     usecols=['indexName','ClusterNo'])
-with open('data/Trajectory_list') as f:
+with open('path + data/Trajectory_list') as f:
     reader = csv.reader(f)
     traj_list = [row for row in reader]
 
 #PER分布の作成
 #are_of[,lat,lon,shadowing,cluNum,counts,trans_prob]
-area_df = pd.read_csv('data/observationModel.csv',index_col=0)
+area_df = pd.read_csv(path + 'data/observationModel.csv',index_col=0)
 leng = len(area_df)
 per_list = [per_gaussian() for i in range(leng)]
 per_df = pd.DataFrame(per_list, columns=['per'])
