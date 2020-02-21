@@ -17,8 +17,8 @@ def calc_dist(x1, y1, x2, y2):
 def Shadowing():
     return np.random.normal(0.0, 8.0)
 
-def per_gaussian():
-    tmp = np.random.normal(0.05, 0.04)
+def per_gaussian(avg):
+    tmp = np.random.normal(avg, 0.01)
     if tmp < 0.0:
         tmp = 0.0
     return tmp

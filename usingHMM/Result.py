@@ -1,3 +1,5 @@
+import pandas as pd
+
 from const import *
 
 const = Const()        
@@ -13,6 +15,10 @@ class Result():
             const.SF11:0.0, const.SF12:0.0, const.BLE:0.0}
         self.utiity = {const.SF7:0, const.SF8:0, const.SF10:0, \
             const.SF11:0, const.SF12:0, const.BLE:0}
+        
+        #クラスタのPER平均毎のシステム選択割合
+        self.clu_system = pd.DataFrame(0, index=const.PER_AVG, columns=const.SYSTEM_LIST)
+        self.clu_system_avg = pd.DataFrame(0.0, index=const.PER_AVG, columns=const.SYSTEM_LIST)
     
     def clear(self):
         self.packet_occur = 0

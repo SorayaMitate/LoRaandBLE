@@ -37,6 +37,9 @@ class Const():
         #AWGN(dBm)
         self.AWGN = -100.0
 
+        #PERの平均(リスト)[0.01～0.05]
+        self.PER_AVG = [i/100 for i in range(1, 6)]
+
         #パケット長
         self.PACKET = 25 * 8
 

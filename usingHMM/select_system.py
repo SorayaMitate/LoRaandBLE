@@ -8,6 +8,8 @@ import random
 from const import *
 from func import *
 
+const = Const()
+
 #各種ファイル読み込み
 path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
 df = pd.read_csv(path + 'data/traj_2000.csv', index_col=0)
@@ -19,14 +21,16 @@ with open(path + 'data/Trajectory_list') as f:
     traj_list = [row for row in reader]
 
 #PER分布の作成
+#クラスタ毎にPERの平均値を変更
 #are_of[,lat,lon,shadowing,cluNum,counts,trans_prob]
 area_df = pd.read_csv(path + 'data/observationModel.csv',index_col=0)
-leng = len(area_df)
-per_list = [per_gaussian() for i in range(leng)]
-per_df = pd.DataFrame(per_list, columns=['per'])
-area_df = pd.concat([area_df, per_df], axis=1)
-
-const = Const()
+area_df['per_avg'] = 0.0
+area_df['per'] = 0.0
+for k, v in index_clusterNo_df.iterrows():
+    tmp = random.choice(const.PER_AVG)
+    for i, data in area_df[area_df['CluNum']==v['ClusterNo']].iterrows():
+        data.at[i,'per_avg'] = tmp
+        data.at[i,'per'] = per_gaussian(tmp)
 
 #クラスタ番号⇒インデックス
 #出力：インデックス
@@ -49,6 +53,12 @@ def CluNumtoPosi(cluNum):
     x = df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lat']
     y = df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lon']
     return float(x), float(y)
+
+def return_perAvg(cluNum):
+    for i, v in area_df[area_df['cluNum']==int(cluNum)].iterrows():
+        tmp = v['per_avg']
+        break
+    return tmp
 
 #BLE通信の遅延計算
 #入力：Cluster No., BLE APリスト

@@ -1,6 +1,8 @@
 import csv
 from math import pi, log10, sqrt, exp, cos
 import random
+import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
 from collections import deque
 from sympy import *
@@ -100,20 +102,21 @@ def comm(ITERATION, NUM_NODE, queue):
 
                     #使用可能拡散率の選定(現在の位置から)
                     dist_tmp = float(calc_dist(node.x, node.y, ap_list[0].x, ap_list[0].y))
-                    node.system_list = [sf for sf in const.SF_LIST \
-                        if const.SENSING_LEVEL[sf] <= PL(node.freq, dist_tmp)*(-1)-15]
+                    #node.system_list = [sf for sf in const.SF_LIST \
+                    #    if const.SENSING_LEVEL[sf] <= PL(node.freq, dist_tmp)*(-1)-15]
 
                     #normrize
-                    #ahp_current_norm = ahp_normrize(ahp_current)
-                    #ahp_delay[const.BLE] = calc_delay_ble(node.cluNum, ble_ap_list)
-                    #ahp_delay_norm = ahp_normrize(ahp_delay)
+                    ahp_current_norm = ahp_normrize(ahp_current)
+                    ahp_delay[const.BLE] = calc_delay_ble(node.cluNum, ble_ap_list)
+                    ahp_delay_norm = ahp_normrize(ahp_delay)
                     print('PER =',calc_per(node.cluNum))
                     #AHP計算とシステム選択
-                    #node.sf_tmp = AdaptionAlgorithm_AHP(node.system_list, node.qos_matrix,\
-                    #    ahp_current_norm, ahp_delay_norm)
+                    node.sf_tmp = AdaptionAlgorithm_AHP(node.system_list, node.qos_matrix,\
+                        ahp_current_norm, ahp_delay_norm)
 
                     #utilityのカウント
                     results.utiity[node.sf] += 1
+                    results.clu_system.at[return_perAvg(node.cluNum), node.sf_tmp] += 1
 
                 else :
                     pass
@@ -156,6 +159,14 @@ def comm(ITERATION, NUM_NODE, queue):
 
         results.output(NUM_NODE)
         results.sum(NUM_NODE)
+
+    tmp = results.clu_system.sum(axis=1)
+    for i,k in results.clu_system.iterrows():
+        tmp = np.sum(k)
+        for system in const.SYSTEM_LIST:
+            results.clu_system.at[i, system] = results.clu_system.at[i, system]/tmp
+
+    print('results.clu_system.at =', results.clu_system)
 
     result = results.average(ITERATION, NUM_NODE)
     print('-------------Node ', end='')
