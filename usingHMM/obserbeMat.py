@@ -14,15 +14,15 @@ df = pd.read_csv('data/traj_2000.csv', index_col=0)
 index_clusterNo_df = pd.read_csv('data/IndextoClusterNo_df.csv', index_col=0, \
     usecols=['indexName','ClusterNo'])
 
-# 入力 : dataフレーム, map[x, y, dist, shadowing]
+# 入力 : dataフレーム
 # 出力 : 観測モデル
 def observeMat(df):
     
     dict_tmp = {}
     
-    map = [(i, j, Shadowing())\
-        for i in range(const.A+const.DELTA_MESH,const.B+1, const.DELTA_MESH) \
-            for j in range(const.A+const.DELTA_MESH, const.B+1, const.DELTA_MESH)]
+    map = [(i, j)\
+        for i in range(const.A,const.B+const.DELTA_MESH, const.DELTA_MESH) \
+            for j in range(const.A, const.B+const.DELTA_MESH, const.DELTA_MESH)]
     
     leng = len(map)
     for i in range(leng):
@@ -43,7 +43,7 @@ def observeMat(df):
                     map.append(tmp[j])
 
     data = pd.DataFrame(map)
-    data = data.rename(columns={0:'lat', 1:'lon', 2:'shadowing', 3:'cluNum', 4:'counts', \
+    data = data.rename(columns={0:'lat', 1:'lon', 2:'cluNum', 3:'counts', \
         5:'trans_prob'})
     cluNum_list = list(index_clusterNo_df['ClusterNo'])
     for cluNum in cluNum_list:
