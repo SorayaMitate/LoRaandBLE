@@ -9,7 +9,6 @@ from func import *
 const = Const()
 
 path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
-# lat, lon, tra_num, segment_num, segment_head, cluNum, clu_head
 df = pd.read_csv(path + 'data/traj_2000.csv', index_col=0)
 #df = pd.read_csv('test.csv', index_col=0)
 index_clusterNo_df = pd.read_csv(path + 'data/IndextoClusterNo_df.csv', index_col=0, \
