@@ -44,7 +44,7 @@ def observeMat(df):
 
     data = pd.DataFrame(map)
     data = data.rename(columns={0:'lat', 1:'lon', 2:'cluNum', 3:'counts', \
-        5:'trans_prob'})
+        4:'trans_prob'})
     cluNum_list = list(index_clusterNo_df['ClusterNo'])
     for cluNum in cluNum_list:
         tmp = sum(list(data[data['cluNum']==int(cluNum)]['counts']))
