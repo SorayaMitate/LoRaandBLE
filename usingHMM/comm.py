@@ -81,18 +81,16 @@ def comm(ITERATION, NUM_NODE, queue):
         #-----------------#
 
         #エリアの定義
-        #[メッシュx座標, メッシュのy座標, shadowing value, パスロス]
+        #area('lat','lon','shadowing','pathloss','cluNum','shadowing_avg')
         area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B\
             ,const.SHADOWING_VAR, const.D_COR)
-        print('spacial area =',area)
         pl = pd.Series([PL(const.FC, calc_dist(i,j,ap_list[0].x,ap_list[0].y))\
             for i in area['X'] for j in area['Y']], name='PL')
         area = pd.concat([area,pl],axis=1)
-        print(area)
         area['cluNum'] = -1
         area['shadowing_avg'] = 0.0
         area = calc_shadowingavg(area)
-        print('araa=',area)
+        area.to_csv('Sample.csv')
 
         #軌跡の選択
         traj_list = randomTraj()

@@ -118,21 +118,24 @@ def calc_per(cluNum, area, snrper):
 #入力 : area('lat','lon','shadowing','pathloss','cluNum','shadowing_avg'), 
 #用いるdata：observation('lat','lon','cluNum','counts',trans_prob),
 def calc_shadowingavg(area):
-    for v in observation['cluNum'].index:
+    for v in observation['cluNum'].value_counts().index:
         if v == -1:
             pass
-        else:
+        else:   
             tmp = 0.0
             index_list = []
             for i, row in observation[observation['cluNum']==v].iterrows():
-                j = area[(area['lat']==row['lat'])&\
-                    (area['lon']==row['lon'])].index[0]
-                tmp += area.at[j,'shadowing']
-                area.at[j,'cluNum'] = v
+                j = area[(area['X']==int(row['lat']))&\
+                    (area['Y']==int(row['lon']))].index[0]
+                tmp += area.at[j,'SHADOWING']
+                area.at[j,'cluNum'] = int(v)
                 index_list.append(j)
                 
             #クラスタ毎の平均shadowing値を算出
-            tmp = tmp / len(observation[observation['cluNum']==v])
-            for i in index_list:
-                row.at[i,'shadowing_avg']=tmp 
-    return area
+            if len(observation[observation['cluNum']==v]) > 0:
+                tmp = tmp / len(observation[observation['cluNum']==v])
+                for i in index_list:
+                    area.at[i,'shadowing_avg']=tmp
+            else :
+                pass
+    return area 
