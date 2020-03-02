@@ -113,3 +113,11 @@ def calc_per(cluNum, area, snrper):
     for system in const.SF_LIST:
         per_ave = per_ave[system] / len(trans_clu)
     return per_ave
+
+#クラスタごとの平均シャドウィング値を算出するプログラム
+#入力 : area('lat','lon','shadowing','pathloss'), 
+#用いるdata：observation('lat','lon','cluNum','counts',trans_prob),
+#
+print('cluster value =',observation['cluNum'].value_counts())            
+#def calc_shadowingavg(area):
+    
