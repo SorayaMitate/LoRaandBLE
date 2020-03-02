@@ -18,12 +18,6 @@ def calc_dist(x1, y1, x2, y2):
 def Shadowing():
     return np.random.normal(0.0, 8.0)
 
-def per_gaussian(avg):
-    tmp = np.random.normal(avg, 0.01)
-    if tmp < 0.0:
-        tmp = 0.0
-    return tmp
-
 def Fading(v, f):
     #到来角一様分布(Jakesモデル)
     #入力 : 移動体の速さ, 中心周波数
@@ -61,7 +55,7 @@ def poisson():
 
 #空間相関を持つシャドウィング値を作成する関数
 #引数 : メッシュサイズ, メッシュ範囲X, メッシュ範囲Y, 各メッシュの正規分布の分散, 相関距離
-#戻り値 : 空間相関をもつシャドウィング[DataFrame]
+#戻り値 : 空間相関をもつシャドウィング
 def SpacialColShadowing(size, X, Y, var, dcol):
 
     #2地点間の相関係数を計算する関数

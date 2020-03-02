@@ -80,6 +80,18 @@ def comm(ITERATION, NUM_NODE, queue):
         #print('AP list len =',len(ap_l))
         #-----------------#
 
+        #エリアの定義
+        #[メッシュx座標, メッシュのy座標, shadowing value, パスロス]
+        area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B\
+            ,const.SHADOWING_VAR, const.D_COR)
+        pl = pd.Series([PL(const.FC, calc_dist(i,j,ap_list[0].x,ap_list[0].y))\
+            for i in area['X'] for j in area['Y']], name='PL')
+        area = pd.concat([area,pl],axis=1)
+        area['cluNum'] = -1
+        area['shadowing_avg'] = 0.0
+        area = calc_shadowingavg(area)
+        print('araa=',area)
+
         #軌跡の選択
         traj_list = randomTraj()
         print('traj_list = ', traj_list) 
@@ -105,11 +117,11 @@ def comm(ITERATION, NUM_NODE, queue):
                     #node.system_list = [sf for sf in const.SF_LIST \
                     #    if const.SENSING_LEVEL[sf] <= PL(node.freq, dist_tmp)*(-1)-15]
 
-                    #normrize
+                    #ネットワーク実測値の計算
                     ahp_current_norm = ahp_normrize(ahp_current)
                     ahp_delay[const.BLE] = calc_delay_ble(node.cluNum, ble_ap_list)
                     ahp_delay_norm = ahp_normrize(ahp_delay)
-                    print('PER =',calc_per(node.cluNum))
+                    #####ahp_per = calc_per(node.cluNum, area, sssssssssss)
                     #AHP計算とシステム選択
                     node.sf_tmp = AdaptionAlgorithm_AHP(node.system_list, node.qos_matrix,\
                         ahp_current_norm, ahp_delay_norm)

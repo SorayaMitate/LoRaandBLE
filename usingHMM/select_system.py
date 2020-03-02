@@ -115,9 +115,22 @@ def calc_per(cluNum, area, snrper):
     return per_ave
 
 #クラスタごとの平均シャドウィング値を算出するプログラム
-#入力 : area('lat','lon','shadowing','pathloss'), 
+#入力 : area('lat','lon','shadowing','pathloss','cluNum','shadowing_avg'), 
 #用いるdata：observation('lat','lon','cluNum','counts',trans_prob),
-#
-print('cluster value =',observation['cluNum'].value_counts())            
-#def calc_shadowingavg(area):
-    
+def calc_shadowingavg(area):
+    for v in observation['cluNum'].index:
+        if v == -1:
+            pass
+        else:
+            tmp = 0.0
+            for i, row in observation[observation['cluNum']==v].iterrows():
+                j = area[(area['lat']==row['lat'])&\
+                    (area['lon']==row['lon'])].index[0]
+                tmp += area.at[j,'shadowing']
+                area.at[j,'cluNum'] = v
+                
+            #クラスタ毎の平均shadowing値を算出
+            tmp = tmp / len(observation[observation['cluNum']==v])
+            for i, row in area[area['cluNum']==v].iterrows():
+                row.at[i,'shadowing_avg']=tmp 
+    return area

@@ -19,6 +19,10 @@ class Const():
         self.DELTA_MESH = 10
         self.CLUSTER_SIZE = 100
 
+        #シャドウィングパラメータ
+        self.D_COR = 30
+        self.SHADOWING_VAR = 8.0
+
         #ノード状態（mode）
         self.ACTIVE = 0
         self.LISTEN = 1
@@ -82,6 +86,9 @@ class Const():
                 self.SF12:float((self.PACKET/self.RATE[self.SF12])/0.01-self.PACKET/self.RATE[self.SF12]),
                 #BLEのduty cycleはsf10のものを使用する
                 self.BLE:float((self.PACKET/self.RATE[self.SF10])/0.01-self.PACKET/self.RATE[self.SF10])}
+        
+        self.PER = {self.SF7:0.0, self.SF8:0.0, self.SF10:-0.0,\
+            self.SF11:.0, self.SF12:0.0, self.BLE:0.0}
 
         #BLEの変数定義
         #BUFFER_SIZE = 10
