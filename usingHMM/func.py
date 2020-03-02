@@ -72,11 +72,11 @@ def SpacialColShadowing(size, XSIZE, YSIZE, var, dcol):
         for i in Z] for j in Z])
     
     #コレスキー分解
-    L = np.linalg.cholesky(S)
+    #L = np.linalg.cholesky(S)
 
     #共分散行列の計算
-    w = np.random.rand((int(XSIZE/size)**2))
-    M = np.dot(L, w)
+    #w = np.random.rand((int(XSIZE/size)**2))
+    #M = np.dot(L, w)
 
     U = np.zeros((int(XSIZE/size)**2))
     S = np.random.multivariate_normal(U, S)
