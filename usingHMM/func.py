@@ -56,15 +56,15 @@ def poisson():
 #空間相関を持つシャドウィング値を作成する関数
 #引数 : メッシュサイズ, メッシュ範囲X, メッシュ範囲Y, 各メッシュの正規分布の分散, 相関距離
 #戻り値 : 空間相関をもつシャドウィング
-def SpacialColShadowing(size, X, Y, var, dcol):
+def SpacialColShadowing(size, XSIZE, YSIZE, var, dcol):
 
     #2地点間の相関係数を計算する関数
     #入力 : 2メッシュ間の距離
     def calc_SpatialCorrelation(d, dcol):
         return np.exp((-1)*d/dcol*np.log10(2))
 
-    X = np.arange(0, X, size)
-    Y = np.arange(0, Y, size)
+    X = np.arange(0, XSIZE, size)
+    Y = np.arange(0, YSIZE, size)
     Z = [(i,j) for i in X for j in Y]
 
     #共分散行列の計算
@@ -75,10 +75,10 @@ def SpacialColShadowing(size, X, Y, var, dcol):
     L = np.linalg.cholesky(S)
 
     #共分散行列の計算
-    w = np.random.rand((int(X/size)**2))
+    w = np.random.rand((int(XSIZE/size)**2))
     M = np.dot(L, w)
 
-    U = np.zeros((int(X/size)**2))
+    U = np.zeros((int(XSIZE/size)**2))
     S = np.random.multivariate_normal(U, S)
 
     X = [i[0] for i in Z]
@@ -88,5 +88,6 @@ def SpacialColShadowing(size, X, Y, var, dcol):
         'Y':Y,
         'SHADOWING':S
     })
+    mesh.to_csv('SC_shadowing.csv')
 
     return mesh
