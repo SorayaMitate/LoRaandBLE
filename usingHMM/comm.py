@@ -87,6 +87,7 @@ def comm(ITERATION, NUM_NODE, queue):
         pl = pd.Series([PL(const.FC, calc_dist(i,j,ap_list[0].x,ap_list[0].y))\
             for i in area['X'] for j in area['Y']], name='PL')
         area = pd.concat([area,pl],axis=1)
+        print(area)
         area['cluNum'] = -1
         area['shadowing_avg'] = 0.0
         area = calc_shadowingavg(area)

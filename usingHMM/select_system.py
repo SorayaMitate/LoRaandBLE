@@ -123,14 +123,16 @@ def calc_shadowingavg(area):
             pass
         else:
             tmp = 0.0
+            index_list = []
             for i, row in observation[observation['cluNum']==v].iterrows():
                 j = area[(area['lat']==row['lat'])&\
                     (area['lon']==row['lon'])].index[0]
                 tmp += area.at[j,'shadowing']
                 area.at[j,'cluNum'] = v
+                index_list.append(j)
                 
             #クラスタ毎の平均shadowing値を算出
             tmp = tmp / len(observation[observation['cluNum']==v])
-            for i, row in area[area['cluNum']==v].iterrows():
+            for i in index_list:
                 row.at[i,'shadowing_avg']=tmp 
     return area
