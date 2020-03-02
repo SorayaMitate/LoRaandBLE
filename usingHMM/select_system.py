@@ -4,6 +4,8 @@ import csv
 import numpy as np
 import pandas as pd
 import random
+import matplotlib.pyplot as plt
+import matplotlib.patches as patches
 
 from const import *
 from func import *
@@ -19,18 +21,20 @@ index_clusterNo_df = pd.read_csv(path + 'data/IndextoClusterNo_df.csv', index_co
 with open(path + 'data/Trajectory_list') as f:
     reader = csv.reader(f)
     traj_list = [row for row in reader]
+observation = pd.read_csv(path + 'data/observationModel.csv',index_col=0)
 
-#PER分布の作成
-#クラスタ毎にPERの平均値を変更
-#are_of[,lat,lon,shadowing,cluNum,counts,trans_prob]
-area_df = pd.read_csv(path + 'data/observationModel.csv',index_col=0)
-area_df['per_avg'] = 0.0
-area_df['per'] = 0.0
-for k, v in index_clusterNo_df.iterrows():
-    tmp = random.choice(const.PER_AVG)
-    for i, data in area_df[area_df['CluNum']==v['ClusterNo']].iterrows():
-        data.at[i,'per_avg'] = tmp
-        data.at[i,'per'] = per_gaussian(tmp)
+#クラスタヘッドの配置図作成
+fig = plt.figure()
+ax = plt.axes()
+for i, row in df[df['clu_head']==True].iterrows():
+    ax.add_patch(patches.Circle(xy=(row['lat'], row['lon']), radius=100))
+plt.xlim(const.A, const.B)
+plt.ylim(const.A, const.B)
+plt.grid()
+plt.axis('scaled')
+ax.set_aspect('equal')
+
+plt.savefig('cluster_posi.png')
 
 #クラスタ番号⇒インデックス
 #出力：インデックス
@@ -55,7 +59,7 @@ def CluNumtoPosi(cluNum):
     return float(x), float(y)
 
 def return_perAvg(cluNum):
-    for i, v in area_df[area_df['cluNum']==int(cluNum)].iterrows():
+    for i, v in observation[observation['cluNum']==int(cluNum)].iterrows():
         tmp = v['per_avg']
         break
     return tmp
@@ -78,13 +82,34 @@ def calc_delay_ble(cluNum, ble_ap_list):
             delay += trans_prob_mat[cluNum][i] * dist_tmp + const.PACKET/const.RATE[const.SF12]
     return delay / len(l)
 
-def calc_per(cluNum):
+#各メッシュの遷移先からPERを算出する処理
+#入力 : ノードのcluNNum, 対象エリア(DF), SNR-PER曲線
+def calc_per(cluNum, area, snrper):
     size = trans_prob_mat[cluNum].shape[0]
-    l = [(index_clusterNo_df.at[i,'ClusterNo'], trans_prob_mat[cluNum][i]) \
+    trans_clu = [(index_clusterNo_df.at[i,'ClusterNo'], trans_prob_mat[cluNum][i]) \
         for i in range(size) if trans_prob_mat[cluNum][i] > 0.0]
-    per = 0.0
-    for value in l:
-        per_list = [area_df.at[i, 'trans_prob'] * value[1] \
-            for i in area_df[area_df['cluNum']==int(value[0])].index]
-        per += sum(per_list) / len(per_list)
-    return per / len(l)
+    
+    #per_aveの作成
+    per = {system:0.0 for system in const.SF_LIST}
+    per_ave = {system:0.0 for system in const.SF_LIST}
+
+    #遷移先クラスタでループ
+    for value in trans_clu:
+        #遷移先毎のperを算出
+        #areaとdfの対応
+        posi = [(observation.at[i,'lat'],observation.at[i,'lon']) \
+            for i in observation[observation['cluNum']==int(value[0])].index]
+        #対応するarea(df)のインデックスをサーチ
+        index = [area[(area['X']==v[0])&(area['Y']==v[1])].index[0] for v in posi]
+        #各メッシュ毎のPERを算出
+        for i in index:
+            for system in const.SF_LIST:
+                per[system] += value[1]*snrper[system]((area.at[i,'SHADOWING']\
+                    +area.at[i,'PL']))
+
+        for system in const.SF_LIST:            
+            per_ave[system] += per[system] / len(index)
+
+    for system in const.SF_LIST:
+        per_ave = per_ave[system] / len(trans_clu)
+    return per_ave
