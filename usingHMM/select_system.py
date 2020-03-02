@@ -27,7 +27,7 @@ observation = pd.read_csv(path + 'data/observationModel.csv',index_col=0)
 fig = plt.figure()
 ax = plt.axes()
 for i, row in df[df['clu_head']==True].iterrows():
-    ax.add_patch(patches.Circle(xy=(row['lat'], row['lon']), radius=10))
+    ax.add_patch(patches.Circle(xy=(row['lat'], row['lon']), radius=50))
 plt.xlim(const.A, const.B)
 plt.ylim(const.A, const.B)
 plt.grid()
