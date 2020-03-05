@@ -23,7 +23,7 @@ def comm(ITERATION, NUM_NODE, queue):
 
     results = Result.Result()
 
-    #area = pd.read_csv('SC_shadowing.csv',index_col=0)
+    area = pd.read_csv('SC_shadowing.csv',index_col=0)
 
     #AHPで使用する用
     #1パケット当たりの電流
@@ -96,36 +96,21 @@ def comm(ITERATION, NUM_NODE, queue):
         #-----------------#
 
         #エリアの定義area('lat','lon','shadowing','pathloss','cluNum','shadowing_avg')
-        #area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B\
-        #    ,const.SHADOWING_VAR, const.D_COR)
-        #area.to_csv('test.csv')
-        #pl = pd.Series([PL(const.FC, calc_dist(row['X'],row['Y'],ap_list[0].x,ap_list[0].y))\
-        #    for i,row in area.iterrows()],name='PL')
-        #area = pd.concat([area,pl],axis=1)
-        #area['cluNum'] = -1
-        #area['shadowing_avg'] = 0.0
-        #area = calc_shadowingavg(area)
-        #area.to_csv('sample.csv')
-        area = pd.read_csv('sample.csv',index_col=0)
+        area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B\
+            ,const.SHADOWING_VAR, const.D_COR)
+        area.to_csv('test.csv')
+        pl = pd.Series([PL(const.FC, calc_dist(row['X'],row['Y'],ap_list[0].x,ap_list[0].y))\
+            for i,row in area.iterrows()],name='PL')
+        area = pd.concat([area,pl],axis=1)
+        area['cluNum'] = -1
+        area['shadowing_avg'] = 0.0
+        area = calc_shadowingavg(area)
+        area.to_csv('sample.csv')
+        #area = pd.read_csv('sample.csv',index_col=0)
         print(area)
 
-        #軌跡の選択
-        #traj_listの中身は、クラスタ番号
-        while True:
-            flag = 0         
-            traj_list = randomTraj()
-            for i in traj_list:
-                tmp = area[area['cluNum']==int(i)]
-                if len(tmp) == 0:
-                    flag = 1
-                    break
-                else:
-                    pass
-            if flag == 0:
-                traj_len = len(traj_list)*2
-                break
-            else:
-                pass
+        traj_list = randomTraj()
+        traj_len = len(traj_list)*2
 
         for flame in range(traj_len):
             
