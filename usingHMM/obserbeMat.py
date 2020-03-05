@@ -28,7 +28,6 @@ def observeMat(df):
 
     cluNum = np.array([-1 for i in range(leng)])
     counts = np.zeros(leng)
-    trans_prob = np.zeros(leng)
     
     for i in range(leng):
         #範囲にあるdataフレームの抽出
@@ -53,6 +52,8 @@ def observeMat(df):
                     cluNum = np.append(cluNum,index_list[j]) 
                     counts = np.append(counts,clu_variety[index_list[j]])
 
+    leng = len(X)
+    trans_prob = np.zeros(leng)
     data = pd.DataFrame({
         'lat':X,
         'lon':Y,
