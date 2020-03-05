@@ -19,6 +19,8 @@ class Const():
         self.DELTA_MESH = 10
         self.CLUSTER_SIZE = 100
 
+        self.PER_THRESHOLD = 0.1
+
         #シャドウィングパラメータ
         self.D_COR = 30
         self.SHADOWING_VAR = 8.0
@@ -87,7 +89,9 @@ class Const():
                 #BLEのduty cycleはsf10のものを使用する
                 self.BLE:float((self.PACKET/self.RATE[self.SF10])/0.01-self.PACKET/self.RATE[self.SF10])}
         
-        self.PER = {self.SF7:0.0, self.SF8:0.0, self.SF10:-0.0,\
+        #PERのあれこれ
+        self.PARAM = {self.SF7:0.0, self.SF8:0.0, self.SF10:0.0, self.SF11:0.0, self.SF12:0.0}
+        self.PER = {self.SF7:0.0, self.SF8:0.0, self.SF10:0.0,\
             self.SF11:.0, self.SF12:0.0, self.BLE:0.0}
 
         #BLEの変数定義
@@ -95,12 +99,11 @@ class Const():
         #BLEのデータレート : 1M[bit/s]
         self.BLE_RATE = 1000000.0
         #スレーブによるアドバタイズインターバル:0.5[sec]
-        self.ADV_INTERVAL = 50 #500msec
+        self.ADV_INTERVAL = 0.5 #500msec
         #アドバタイズパケットの長さ
         #ADOVERTISE_SIZE = 
         #BLEの消費電流[mAh/10ms]
-        self.BLE_CURRENT = {'TX':84.0/3.0, 'RX':66.0/3.0, 'TIFS':45.0/3.0, \
-                        'ADV':0.2/3.0}
+        self.BLE_CURRENT = {'ADV':0.067, 'IDLE':4.67/3.0}
         #BLEの各パケット送受信にかかる長さ [sec/bit]
         self.BLE_LENGTH = {'TX':10.0**(-6), 'RX':10.0**(-6), 'TIFS':150.0**(-6)}
 

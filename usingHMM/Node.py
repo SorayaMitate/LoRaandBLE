@@ -84,7 +84,8 @@ class Agent(Node):
         super(Agent, self).__init__() #Nodeのメンバ変数ごと継承
         self.buffer = deque(maxlen=const.BUFFER_SIZE)
         self.speed = const.SPEED
-        self.qos_matrix = Matrix([[1, ahp_qos],[1/ahp_qos,1]])
+        tmp = 7
+        self.qos_matrix = Matrix([[1,tmp,tmp],[1/tmp,1,1],[1/tmp,1,1]])
 
     def run(self):
         #agentがエリア端に到着した時、走行距離を初期化し

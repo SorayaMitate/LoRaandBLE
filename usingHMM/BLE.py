@@ -34,7 +34,7 @@ def BLEcomm(node_list, ap_list, index_list):
 
 
     #APによる受信処理
-    for ap in ap_list:
+    #for ap in ap_list:
         #for i in index_list:
         #    SINR = 0.0
         #    tmp1 = dBmtotv(const.AWGN)
@@ -51,7 +51,7 @@ def BLEcomm(node_list, ap_list, index_list):
 
         #        node_list[i].packet -= node_list[i].rate * const.TIMEPERFLAME
         #        if node_list[i].packet <= 0:
-        arrival_packet += 1
+    arrival_packet += 1
 
     return arrival_packet
 

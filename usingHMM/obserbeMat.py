@@ -22,20 +22,32 @@ def observeMat(df):
     
     map = [(i, j) for i in range(const.A,const.B+const.DELTA_MESH, const.DELTA_MESH) \
             for j in range(const.A, const.B+const.DELTA_MESH, const.DELTA_MESH)]
+
+    X = np.arange(const.A, const.B, const.DELTA_MESH)
+    Y = np.arange(const.A, const.B, const.DELTA_MESH)
+    XX, YY = np.meshgrid(X,Y)
+    #二次元配列を一次元に
+    X = XX.flatten()
+    Y = YY.flatten()
+    leng = len(X)
+
+    cluNum = np.array([-1 for i in range(leng)])
+    counts = np.zeros(leng)
+    trans_prob = np.zeros(leng)
     
-    leng = len(map)
     for i in range(leng):
         #範囲にあるdataフレームの抽出
-        df_tmp = df[(map[i][0]<=df['lat']) & (df['lat']<(map[i][0]+const.DELTA_MESH))\
-            & (map[i][1]<=df['lon']) & (df['lon']<map[i][1]+const.DELTA_MESH)]
+        df_tmp = df[(X[i]<=df['lat']) & (df['lat']<(X[i]+const.DELTA_MESH))\
+            & (Y[i]<=df['lon']) & (df['lon']<Y[i]+const.DELTA_MESH)]
         if len(df_tmp) == 0:
-            map[i] += (-1, 0, 0.0)
+            pass
         else :
             clu_variety = df_tmp['cluNum'].value_counts()
             #clusterナンバーの取得
             index_list = clu_variety.index
             if len(index_list) == 1:
-                map[i] += (index_list[0], clu_variety[index_list[0]], 0.0)
+                cluNum[i] = index_list[0]
+                counts[i] = clu_variety[index_list[0]]
             else :
                 #１つのメッシュが複数クラスタに属する場合, それを新規に追加する
                 tmp = [map[i] for j in range(len(index_list))]

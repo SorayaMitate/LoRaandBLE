@@ -23,6 +23,8 @@ def comm(ITERATION, NUM_NODE, queue):
 
     results = Result.Result()
 
+    area = pd.read_csv('test.csv',index_col=0)
+
     #AHPで使用する用
     #1パケット当たりの電流
     ahp_current = {const.SF7:1.42, const.SF8:2.48, const.SF10:7.9, \
@@ -34,6 +36,19 @@ def comm(ITERATION, NUM_NODE, queue):
         const.SF11:const.PACKET/const.RATE[const.SF11], \
         const.SF12:const.PACKET/const.RATE[const.SF12], \
         const.BLE:0.0}
+    
+    #SNR-PERfuncの読み込み
+    file_name = 'param.csv'
+    with open(file_name) as f:
+        reader = csv.reader(f)
+        for row in reader:
+            tmp_list = []
+            for i in range(len(row)):
+                if i == 0:
+                    tmp = int(row[i])
+                else:
+                    tmp_list.append(float(row[i]))
+            const.PARAM[tmp] = tmp_list
 
     for ite in range(ITERATION):
 
@@ -80,22 +95,37 @@ def comm(ITERATION, NUM_NODE, queue):
         #print('AP list len =',len(ap_l))
         #-----------------#
 
-        #エリアの定義
-        #area('lat','lon','shadowing','pathloss','cluNum','shadowing_avg')
-        area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B\
-            ,const.SHADOWING_VAR, const.D_COR)
-        pl = pd.Series([PL(const.FC, calc_dist(i,j,ap_list[0].x,ap_list[0].y))\
-            for i in area['X'] for j in area['Y']], name='PL')
-        area = pd.concat([area,pl],axis=1)
-        area['cluNum'] = -1
-        area['shadowing_avg'] = 0.0
-        area = calc_shadowingavg(area)
-        area.to_csv('Sample.csv')
+        #エリアの定義area('lat','lon','shadowing','pathloss','cluNum','shadowing_avg')
+        #area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B\
+        #    ,const.SHADOWING_VAR, const.D_COR)
+        #area.to_csv('test.csv')
+        pl = [PL(const.FC, calc_dist(row['X'],row['Y'],ap_list[0].x,ap_list[0].y))\
+            for i,row in area.iterrows()]
+        #area = pd.concat([area,pl],axis=1)
+        #area['cluNum'] = -1
+        #area['shadowing_avg'] = 0.0
+        #area = calc_shadowingavg(area)
+        #area.to_csv('test.csv')
+        area['PL']=pl
+        print(area)
 
         #軌跡の選択
-        traj_list = randomTraj()
-        print('traj_list = ', traj_list) 
-        traj_len = len(traj_list)*2
+        #traj_listの中身は、クラスタ番号
+        while True:
+            flag = 0         
+            traj_list = randomTraj()
+            for i in traj_list:
+                tmp = area[area['cluNum']==int(i)]
+                if len(tmp) == 0:
+                    flag = 1
+                    break
+                else:
+                    pass
+            if flag == 0:
+                traj_len = len(traj_list)*2
+                break
+            else:
+                pass
 
         for flame in range(traj_len):
             
@@ -109,26 +139,44 @@ def comm(ITERATION, NUM_NODE, queue):
 
                 if flame % 2 == 0:
                     #Nodeの遷移
+                    #clusterNo.はクラスタ番号からインデックスへ変更
                     node.cluNum = convertIndex(traj_list.pop(0))
                     node.x, node.y = CluNumtoPosi(node.cluNum)
 
                     #使用可能拡散率の選定(現在の位置から)
                     dist_tmp = float(calc_dist(node.x, node.y, ap_list[0].x, ap_list[0].y))
-                    #node.system_list = [sf for sf in const.SF_LIST \
-                    #    if const.SENSING_LEVEL[sf] <= PL(node.freq, dist_tmp)*(-1)-15]
 
                     #ネットワーク実測値の計算
+                    ahp_current[const.BLE] = calc_energy_ble(node.cluNum, ble_ap_list,ahp_current[const.SF12])
                     ahp_current_norm = ahp_normrize(ahp_current)
                     ahp_delay[const.BLE] = calc_delay_ble(node.cluNum, ble_ap_list)
                     ahp_delay_norm = ahp_normrize(ahp_delay)
-                    #####ahp_per = calc_per(node.cluNum, area, sssssssssss)
+                    ahp_per = calc_per(node.cluNum, area, const.PARAM)
+                    ahp_per_norm = ahp_normrize(ahp_per)
                     #AHP計算とシステム選択
-                    node.sf_tmp = AdaptionAlgorithm_AHP(node.system_list, node.qos_matrix,\
-                        ahp_current_norm, ahp_delay_norm)
+                    systemlist = [system for system in const.SYSTEM_LIST if ahp_per[system] <= const.PER_THRESHOLD]
+                    node.sf_tmp = AdaptionAlgorithm_AHP(systemlist, node.qos_matrix,\
+                        ahp_current_norm, ahp_delay_norm, ahp_per_norm)
 
                     #utilityのカウント
                     results.utiity[node.sf] += 1
-                    results.clu_system.at[return_perAvg(node.cluNum), node.sf_tmp] += 1
+                    #clu_systemにはシステムインデクスを格納
+                    results.clu_system.append(node.sf_tmp)
+                    results.shadowing_avg.append(area[area['cluNum']==int(convertClusterNO(node.cluNum))]\
+                        ['shadowing_avg'].mode()[0])
+                    results.dist.append(dist_tmp)
+                    #results.clu_system.at[return_perAvg(node.cluNum), node.sf_tmp] += 1
+
+                    #print('--------- node cluster = ' + str(node.cluNum) + '----------')
+                    #print('dist = ',dist_tmp)
+                    #print('current = ',ahp_current)
+                    #print('current norm = ',ahp_current_norm)
+                    #print('delay = ',ahp_delay)
+                    #print('delay norm = ',ahp_delay_norm)
+                    #print('per =',ahp_per)
+                    #print('per norm= ',ahp_per_norm)
+                    #print('system list =',systemlist)
+                    #print('node.sf_tmp',node.sf_tmp)
 
                 else :
                     pass
@@ -148,8 +196,11 @@ def comm(ITERATION, NUM_NODE, queue):
             for node in node_list:
             #    if float(flame) >= node.interval and ( node.state == const.SLEEP
             #        or node.state == const.BLE_SLEEP or node.state == const.BLE_ADV): 
-                if flame % 2 == 0:        
-                    node.toDATA_T()
+                if flame % 2 == 0:
+                    if node.sf_tmp == const.BLE:
+                        node.toBLE_DATA_T()
+                    else:
+                        node.toDATA_T()
                     results.packet_occur += 1
                 else:
                     pass
@@ -172,16 +223,18 @@ def comm(ITERATION, NUM_NODE, queue):
         results.output(NUM_NODE)
         results.sum(NUM_NODE)
 
-    tmp = results.clu_system.sum(axis=1)
-    for i,k in results.clu_system.iterrows():
-        tmp = np.sum(k)
-        for system in const.SYSTEM_LIST:
-            results.clu_system.at[i, system] = results.clu_system.at[i, system]/tmp
+    #tmp = results.clu_system.sum(axis=1)
+    #for i,k in results.clu_system.iterrows():
+    #    tmp = np.sum(k)
+    #    for system in const.SYSTEM_LIST:
+    #       results.clu_system.at[i, system] = results.clu_system.at[i, system]/tmp
 
-    print('results.clu_system.at =', results.clu_system)
+    #print('results.clu_system =', results.clu_system)
+    #print('shadowing_avg =',results.shadowing_avg)
+    #print('dist =',results.dist)
 
     result = results.average(ITERATION, NUM_NODE)
-    print('-------------Node ', end='')
-    print(NUM_NODE, end='')
-    print('-------------')
+    #print('-------------Node ', end='')
+    #print(NUM_NODE, end='')
+    #print('-------------')
     queue.put(result)

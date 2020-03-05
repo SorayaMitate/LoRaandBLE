@@ -20,7 +20,7 @@ def ahp_normrize(value_dict):
         value_dict_norm[k] = min_value / v
     return value_dict_norm
 
-def AdaptionAlgorithm_AHP(system_list, qos_matrix, value1, value2):
+def AdaptionAlgorithm_AHP(system_list, qos_matrix, value1, value2,value3):
     #動的に拡散率を選択するアルゴリズム
     #N各拡散率のNODE数から一番許容量と少ない拡散率へ割り当て
     #入力：許容可能な拡散率セット、各拡散率のノード数
@@ -45,16 +45,17 @@ def AdaptionAlgorithm_AHP(system_list, qos_matrix, value1, value2):
 
     for sf in system_list:
         ahp_Matrix = ahp_Matrix.row_insert(len(system_list), \
-            Matrix([[value1[sf], value2[sf]]]))
+            Matrix([[value1[sf], value2[sf],value3[sf]]]))
 
     eval_mat_1 = calc_ahp_weight_vec(qos_matrix)
     tmp_mat = ahp_Matrix * eval_mat_1
     tmp_mat = tmp_mat[:]
 
     #----------デバック----------#
-    #print('tmp_list =', tmp_list)
     #print('qos_matrix =', qos_matrix)
+    #print('eval_mat =',eval_mat_1)
+    #print('ahp_matrix =',ahp_Matrix)
     #print('tmp_mat =', tmp_mat)
-    #print('SF=', tmp_list[tmp_mat.index(max(tmp_mat))])
+    #print('SF=', system_list[tmp_mat.index(max(tmp_mat))])
 
     return system_list[tmp_mat.index(max(tmp_mat))]

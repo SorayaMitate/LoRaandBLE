@@ -17,8 +17,11 @@ class Result():
             const.SF11:0, const.SF12:0, const.BLE:0}
         
         #クラスタのPER平均毎のシステム選択割合
-        self.clu_system = pd.DataFrame(0, index=const.PER_AVG, columns=const.SYSTEM_LIST)
-        self.clu_system_avg = pd.DataFrame(0.0, index=const.PER_AVG, columns=const.SYSTEM_LIST)
+        #self.clu_system = pd.DataFrame(0, index=const.PER_AVG, columns=const.SYSTEM_LIST)
+        #self.clu_system_avg = pd.DataFrame(0.0, index=const.PER_AVG, columns=const.SYSTEM_LIST)
+        self.clu_system = []
+        self.shadowing_avg = []
+        self.dist = []
     
     def clear(self):
         self.packet_occur = 0
@@ -50,5 +53,8 @@ class Result():
         for system in const.SYSTEM_LIST:
             self.utiity_ave[system] = self.utiity_ave[system] / float(ite)
         self.result_ave['utility'] = self.utiity_ave
-
+        self.result_ave['clu_system'] = self.clu_system
+        self.result_ave['shadowing_avg'] = self.shadowing_avg
+        self.result_ave['dist'] = self.dist
         return self.result_ave
+    

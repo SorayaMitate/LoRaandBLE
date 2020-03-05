@@ -10,6 +10,7 @@ from comm import *
 import multiprocessing as mp
 import os
 import glob
+import pandas as pd
 
 #自作モジュール
 import Node 
@@ -17,8 +18,8 @@ import const
 import Result
 
 #---------変数定義--------#
-NUM_CORE = 1 #使用するコア数(メインプロセスは含まない)
-ITERATION = 1
+NUM_CORE = 4 #使用するコア数(メインプロセスは含まない)
+ITERATION = 50
 #------------------------#
 
 #定数クラスの定義
@@ -33,6 +34,7 @@ def main():
     results = [Result.Result() for i in range(len_node_list)]
     results_utility = [{'node':0, const.SF7:0.0, const.SF8:0.0, const.SF10:0.0, \
         const.SF11:0.0, const.SF12:0.0, const.BLE:0.0} for i in range(len(node_list))]
+    results_system = {'clu_system':[], 'shadowing_avg':[], 'dist':[]}
 
     for i in range(len_node_list):
 
@@ -46,14 +48,14 @@ def main():
             if q.empty() is False:
                 tmp = q.get()
                 for k, v in tmp.items():
-                    if k == 'node':
-                        results[i].result_ave[k] = v
-                        results_utility[i][k] = v
-                    elif k == 'utility':
-                        for k2, v2 in v.items():
-                            results_utility[i][k2] += v2
-                    else:
-                        results[i].result_ave[k] += v
+                    if k == 'clu_system':
+                        results_system[k] += v
+                    elif k == 'shadowing_avg':
+                        results_system[k] += v
+                    elif k == 'dist':
+                        results_system[k] += v
+                    else :
+                        pass
 
                 j += 1
                 if j == NUM_CORE:
@@ -62,48 +64,15 @@ def main():
         [p.join() for p in p_list]
         q.close()
 
-        for k, v in results[i].result_ave.items():
-            if k == 'node':
-                pass
-            else:
-                v = v / float(NUM_CORE)
-
-        for k, v in results_utility[i].items():
-            if k == 'node':
-                pass
-            else:
-                v = v / float(NUM_CORE)
-
     #ファイル出力処理
-    path = os.getcwd()
-    file_list = glob.glob(path + '\\*')
-    if (path + '\\results') in file_list:
-        pass
-    else:
-        os.mkdir(path + '\\results')
-    
-    path = path + '\\results'
-    file_list = glob.glob(path)
-    
-    file_name = path + '\\Varrious_results.csv'
-    if file_name in file_list:
-        os.remove(file_name)
-    keys = list(results[0].result_ave.keys())
-    with open(file_name, 'w', newline="") as f:
-        writer = csv.DictWriter(f, keys)
-        writer.writeheader()
-        for result in results:
-            writer.writerow(result.result_ave)
-
-    file_name = path + '\\Utility_results.csv'
-    if file_name in file_list:
-        os.remove(file_name)
-    keys = list(results_utility[0].keys())
-    with open(file_name, 'w', newline="") as f:
-        writer = csv.DictWriter(f, keys)
-        writer.writeheader()
-        for result in results_utility:
-            writer.writerow(result)
+    file_name = 'system_results.csv'
+    df = pd.DataFrame({
+        'clu_system':results_system['clu_system'],
+        'shadowing_avg':results_system['shadowing_avg'],
+        'dist':results_system['dist']
+    })
+    print(df)
+    df.to_csv(file_name)
 
 if __name__ == "__main__":
     main()  
