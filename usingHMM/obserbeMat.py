@@ -50,8 +50,8 @@ def observeMat(df):
                 for j in range(1,len(index_list)):
                     X = np.append(X,X[i])
                     Y = np.append(Y,Y[i])
-                    cluNum = cluNum.append(index_list[j]) 
-                    counts = counts.append(clu_variety[index_list[j]])
+                    cluNum = np.append(cluNum,index_list[j]) 
+                    counts = np.append(counts,clu_variety[index_list[j]])
 
     data = pd.DataFrame({
         'lat':X,
