@@ -18,11 +18,6 @@ index_clusterNo_df = pd.read_csv(path + 'data/IndextoClusterNo_df.csv', index_co
 # 出力 : 観測モデル
 def observeMat(df):
     
-    dict_tmp = {}
-    
-    map = [(i, j) for i in range(const.A,const.B+const.DELTA_MESH, const.DELTA_MESH) \
-            for j in range(const.A, const.B+const.DELTA_MESH, const.DELTA_MESH)]
-
     X = np.arange(const.A, const.B, const.DELTA_MESH)
     Y = np.arange(const.A, const.B, const.DELTA_MESH)
     XX, YY = np.meshgrid(X,Y)
