@@ -62,7 +62,7 @@ def comm(ITERATION, NUM_NODE, queue):
 
         #APの位置定義
         for ap in ap_list:
-            ap.x = int(const.A / 2)
+            ap.x = int(const.B / 2)
             ap.y = int(const.B / 2)
 
         for ap in ble_ap_list:
@@ -167,16 +167,16 @@ def comm(ITERATION, NUM_NODE, queue):
                     results.dist.append(dist_tmp)
                     #results.clu_system.at[return_perAvg(node.cluNum), node.sf_tmp] += 1
 
-                    #print('--------- node cluster = ' + str(node.cluNum) + '----------')
-                    #print('dist = ',dist_tmp)
-                    #print('current = ',ahp_current)
-                    #print('current norm = ',ahp_current_norm)
-                    #print('delay = ',ahp_delay)
-                    #print('delay norm = ',ahp_delay_norm)
-                    #print('per =',ahp_per)
-                    #print('per norm= ',ahp_per_norm)
-                    #print('system list =',systemlist)
-                    #print('node.sf_tmp',node.sf_tmp)
+                    print('--------- node cluster = ' + str(node.cluNum) + '----------')
+                    print('dist = ',dist_tmp)
+                    print('current = ',ahp_current)
+                    print('current norm = ',ahp_current_norm)
+                    print('delay = ',ahp_delay)
+                    print('delay norm = ',ahp_delay_norm)
+                    print('per =',ahp_per)
+                    print('per norm= ',ahp_per_norm)
+                    print('system list =',systemlist)
+                    print('node.sf_tmp',node.sf_tmp)
 
                 else :
                     pass
