@@ -99,8 +99,8 @@ def comm(ITERATION, NUM_NODE, queue):
         #area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B\
         #    ,const.SHADOWING_VAR, const.D_COR)
         #area.to_csv('test.csv')
-        pl = [PL(const.FC, calc_dist(row['X'],row['Y'],ap_list[0].x,ap_list[0].y))\
-            for i,row in area.iterrows()]
+        pl = pd.Series([PL(const.FC, calc_dist(row['X'],row['Y'],ap_list[0].x,ap_list[0].y))\
+            for i,row in area.iterrows()])
         area = pd.concat([area,pl],axis=1)
         area['cluNum'] = -1
         area['shadowing_avg'] = 0.0
