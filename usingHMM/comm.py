@@ -23,7 +23,7 @@ def comm(ITERATION, NUM_NODE, queue):
 
     results = Result.Result()
 
-    area = pd.read_csv('test.csv',index_col=0)
+    area = pd.read_csv('SC_shadowing.csv',index_col=0)
 
     #AHPで使用する用
     #1パケット当たりの電流
@@ -101,12 +101,11 @@ def comm(ITERATION, NUM_NODE, queue):
         #area.to_csv('test.csv')
         pl = [PL(const.FC, calc_dist(row['X'],row['Y'],ap_list[0].x,ap_list[0].y))\
             for i,row in area.iterrows()]
-        #area = pd.concat([area,pl],axis=1)
-        #area['cluNum'] = -1
-        #area['shadowing_avg'] = 0.0
-        #area = calc_shadowingavg(area)
-        #area.to_csv('test.csv')
-        area['PL']=pl
+        area = pd.concat([area,pl],axis=1)
+        area['cluNum'] = -1
+        area['shadowing_avg'] = 0.0
+        area = calc_shadowingavg(area)
+        area.to_csv('sample.csv')
         print(area)
 
         #軌跡の選択

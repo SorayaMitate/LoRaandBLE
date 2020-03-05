@@ -9,7 +9,9 @@ import seaborn as sns
 
 mesh = pd.read_csv('SC_shadowing.csv')
 
+mesh = mesh[(mesh['X']<=1000)&(mesh['Y']<=1000)]
+
 pivot = mesh.pivot_table(values=['SHADOWING'], index=['X'], columns=['Y'], dropna= False)
 plt.figure()
-sns.heatmap(pivot,cmap = 'jet',linewidths=0.5, linecolor='Black',square = True)
-plt.savefig('map.png')
+sns.heatmap(pivot,cmap = 'jet', linecolor='Black',square = True)
+plt.show()

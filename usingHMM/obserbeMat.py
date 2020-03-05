@@ -50,14 +50,21 @@ def observeMat(df):
                 counts[i] = clu_variety[index_list[0]]
             else :
                 #１つのメッシュが複数クラスタに属する場合, それを新規に追加する
-                tmp = [map[i] for j in range(len(index_list))]
-                map[i] += (index_list[0], clu_variety[index_list[0]], 0.0)
+                cluNum[i] = index_list[0]
+                counts[i] = clu_variety[index_list[0]]
                 for j in range(1,len(index_list)):
-                    tmp[j] += (index_list[j], clu_variety[index_list[j]], 0.0)
-                    map.append(tmp[j])
+                    X = np.append(X,X[i])
+                    Y = np.append(Y,Y[i])
+                    cluNum = cluNum.append(index_list[j]) 
+                    counts = counts.append(clu_variety[index_list[j]])
 
-    data = pd.DataFrame(map)
-    data = data.rename(columns={0:'lat', 1:'lon', 2:'cluNum', 3:'counts', 4:'trans_prob'})
+    data = pd.DataFrame({
+        'lat':X,
+        'lon':Y,
+        'cluNum':cluNum,
+        'counts':counts,
+        'trans_prob':trans_prob
+    })
     cluNum_list = list(index_clusterNo_df['ClusterNo'])
     for cluNum in cluNum_list:
         tmp = sum(list(data[data['cluNum']==int(cluNum)]['counts']))
