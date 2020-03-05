@@ -100,7 +100,7 @@ def comm(ITERATION, NUM_NODE, queue):
         #    ,const.SHADOWING_VAR, const.D_COR)
         #area.to_csv('test.csv')
         pl = pd.Series([PL(const.FC, calc_dist(row['X'],row['Y'],ap_list[0].x,ap_list[0].y))\
-            for i,row in area.iterrows()])
+            for i,row in area.iterrows()],name='PL')
         area = pd.concat([area,pl],axis=1)
         area['cluNum'] = -1
         area['shadowing_avg'] = 0.0
