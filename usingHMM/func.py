@@ -101,7 +101,7 @@ def SpacialColShadowing(size, XSIZE, YSIZE, var, dcol):
 def nonlinear_fit(x,a,b):
     return   a * np.exp(b*x)
 
-SpacialColShadowing(5,2000,2000,8.0,30.0)
+SpacialColShadowing(10,2000,2000,8.0,30.0)
 #pivot = mesh.pivot_table(values=['SHADOWING'], index=['X'], columns=['Y'], dropna= False)
 #plt.figure()
 #sns.heatmap(pivot,cmap = 'jet',linewidths=0.5, linecolor='Black',square = True)
