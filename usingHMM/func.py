@@ -3,6 +3,9 @@ from math import pi, log10, cos, sqrt
 from cmath import exp as cexp
 import numpy as np
 import pandas as pd
+from scipy import optimize
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 def tvtodBm(t):
     a = 10.0*log10(t)
@@ -61,33 +64,45 @@ def SpacialColShadowing(size, XSIZE, YSIZE, var, dcol):
     #2地点間の相関係数を計算する関数
     #入力 : 2メッシュ間の距離
     def calc_SpatialCorrelation(d, dcol):
-        return np.exp((-1)*d/dcol*np.log10(2))
+        return np.exp((-1)*d*np.log(2)/dcol)
 
     X = np.arange(0, XSIZE, size)
     Y = np.arange(0, YSIZE, size)
-    Z = [(i,j) for i in X for j in Y]
+    XX, YY = np.meshgrid(X,Y)
+    #二次元配列を一次元に
+    X = XX.flatten()
+    Y = YY.flatten()
+    leng = len(X)
+    S = np.zeros((leng,leng))
 
     #共分散行列の計算
-    S = np.array([[calc_SpatialCorrelation(calc_dist(*i,*j), dcol)*(var**2) \
-        for i in Z] for j in Z])
+    for i in range(leng):
+        for j in range(leng):
+            tmp = calc_dist(X[i],Y[i],X[j],Y[j])
+            S[i][j] = calc_SpatialCorrelation(tmp, dcol)*(var**2)
     
     #コレスキー分解
-    #L = np.linalg.cholesky(S)
+    L = np.linalg.cholesky(S)
 
     #共分散行列の計算
-    #w = np.random.rand((int(XSIZE/size)**2))
-    #M = np.dot(L, w)
+    w = np.random.standard_normal(leng)
+    M = np.dot(L, w)
 
-    U = np.zeros((int(XSIZE/size)**2))
-    S = np.random.multivariate_normal(U, S)
-
-    X = [i[0] for i in Z]
-    Y = [i[1] for i in Z]
     mesh = pd.DataFrame({
         'X':X,
         'Y':Y,
-        'SHADOWING':S
+        'SHADOWING':M
     })
     mesh.to_csv('SC_shadowing.csv')
 
     return mesh
+
+#SNR-PER曲線の近似式
+def nonlinear_fit(x,a,b):
+    return   a * np.exp(b*x)
+
+SpacialColShadowing(5,2000,2000,8.0,30.0)
+#pivot = mesh.pivot_table(values=['SHADOWING'], index=['X'], columns=['Y'], dropna= False)
+#plt.figure()
+#sns.heatmap(pivot,cmap = 'jet',linewidths=0.5, linecolor='Black',square = True)
+#plt.show()
