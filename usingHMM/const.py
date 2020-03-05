@@ -102,8 +102,9 @@ class Const():
         self.ADV_INTERVAL = 0.5 #500msec
         #アドバタイズパケットの長さ
         #ADOVERTISE_SIZE = 
-        #BLEの消費電流[mAh/10ms]
-        self.BLE_CURRENT = {'ADV':0.067, 'IDLE':4.67/3.0}
+        #BLEの消費電流[mAh/sez]
+        #50%のdutycycleで33mWの消費(マスタにーよるスキャン)
+        self.BLE_CURRENT = {'ADV':0.067, 'IDLE':33.0/3.0}
         #BLEの各パケット送受信にかかる長さ [sec/bit]
         self.BLE_LENGTH = {'TX':10.0**(-6), 'RX':10.0**(-6), 'TIFS':150.0**(-6)}
 
