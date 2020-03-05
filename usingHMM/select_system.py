@@ -160,6 +160,8 @@ def calc_shadowingavg(area):
                 if (row['lat'] < const.B) and (row['lon'] < const.B):
                     j = area[(area['X']==int(row['lat']))&\
                         (area['Y']==int(row['lon']))].index[0]
+                    print('j =',j)
+                    print('area.at[j,SHADOWING] =',area.at[j,'SHADOWING'])
                     tmp += area.at[j,'SHADOWING']
                     area.at[j,'cluNum'] = int(v)
                     index_list.append(j)
