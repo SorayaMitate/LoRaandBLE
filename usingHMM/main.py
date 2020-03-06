@@ -71,7 +71,7 @@ def main():
         
         tmp = pd.DataFrame(results.result_ave.values(), \
             index=results.result_ave.keys()).T
-        df_results.append(tmp, ignore_index = True)
+        df_results = df_results.append(tmp, ignore_index = True)
 
         #ファイル出力処理
         file_name = path + qos[0] + 'system_results.csv'
