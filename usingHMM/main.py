@@ -42,7 +42,7 @@ def main():
             if q.empty() is False:
                 tmp = q.get()
                 for k, v in tmp.items():
-                    if isinstance(v, 'list') == True:
+                    if isinstance(v, list) == True:
                         results_system[k] += v
                         results_system[k] += v
                         results_system[k] += v
