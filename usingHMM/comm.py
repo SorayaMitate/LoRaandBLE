@@ -21,10 +21,11 @@ from select_system import *
 const = Const()
 
 #入力：アプリケーション要求(タプル)
-def comm(ID,NUM_NODE,app,area,queue):
+def comm(NUM_NODE,app,area,queue):
 
-    print('id=',ID)
-    print('id =',os.getpid())
+    #ランダムシードをプロセスIDで初期化
+    random.seed(os.getpid()%10)
+
     results = Result.Result()
 
     #area = pd.read_csv('SC_shadowing.csv',index_col=0)
@@ -111,6 +112,7 @@ def comm(ID,NUM_NODE,app,area,queue):
         #area.to_csv('sample.csv')
 
         traj_list = randomTraj()
+        print('trajectory =',traj_list)
         traj_len = len(traj_list)*2
 
         for flame in range(traj_len):

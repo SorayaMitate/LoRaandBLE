@@ -35,7 +35,7 @@ def main():
         area = pd.read_csv('sample.csv',index_col=0)
 
         q = mp.Queue()
-        p_list = [mp.Process(target=comm, args=(os.getpid(),const.NODE_MIN,qos,area,q,)) \
+        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,qos,area,q,)) \
             for j in range(NUM_CORE)]
         [p.start() for p in p_list]
 
