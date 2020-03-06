@@ -50,6 +50,9 @@ def main():
                         else:
                             results.result_ave[k] += v
 
+                print('qos =',qos)
+                print('results.result_ave',results.result_ave)
+
                 j += 1
                 if j == NUM_CORE:
                     break
@@ -60,9 +63,6 @@ def main():
         for k, v in results.result_ave.items():
             results.result_ave[k] = results.result_ave[k] / float(NUM_CORE)
         
-        print('qos =',qos)
-        print('results.result_ave',results.result_ave)
-
         #ファイル出力処理
         path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
         file_name = path + qos[0] + 'results.csv'
