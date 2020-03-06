@@ -21,10 +21,9 @@ from select_system import *
 const = Const()
 
 #入力：アプリケーション要求(タプル)
-def comm(NUM_NODE,app,area,queue):
+def comm(ID,NUM_NODE,app,area,queue):
 
-    print('id=',os.getppid())
-
+    print('id=',ID)
     results = Result.Result()
 
     #area = pd.read_csv('SC_shadowing.csv',index_col=0)
