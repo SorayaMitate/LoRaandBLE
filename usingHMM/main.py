@@ -26,11 +26,14 @@ const = Const()
 
 def main():
 
+    path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
 
     for qos in const.app.items():
 
         results = Result()
         results_system = {'clu_system':[], 'shadowing_avg':[], 'dist':[]}
+        df_results = pd.DataFrame(results.result_ave.values(), \
+            index=results.result_ave.keys()).T
 
         area = pd.read_csv('sample.csv',index_col=0)
 
@@ -66,13 +69,11 @@ def main():
             if isinstance(v, str) == False:
                 results.result_ave[k] = results.result_ave[k] / float(NUM_CORE)
         
-        #ファイル出力処理
-        path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
-        file_name = path + qos[0] + 'results.csv'
-        df = pd.DataFrame(results.result_ave.values(), \
+        tmp = pd.DataFrame(results.result_ave.values(), \
             index=results.result_ave.keys()).T
-        df.to_csv(file_name)
+        df_results.append(tmp, ignore_index = True)
 
+        #ファイル出力処理
         file_name = path + qos[0] + 'system_results.csv'
         df = pd.DataFrame({
             'clu_system':results_system['clu_system'],
@@ -80,6 +81,9 @@ def main():
             'dist':results_system['dist']
         })
         df.to_csv(file_name)
+
+    file_name = path + 'results.csv'
+    df_results.to_csv(file_name)
 
 if __name__ == "__main__":
     main()  
