@@ -24,6 +24,7 @@ const = Const()
 def comm(ID,NUM_NODE,app,area,queue):
 
     print('id=',ID)
+    print('id =',os.getpid())
     results = Result.Result()
 
     #area = pd.read_csv('SC_shadowing.csv',index_col=0)
