@@ -30,12 +30,14 @@ def main():
 
     area = pd.read_csv('sample.csv',index_col=0)
 
+    results = Result()
     df_results = pd.DataFrame(results.result_ave.values(), \
         index=results.result_ave.keys()).T
 
     for qos in const.app.items():
     
-        results = Result()
+        for k,v in results.result_ave.items():
+            results.result_ave[k] = 0.0
         results_system = {'clu_system':[], 'shadowing_avg':[], 'dist':[]}
 
         q = mp.Queue()
