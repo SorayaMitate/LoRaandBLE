@@ -1,4 +1,5 @@
 import csv
+import os
 from math import pi, log10, sqrt, exp, cos
 import random
 import numpy as np
@@ -21,6 +22,8 @@ const = Const()
 
 #入力：アプリケーション要求(タプル)
 def comm(NUM_NODE,app,area,queue):
+
+    print('id=',os.getppid())
 
     results = Result.Result()
 
