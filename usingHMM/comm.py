@@ -19,16 +19,18 @@ from select_system import *
 
 const = Const()
 
-def comm(ITERATION, NUM_NODE, queue):
+#入力：アプリケーション要求(タプル)
+def comm(NUM_NODE,app,queue):
 
     results = Result.Result()
 
-    area = pd.read_csv('SC_shadowing.csv',index_col=0)
+    #area = pd.read_csv('SC_shadowing.csv',index_col=0)
+    area = pd.read_csv('sample.csv',index_col=0)
 
     #AHPで使用する用
     #1パケット当たりの電流
     ahp_current = {const.SF7:1.42, const.SF8:2.48, const.SF10:7.9, \
-        const.SF11:14.4, const.SF12:26.8, const.BLE:1.0}
+        const.SF11:14.4, const.SF12:26.8, const.BLE:0.0}
     #Delay
     ahp_delay = {const.SF7:const.PACKET/const.RATE[const.SF7], \
         const.SF8:const.PACKET/const.RATE[const.SF8], \
@@ -50,7 +52,7 @@ def comm(ITERATION, NUM_NODE, queue):
                     tmp_list.append(float(row[i]))
             const.PARAM[tmp] = tmp_list
 
-    for ite in range(ITERATION):
+    for ite in range(const.ITERATION):
 
         results.clear()
         
@@ -75,6 +77,8 @@ def comm(ITERATION, NUM_NODE, queue):
 
         #ノードの状態、モード設定
         for node in node_list:
+            #アプリケーション要求の定義
+            node.qos_matrix = app[1]
             node.mode_tmp = const.WAIT
             node.state_tmp = const.SLEEP
             node.sf_tmp = const.SF7
@@ -103,9 +107,6 @@ def comm(ITERATION, NUM_NODE, queue):
         #area['shadowing_avg'] = 0.0
         #area = calc_shadowingavg(area)
         #area.to_csv('sample.csv')
-
-        area = pd.read_csv('sample.csv',index_col=0)
-        print(area)
 
         traj_list = randomTraj()
         traj_len = len(traj_list)*2
@@ -141,14 +142,14 @@ def comm(ITERATION, NUM_NODE, queue):
                     node.sf_tmp = AdaptionAlgorithm_AHP(systemlist, node.qos_matrix,\
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
 
+                    results.energy += dist_tmp / node.speed * const.BLE_CURRENT['IDLE']
+
                     #utilityのカウント
-                    results.utiity[node.sf] += 1
                     #clu_systemにはシステムインデクスを格納
                     results.clu_system.append(node.sf_tmp)
                     results.shadowing_avg.append(area[area['cluNum']==int(convertClusterNO(node.cluNum))]\
                         ['shadowing_avg'].mode()[0])
                     results.dist.append(dist_tmp)
-                    #results.clu_system.at[return_perAvg(node.cluNum), node.sf_tmp] += 1
 
                     #print('--------- node cluster = ' + str(node.cluNum) + '----------')
                     #print('dist = ',dist_tmp)
@@ -202,22 +203,9 @@ def comm(ITERATION, NUM_NODE, queue):
             ble_adv_index = [i for i in range(NUM_NODE) if node_list[i].state == const.BLE_ADV]
             if len(ble_adv_index) != 0:
                 results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_adv_index)
+            
+        results.output()
+        results.sum()
 
-        results.output(NUM_NODE)
-        results.sum(NUM_NODE)
-
-    #tmp = results.clu_system.sum(axis=1)
-    #for i,k in results.clu_system.iterrows():
-    #    tmp = np.sum(k)
-    #    for system in const.SYSTEM_LIST:
-    #       results.clu_system.at[i, system] = results.clu_system.at[i, system]/tmp
-
-    #print('results.clu_system =', results.clu_system)
-    #print('shadowing_avg =',results.shadowing_avg)
-    #print('dist =',results.dist)
-
-    result = results.average(ITERATION, NUM_NODE)
-    #print('-------------Node ', end='')
-    #print(NUM_NODE, end='')
-    #print('-------------')
+    result = results.average(const.ITERATION, app[0])
     queue.put(result)

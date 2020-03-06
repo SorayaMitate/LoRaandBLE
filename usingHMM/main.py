@@ -15,11 +15,10 @@ import pandas as pd
 #自作モジュール
 import Node 
 import const 
-import Result
+from Result import *
 
 #---------変数定義--------#
 NUM_CORE = 5 #使用するコア数(メインプロセスは含まない)
-ITERATION = 10
 #------------------------#
 
 #定数クラスの定義
@@ -27,19 +26,14 @@ const = Const()
 
 def main():
 
-    node_list = [i for i in range(const.NODE_MIN, const.NODE_MAX, const.DELTA_NODE)]
-    len_node_list = len(node_list)
 
-    #node = [i for i in range(NODE_MIN, NODE_MAX, DELTA_NUM)]
-    results = [Result.Result() for i in range(len_node_list)]
-    results_utility = [{'node':0, const.SF7:0.0, const.SF8:0.0, const.SF10:0.0, \
-        const.SF11:0.0, const.SF12:0.0, const.BLE:0.0} for i in range(len(node_list))]
-    results_system = {'clu_system':[], 'shadowing_avg':[], 'dist':[]}
+    for qos in const.app.items():
 
-    for i in range(len_node_list):
+        results = Result()
+        results_system = {'clu_system':[], 'shadowing_avg':[], 'dist':[]}
 
         q = mp.Queue()
-        p_list = [mp.Process(target=comm, args=(ITERATION, node_list[i], q,)) \
+        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,qos,q,)) \
             for j in range(NUM_CORE)]
         [p.start() for p in p_list]
 
@@ -48,14 +42,12 @@ def main():
             if q.empty() is False:
                 tmp = q.get()
                 for k, v in tmp.items():
-                    if k == 'clu_system':
+                    if isinstance(v, 'list') == True:
                         results_system[k] += v
-                    elif k == 'shadowing_avg':
                         results_system[k] += v
-                    elif k == 'dist':
                         results_system[k] += v
                     else :
-                        pass
+                        results.result_ave[k] += v
 
                 j += 1
                 if j == NUM_CORE:
@@ -64,15 +56,20 @@ def main():
         [p.join() for p in p_list]
         q.close()
 
-    #ファイル出力処理
-    file_name = 'system_results.csv'
-    df = pd.DataFrame({
-        'clu_system':results_system['clu_system'],
-        'shadowing_avg':results_system['shadowing_avg'],
-        'dist':results_system['dist']
-    })
-    print(df)
-    df.to_csv(file_name)
+        #ファイル出力処理
+        path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
+        file_name = path + qos[0] + 'results.csv'
+        df = pd.DataFrame(results.result_ave.values(), \
+            index=results.result_ave.keys()).T
+        df.to_csv(file_name)
+
+        file_name = path + qos[0] + 'system_results.csv'
+        df = pd.DataFrame({
+            'clu_system':results_system['clu_system'],
+            'shadowing_avg':results_system['shadowing_avg'],
+            'dist':results_system['dist']
+        })
+        df.to_csv(file_name)
 
 if __name__ == "__main__":
     main()  

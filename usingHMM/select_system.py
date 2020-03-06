@@ -143,7 +143,7 @@ def calc_per(cluNum, area, snrper):
     for system in const.SF_LIST:
         per_ave[system] = per_ave[system] / len(trans_clu)
 
-    per_ave[const.BLE] = 0.001
+    per_ave[const.BLE] = 0.0001
     return per_ave
 
 #クラスタごとの平均シャドウィング値を算出するプログラム
