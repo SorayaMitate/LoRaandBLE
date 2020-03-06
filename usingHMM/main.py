@@ -58,9 +58,6 @@ def main():
                         else:
                             results.result_ave[k] += v
 
-                print('qos =',qos)
-                print('results.result_ave',results.result_ave)
-
                 j += 1
                 if j == NUM_CORE:
                     break
@@ -71,7 +68,10 @@ def main():
         for k, v in results.result_ave.items():
             if isinstance(v, str) == False:
                 results.result_ave[k] = results.result_ave[k] / float(NUM_CORE)
-        
+
+        print('qos =',qos)
+        print('results.result_ave',results.result_ave)
+
         tmp = pd.DataFrame(results.result_ave.values(), \
             index=results.result_ave.keys()).T
         df_results = df_results.append(tmp, ignore_index = True)
