@@ -63,7 +63,8 @@ def main():
         q.close()
 
         for k, v in results.result_ave.items():
-            results.result_ave[k] = results.result_ave[k] / float(NUM_CORE)
+            if isinstance(v, str) == False:
+                results.result_ave[k] = results.result_ave[k] / float(NUM_CORE)
         
         #ファイル出力処理
         path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
