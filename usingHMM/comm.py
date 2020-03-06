@@ -132,7 +132,7 @@ def comm(NUM_NODE,app,area,queue):
                     #遅延時間の計算
                     print('before =', node.x, node.y)
                     print('after =',CluNumtoPosi(node.cluNum))
-                    print('delay =', node.x, node.y,*CluNumtoPosi(node.cluNum))
+                    print('delay =', calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum)))
                     delay_tmp = calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum))
 
                     node.x, node.y = CluNumtoPosi(node.cluNum)
