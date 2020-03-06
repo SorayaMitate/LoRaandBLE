@@ -204,7 +204,7 @@ def comm(NUM_NODE,app,queue):
             if len(ble_adv_index) != 0:
                 results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_adv_index)
             
-        results.output()
+        #results.output()
         results.sum()
 
     result = results.average(const.ITERATION, app[0])

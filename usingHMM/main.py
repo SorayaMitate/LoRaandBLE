@@ -57,6 +57,9 @@ def main():
         [p.join() for p in p_list]
         q.close()
 
+        for k, v in results.result_ave.items():
+            results.result_ave[k] = results.result_ave[k] / float(NUM_CORE)
+
         #ファイル出力処理
         path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
         file_name = path + qos[0] + 'results.csv'
