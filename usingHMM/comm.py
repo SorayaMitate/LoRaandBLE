@@ -128,6 +128,10 @@ def comm(NUM_NODE,app,area,queue):
                     #Nodeの遷移
                     #clusterNo.はクラスタ番号からインデックスへ変更
                     node.cluNum = convertIndex(traj_list.pop(0))
+
+                    #遅延時間の計算
+                    delay_tmp = calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum))
+
                     node.x, node.y = CluNumtoPosi(node.cluNum)
 
                     #使用可能拡散率の選定(現在の位置から)
@@ -196,11 +200,13 @@ def comm(NUM_NODE,app,area,queue):
             tx_index = [i for i in range(NUM_NODE) if node_list[i].state == const.DATA_T]
             if len(tx_index) != 0:
                 results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index)
+                results.delay += ahp_delay[node.sf]
 
             #BLE通信処理
             ble_tx_index = [i for i in range(NUM_NODE) if node_list[i].state == const.BLE_DATA_T]
             if len(ble_tx_index) != 0:
                 results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)
+                results.delay += delay_tmp
 
             #BLE ADV処理
             ble_adv_index = [i for i in range(NUM_NODE) if node_list[i].state == const.BLE_ADV]
