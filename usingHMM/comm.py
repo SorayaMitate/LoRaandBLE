@@ -24,7 +24,7 @@ const = Const()
 def comm(NUM_NODE,app,area,queue):
 
     #ランダムシードをプロセスIDで初期化
-    random.seed(os.getpid()%10)
+    random.seed(os.getpid())
 
     results = Result.Result()
 
