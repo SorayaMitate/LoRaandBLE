@@ -44,10 +44,11 @@ def main():
                 for k, v in tmp.items():
                     if isinstance(v, list) == True:
                         results_system[k] += v
-                        results_system[k] += v
-                        results_system[k] += v
                     else :
-                        results.result_ave[k] += v
+                        if isinstance(v, str) == True:
+                            results.result_ave[k] = v
+                        else:
+                            results.result_ave[k] += v
 
                 j += 1
                 if j == NUM_CORE:
