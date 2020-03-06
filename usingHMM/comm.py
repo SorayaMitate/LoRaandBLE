@@ -112,7 +112,6 @@ def comm(NUM_NODE,app,area,queue):
         #area.to_csv('sample.csv')
 
         traj_list = randomTraj()
-        print('trajectory =',traj_list)
         traj_len = len(traj_list)*2
 
         for flame in range(traj_len):
