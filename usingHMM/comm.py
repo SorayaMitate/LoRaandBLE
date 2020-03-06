@@ -220,4 +220,7 @@ def comm(NUM_NODE,app,area,queue):
         results.sum()
 
     result = results.average(const.ITERATION, app[0])
+    print('Packet occur =',results.result_ave['occur'])
+    print('Packet arrival =',results.result_ave['arrival'])
+    print('Packet Error Rate =',results.result_ave['PER'])
     queue.put(result)
