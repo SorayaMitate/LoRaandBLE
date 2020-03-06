@@ -20,12 +20,11 @@ from select_system import *
 const = Const()
 
 #入力：アプリケーション要求(タプル)
-def comm(NUM_NODE,app,queue):
+def comm(NUM_NODE,app,area,queue):
 
     results = Result.Result()
 
     #area = pd.read_csv('SC_shadowing.csv',index_col=0)
-    area = pd.read_csv('sample.csv',index_col=0)
 
     #AHPで使用する用
     #1パケット当たりの電流
