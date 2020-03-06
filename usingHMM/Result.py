@@ -30,17 +30,19 @@ class Result():
     def sum(self):
         self.result_ave['occur'] += self.packet_occur
         self.result_ave['arrival'] += self.packet_arrival
-        self.result_ave['energy'] += self.energy / self.packet_arrival
-        self.result_ave['delay'] += self.delay / self.packet_arrival
-
+        self.result_ave['energy'] += self.energy
+        self.result_ave['delay'] += self.delay 
+        
     #引数：アプリケーション要求(辞書)のキー
     def average(self, ite, app):
         self.result_ave['app'] = app
         self.result_ave['occur'] = float(self.result_ave['occur']) / float(ite)
         self.result_ave['arrival'] = float(self.result_ave['arrival']) / float(ite)
         self.result_ave['PER'] = self.result_ave['arrival'] / self.result_ave['occur']
-        self.result_ave['energy'] = float(self.result_ave['energy']) / float(ite)
-        self.result_ave['delay'] = float(self.result_ave['delay']) / float(ite)
+        self.result_ave['energy'] = float(self.result_ave['energy']) \
+            / float(self.result_ave['arrival']) / float(ite)
+        self.result_ave['delay'] = float(self.result_ave['delay']) \
+            / float(self.result_ave['arrival']) / float(ite)
 
         self.result_ave['clu_system'] = self.clu_system
         self.result_ave['shadowing_avg'] = self.shadowing_avg
