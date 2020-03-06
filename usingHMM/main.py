@@ -28,14 +28,15 @@ def main():
 
     path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
 
+    area = pd.read_csv('sample.csv',index_col=0)
+
+    results = Result()
+    df_results = pd.DataFrame(results.result_ave.values(), \
+        index=results.result_ave.keys()).T
+
     for qos in const.app.items():
 
-        results = Result()
         results_system = {'clu_system':[], 'shadowing_avg':[], 'dist':[]}
-        df_results = pd.DataFrame(results.result_ave.values(), \
-            index=results.result_ave.keys()).T
-
-        area = pd.read_csv('sample.csv',index_col=0)
 
         q = mp.Queue()
         p_list = [mp.Process(target=comm, args=(const.NODE_MIN,qos,area,q,)) \
