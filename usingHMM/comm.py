@@ -152,7 +152,10 @@ def comm(NUM_NODE,app,area,queue):
                     node.sf_tmp = AdaptionAlgorithm_AHP(systemlist, node.qos_matrix,\
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
 
-                    results.energy += dist_tmp / node.speed * const.BLE_CURRENT['IDLE']
+                    if node.sf_tmp == const.BLE:
+                        results.energy += delay_tmp * const.BLE_CURRENT['IDLE']
+                    else:
+                        results.energy += ahp_current[node.sf_tmp]
 
                     #utilityのカウント
                     #clu_systemにはシステムインデクスを格納
