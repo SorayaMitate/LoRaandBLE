@@ -120,9 +120,9 @@ class Const():
                 self.BLE_CURRENT['TIFS']*float(2*packet_num-1)*self.BLE_LENGTH['TIFS']
 
         self.app = {'equal':Matrix([[1,1,1],[1,1,1],[1,1,1]]), \
-            'energy':Matrix([[1,7,7],[1/7,1,1],[1/7,1,1]]),\
-            'delay':Matrix([[1,1/7,1],[7,1,7],[1,1/7,1]]),\
-            'per':Matrix([[1,1,1/7],[1,1,1/7],[1,7,7]])}
+            'energy':Matrix([[1,3,3],[1/3,1,1],[1/3,1,1]]),\
+            'delay':Matrix([[1,1/3,1],[3,1,3],[1,1/3,1]]),\
+            'per':Matrix([[1,1,1/3],[1,1,1/3],[1,3,3]])}
 
         #色指定
         self.SYSTEM_COLOR = {self.SF7:'blue', self.SF8:'green', self.SF10:'red',\
