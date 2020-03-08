@@ -141,7 +141,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
 
                     #使用可能拡散率の選定(現在の位置から)
                     dist_tmp = float(calc_dist(node.x, node.y, ap_list[0].x, ap_list[0].y))
-                    pl = PL(node.f,dist_tmp)
+                    pl = PL(node.freq,dist_tmp)
 
                     #ネットワーク実測値の計算
                     ahp_current[const.BLE] = calc_energy_ble(node.cluNum, ble_ap_list,ahp_current[const.SF12])
