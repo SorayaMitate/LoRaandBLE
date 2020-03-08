@@ -8,7 +8,7 @@ class Const():
         #self.TIME_MAX = 193750 #(3.1kmを走るのにかかる時間[sec] * 100)[*10msec]
         self.TIME_MAX = 200 #(3.1kmを走るのにかかる時間[sec] * 100)[*10msec]
         self.TIMEPERFLAME = 1 #1フレームの時間[1sec]
-        self.ITERATION = 50
+        self.ITERATION = 10
         self.NODE_MIN = 1
         self.NODE_MAX = 1
         self.DELTA_NODE = 1
@@ -119,10 +119,11 @@ class Const():
                 self.BLE_CURRENT['RX']*float(packet_num)*self.BLE_LENGTH['RX']*4*8 + \
                 self.BLE_CURRENT['TIFS']*float(2*packet_num-1)*self.BLE_LENGTH['TIFS']
 
+        qos = 7
         self.app = {'equal':Matrix([[1,1,1],[1,1,1],[1,1,1]]), \
-            'energy':Matrix([[1,3,3],[1/3,1,1],[1/3,1,1]]),\
-            'delay':Matrix([[1,1/3,1],[3,1,3],[1,1/3,1]]),\
-            'per':Matrix([[1,1,1/3],[1,1,1/3],[1,3,3]])}
+            'energy':Matrix([[1,qos,qos],[1/qos,1,1],[1/qos,1,1]]),\
+            'delay':Matrix([[1,1/qos,1],[qos,1,qos],[1,1/qos,1]]),\
+            'per':Matrix([[1,1,1/qos],[1,1,1/qos],[1,qos,qos]])}
 
         #色指定
         self.SYSTEM_COLOR = {self.SF7:'blue', self.SF8:'green', self.SF10:'red',\

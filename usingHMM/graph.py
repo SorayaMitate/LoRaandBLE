@@ -21,7 +21,8 @@ from const import *
 #sns.heatmap(pivot,cmap = 'jet', linecolor='Black',square = True)
 #plt.show()
 
-path = 'C:\\Users\\soraya-PC\\code\\results\\system\\shaped\\'
+#path = 'C:\\Users\\soraya-PC\\code\\results\\system\\3\\'
+path = 'C:\\Users\\soraya-PC\\code\\results\\system\\3\\shaped\\'
 file_list = glob.glob(path+'*')
 
 sns.set_style("darkgrid")
@@ -35,12 +36,12 @@ sns.set_style("darkgrid")
 
 const = Const()
 
+'''
 BIN = 200
 dist_bin = np.arange(BIN, 1400, BIN)
 
-'''
 fig, ax = plt.subplots(figsize=(10, 8))
-for_replace = r'C:\\Users\\soraya-PC\\code\\results\\system\\'
+for_replace = r'C:\\Users\\soraya-PC\\code\\results\\system\\3\\'
 for f in file_list:
     df = pd.read_csv(f)
     
@@ -59,14 +60,12 @@ for f in file_list:
     file_name = f.replace(path,'re')
     tmp = pd.DataFrame(result.values(), index=result.keys()).T
     tmp.to_csv(path+file_name)
-    tmp.T.plot(kind='bar', stacked=True, ax=ax)
-plt.legend()
-plt.show()
 '''
+
 plt.style.use('ggplot') 
 font = {'family' : 'meiryo'}
-matplotlib.rc('font', **font)
-plt.legend
+matplotlib.rc('font', **font)   
+plt.legend(fontsize=20)
 
 for f in file_list:
     df = pd.read_csv(f,index_col='dist')
@@ -74,9 +73,5 @@ for f in file_list:
     file_name = f.replace(path,'')
     file_name = file_name.replace('.csv','.png')
     df.plot.bar(stacked=True,label=file_name)
-    plt.savefig(file_name)
-
-#ax.plot(df['dist'],df['shadowing_avg'],df['clu_system'],marker="o",linestyle='None'\
-#    ,label=f)
-#plt.scatter(df['dist'],df['clu_system'],label=f)
-#plt.show()
+plt.show()
+#plt.savefig(file_name)

@@ -21,6 +21,7 @@ index_clusterNo_df = pd.read_csv(path + 'data/IndextoClusterNo_df.csv', index_co
 with open(path + 'data/Trajectory_list') as f:
     reader = csv.reader(f)
     traj_list = [row for row in reader]
+print('len trajectory list =', len(traj_list))
 observation = pd.read_csv(path + 'data/observationModel.csv',index_col=0)
 
 #クラスタヘッドの配置図作成
