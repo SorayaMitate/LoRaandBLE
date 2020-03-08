@@ -55,7 +55,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     tmp_list.append(float(row[i]))
             const.PARAM[tmp] = tmp_list
 
-    for ite in range(const.ITERATION):
+    for ite in range(1,const.ITERATION+1):
 
         results.clear()
         
