@@ -21,6 +21,8 @@ def LoRa_comm(node_list, ap_list, index_list,area):
             #tmp = [j for j in range(map_size) \
             #    if ap.map[j][0:2] == (node_list[i].x, node_list[i].y)]
             dist_tmp = calc_dist(node_list[i].x, node_list[i].y, ap.x, ap.y)
+            print('x,y =',node_list[i].x,node_list[i].y)
+            print('area=',area[(area['X']==int(node_list[i].x))&(area['Y']==int(node_list[i].y))])
             print('area=',area[(area['X']==int(node_list[i].x))&(area['Y']==int(node_list[i].y))]['SHADOWING'])
             ap.rpow[i] = node_list[i].tpow - PL(node_list[i].freq, dist_tmp)\
                     + Fading(node_list[i].speed, node_list[i].freq)+area\
