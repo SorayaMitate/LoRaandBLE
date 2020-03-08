@@ -18,7 +18,7 @@ import const
 from Result import *
 
 #---------変数定義--------#
-NUM_CORE = 1 #使用するコア数(メインプロセスは含まない)
+NUM_CORE = 10 #使用するコア数(メインプロセスは含まない)
 #------------------------#
 
 #定数クラスの定義
@@ -63,7 +63,7 @@ def main():
                         results_system[k] += v
                     else :
                         if isinstance(v, str) == True:
-                            results.result_ave[k] = const.wariai[i]
+                            results.result_ave[k] = str(const.wariai[i])
                         else:
                             results.result_ave[k] += v
 
@@ -94,7 +94,7 @@ def main():
         })
         df.to_csv(file_name)
 
-    file_name = path + 'results.csv'
+    file_name = path + 'main2' +'results.csv'
     df_results.to_csv(file_name)
 
 if __name__ == "__main__":
