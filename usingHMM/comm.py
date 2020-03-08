@@ -83,7 +83,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
         for node in node_list:
             #アプリケーション要求の定義
             node.qos_matrix = app[1]
-            print('app 1 =',node.qos_matrix)
+            print('app  =',app)
             node.mode_tmp = const.WAIT
             node.state_tmp = const.SLEEP
             node.sf_tmp = const.SF7

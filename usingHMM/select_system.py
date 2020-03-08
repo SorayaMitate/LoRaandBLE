@@ -61,7 +61,7 @@ def CluNumtoPosi(cluNum):
     cluNum = index_clusterNo_df.loc[cluNum]['ClusterNo'] 
     x = df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lat']
     y = df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lon']
-    return float(x), float(y)
+    return int(x), int(y)
 
 def return_perAvg(cluNum):
     for i, v in observation[observation['cluNum']==int(cluNum)].iterrows():
