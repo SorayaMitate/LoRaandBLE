@@ -24,9 +24,10 @@ def LoRa_comm(node_list, ap_list, index_list, cluNum_list, area):
             print('x,y =',node_list[i].x,node_list[i].y)
             print('clu =',cluNum_list[i])
             print('area=',area[area['cluNum']==cluNum_list[i]]['shadowing_avg'])
+            s = area[area['cluNum']==cluNum_list[i]]['shadowing_avg'].index
             ap.rpow[i] = node_list[i].tpow - PL(node_list[i].freq, dist_tmp)\
                     + Fading(node_list[i].speed, node_list[i].freq)\
-                        +area[area['cluNum']==cluNum_list[i]]['shadowing_avg']
+                        +area.at[s[0],'shadowing_avg']
 
             #-----------デバック-------------#
             #print("----------node status---------")
