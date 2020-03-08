@@ -48,7 +48,7 @@ def main():
 
         q = mp.Queue()
         p_list = [mp.Process(target=comm, args=(const.NODE_MIN,const.app['energy']\
-            ,area,q,)) \
+            ,area, 100,q,)) \
             for j in range(NUM_CORE)]
         [p.start() for p in p_list]
 
