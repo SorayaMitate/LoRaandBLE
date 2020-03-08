@@ -28,7 +28,7 @@ def comm(NUM_NODE,app,area,queue):
 
     results = Result.Result()
 
-    #area = pd.read_csv('SC_shadowing.csv',index_col=0)
+    area = pd.read_csv('SC_shadowing.csv',index_col=0)
 
     #AHPで使用する用
     #1パケット当たりの電流
@@ -103,13 +103,13 @@ def comm(NUM_NODE,app,area,queue):
         #-----------------#
 
         #エリアの定義area('lat','lon','shadowing','pathloss','cluNum','shadowing_avg')
-        #pl = pd.Series([PL(const.FC, calc_dist(row['X'],row['Y'],ap_list[0].x,ap_list[0].y))\
-        #    for i,row in area.iterrows()],name='PL')
-        #area = pd.concat([area,pl],axis=1)
-        #area['cluNum'] = -1
-        #area['shadowing_avg'] = 0.0
-        #area = calc_shadowingavg(area)
-        #area.to_csv('sample.csv')
+        pl = pd.Series([PL(const.FC, calc_dist(row['X'],row['Y'],ap_list[0].x,ap_list[0].y))\
+            for i,row in area.iterrows()],name='PL')
+        area = pd.concat([area,pl],axis=1)
+        area['cluNum'] = -1
+        area['shadowing_avg'] = 0.0
+        area = calc_shadowingavg(area)
+        area.to_csv('sample.csv')
 
         traj_list = randomTraj()
         traj_len = len(traj_list)*2
