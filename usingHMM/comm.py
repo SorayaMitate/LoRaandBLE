@@ -219,7 +219,8 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
             #LoRa通信処理
             tx_index = [i for i in range(NUM_NODE) if node_list[i].state == const.DATA_T]
             if len(tx_index) != 0:
-                results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index, area)
+                cluNum_list = [convertClusterNO(node_list[i].cluNum) for i in tx_index]
+                results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index, cluNum_list, area)
                 results.delay += ahp_delay[node.sf]
 
             #BLE ADV処理
