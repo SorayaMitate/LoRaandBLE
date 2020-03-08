@@ -205,8 +205,8 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
 
             #BLE通信処理
             ble_index = [i for i in range(NUM_NODE) if (node_list[i].state == const.BLE_DATA_T)]
+            ble_tx_index = []
             if len(ble_index) > 0:
-                ble_tx_index = []
                 for i in range(NUM_NODE):
                     if node_list[i].cluNum in ble_cluNum_list:
                         ble_tx_index.append(i)
