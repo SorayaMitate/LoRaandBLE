@@ -213,6 +213,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     else:
                         node_list[i].BLEtoSF12()
             if len(ble_tx_index) > 0:
+                print('toSF12')
                 results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)                
 
             #LoRa通信処理
