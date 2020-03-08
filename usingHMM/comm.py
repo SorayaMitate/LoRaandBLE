@@ -152,6 +152,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     ahp_per = calc_per(node.cluNum, area, const.PARAM,pl)
                     ahp_per_norm = ahp_normrize(ahp_per)
                     #AHP計算とシステム選択
+                    print('qos =',node.qos_matrix)
                     systemlist = [system for system in const.SYSTEM_LIST if ahp_per[system] <= const.PER_THRESHOLD]
                     node.sf_tmp = AdaptionAlgorithm_AHP(systemlist, node.qos_matrix,\
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
