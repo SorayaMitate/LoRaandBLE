@@ -100,10 +100,10 @@ def calc_energy_ble(cluNum, ble_ap_list, e_sf12):
         x2, y2 = CluNumtoPosi(i)
         dist_tmp = calc_dist(x1,y1,x2,y2)
         if (i in ble_cluNum_list) == True:
-            delay += trans_prob_mat[cluNum][i] * (dist_tmp)
+            delay += trans_prob_mat[cluNum][i] * (dist_tmp)*const.BLE_CURRENT['IDLE']
         else:
-            delay += trans_prob_mat[cluNum][i] * dist_tmp + e_sf12
-    return delay*const.BLE_CURRENT['IDLE'] / len(l)
+            delay += trans_prob_mat[cluNum][i] * dist_tmp*const.BLE_CURRENT['IDLE'] + e_sf12
+    return delay / len(l)
 
 #各メッシュの遷移先からPERを算出する処理
 #入力 : ノードのcluNNum, 対象エリア(DF), SNR-PER曲線(システムごとのparam)

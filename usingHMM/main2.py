@@ -18,13 +18,19 @@ import const
 from Result import *
 
 #---------変数定義--------#
-NUM_CORE = 2 #使用するコア数(メインプロセスは含まない)
+NUM_CORE = 1 #使用するコア数(メインプロセスは含まない)
 #------------------------#
 
 #定数クラスの定義
 const = Const()
 
 def main():
+
+    path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
+    index_clusterNo_df = pd.read_csv(path + 'data/IndextoClusterNo_df.csv', index_col=0, \
+        usecols=['indexName','ClusterNo'])
+    CLU_NUM = len(index_clusterNo_df)
+    print('The number of clusters =', len(index_clusterNo_df))
 
     path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
 
@@ -41,8 +47,8 @@ def main():
         results_system = {'clu_system':[], 'shadowing_avg':[], 'dist':[]}
 
         q = mp.Queue()
-        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,qos,area,const.BLE_AP_NUM\
-            ,q,)) \
+        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,const.app['energy']\
+            ,area,q,)) \
             for j in range(NUM_CORE)]
         [p.start() for p in p_list]
 

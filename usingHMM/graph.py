@@ -68,18 +68,27 @@ font = {'family' : 'meiryo'}
 matplotlib.rc('font', **font)
 
 df = {}
+file_name = {}
 for i in range(len(file_list)):
-    df[i] = pd.read_csv(file_list[i],index_col='dist')
+    df[i] = pd.read_csv(file_list[i],index_col='dist', dtype={'dist':int})
     df[i] = df[i].drop('Unnamed: 0', axis=1)
-    file_name = file_list[i].replace(path,'')
-    file_name = file_name.replace('.csv','')
+    df[i] = df[i].rename(columns={str(const.SF7):'SF7',str(const.SF8):'SF8',\
+        str(const.SF10):'SF10',str(const.SF11):'SF11',str(const.SF12):'SF12',\
+            str(const.BLE):'BLE'})
+    file_name[i] = file_list[i].replace(path+'re','')
+    file_name[i] = file_name[i].replace('system_results.csv','')
 
 for i in range(len(df)):
     if i < 2:
-        df[i].plot.bar(ax=ax[0,i],title=file_name,fontsize=20,grid=True,legend=True,stacked=True,)
+        df[i].plot.bar(ax=ax[0,i],title=file_name[i],fontsize=20,grid=True,legend=True,stacked=True,)
+        ax[0,i].set_xlabel('')
+        ax[0,i].legend(loc='upper right',fontsize=15)
     else:
         tmp = i-2
-        df[i].plot.bar(ax=ax[1,tmp],title=file_name,fontsize=20,grid=True,legend=True,stacked=True,)
-plt.subplots_adjust(hspace=0.4)
+        df[i].plot.bar(ax=ax[1,tmp],title=file_name[i],fontsize=20,grid=True,legend=True,stacked=True,)
+        ax[1,tmp].set_xlabel('')
+        ax[1,tmp].legend(loc='upper right',fontsize=15)
+
+plt.subplots_adjust(hspace=0.3)
 plt.show()
 #plt.savefig(file_name)

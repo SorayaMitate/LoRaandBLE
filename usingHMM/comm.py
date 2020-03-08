@@ -21,7 +21,7 @@ from select_system import *
 const = Const()
 
 #入力：アプリケーション要求(タプル)
-def comm(NUM_NODE,app,area,queue):
+def comm(NUM_NODE,app,area,NUM_bleAP,queue):
 
     #ランダムシードをプロセスIDで初期化
     random.seed(os.getpid())
@@ -63,7 +63,7 @@ def comm(NUM_NODE,app,area,queue):
         #ノードとアクセスポイントの初期化
         node_list = [Agent(1) for i in range(NUM_NODE)]
         ap_list = [AP() for i in range(const.AP_MAX)]
-        ble_ap_list = [AP() for i in range(const.BLE_AP_NUM)]
+        ble_ap_list = [AP() for i in range(NUM_bleAP)]
 
         #APの位置定義
         for ap in ap_list:
@@ -77,6 +77,7 @@ def comm(NUM_NODE,app,area,queue):
             #        if sqrt((ap.x-i)**2+(ap.y-j)**2) <= 200]
             ap.cluNum = randomCluNum()
             ap.x, ap.y = CluNumtoPosi(ap.cluNum)
+        ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
 
         #ノードの状態、モード設定
         for node in node_list:
@@ -202,17 +203,21 @@ def comm(NUM_NODE,app,area,queue):
                 else:
                     pass
 
+            #BLE通信処理
+            ble_tx_index = [i for i in range(NUM_NODE) if (node_list[i].state == const.BLE_DATA_T)\
+                and (node_list[i].cluNum in ble_cluNum_list)]
+            if len(ble_tx_index) != 0:
+                results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)
+                results.delay += delay_tmp                
+            #BLEAPが遷移先にない場合の処理
+            [node_list[i].BLEtoSF12 for i in range(NUM_NODE) if (node_list[i].state == const.BLE_DATA_T)\
+                and ((node_list[i].cluNum in ble_cluNum_list) == False)]
+
             #LoRa通信処理
             tx_index = [i for i in range(NUM_NODE) if node_list[i].state == const.DATA_T]
             if len(tx_index) != 0:
-                results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index)
+                results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index, area)
                 results.delay += ahp_delay[node.sf]
-
-            #BLE通信処理
-            ble_tx_index = [i for i in range(NUM_NODE) if node_list[i].state == const.BLE_DATA_T]
-            if len(ble_tx_index) != 0:
-                results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)
-                results.delay += delay_tmp
 
             #BLE ADV処理
             ble_adv_index = [i for i in range(NUM_NODE) if node_list[i].state == const.BLE_ADV]

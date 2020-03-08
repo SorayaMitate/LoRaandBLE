@@ -54,6 +54,7 @@ class Node():
         self.state_tmp = const.BLE_ADV
 
     def toBLE_DATA_T(self):
+        self.buffer.appendleft(1)
         self.packet = const.PACKET
         self.mode_tmp = const.ACTIVE
         self.state_tmp = const.BLE_DATA_T
@@ -62,6 +63,12 @@ class Node():
         self.buffer.appendleft(1)
         self.interval += const.DC[self.sf] + poisson()
 
+    def BLEtoSF12(self):
+        self.buffer.appendleft(1)
+        self.packet = const.PACKET
+        self.mode = const.ACTIVE
+        self.state = const.DATA_T
+        self.sf = const.SF12
 
     def output(self):
         #デバック用
