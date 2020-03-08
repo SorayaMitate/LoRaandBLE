@@ -62,16 +62,24 @@ for f in file_list:
     tmp.to_csv(path+file_name)
 '''
 
+fig, ax = plt.subplots(2, 2)
 plt.style.use('ggplot') 
 font = {'family' : 'meiryo'}
-matplotlib.rc('font', **font)   
-plt.legend(fontsize=20)
+matplotlib.rc('font', **font)
 
-for f in file_list:
-    df = pd.read_csv(f,index_col='dist')
-    df = df.drop('Unnamed: 0', axis=1)
-    file_name = f.replace(path,'')
-    file_name = file_name.replace('.csv','.png')
-    df.plot.bar(stacked=True,label=file_name)
+df = {}
+for i in range(len(file_list)):
+    df[i] = pd.read_csv(file_list[i],index_col='dist')
+    df[i] = df[i].drop('Unnamed: 0', axis=1)
+    file_name = file_list[i].replace(path,'')
+    file_name = file_name.replace('.csv','')
+
+for i in range(len(df)):
+    if i < 2:
+        df[i].plot.bar(ax=ax[0,i],title=file_name,fontsize=20,grid=True,legend=True,stacked=True,)
+    else:
+        tmp = i-2
+        df[i].plot.bar(ax=ax[1,tmp],title=file_name,fontsize=20,grid=True,legend=True,stacked=True,)
+plt.subplots_adjust(hspace=0.4)
 plt.show()
 #plt.savefig(file_name)
