@@ -71,17 +71,13 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
             ap.y = int(const.B / 2)
 
         for ap in ble_ap_list:
-            #メッシュの作成
-            #ap.map = [(i, j, calc_dist(ap.x, ap.y, i, j), Shadowing())\
-            #    for i in range(const.A,const.B+1) for j in range(const.A, const.B+1) \
-            #        if sqrt((ap.x-i)**2+(ap.y-j)**2) <= 200]
+            ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
             while True:
                 tmp = randomCluNum()
                 if (tmp in ble_cluNum_list) == False:
                     break
             ap.cluNum = tmp
             ap.x, ap.y = CluNumtoPosi(ap.cluNum)            
-            ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
 
         #ノードの状態、モード設定
         for node in node_list:
