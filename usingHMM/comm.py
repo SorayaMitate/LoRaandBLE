@@ -141,13 +141,14 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
 
                     #使用可能拡散率の選定(現在の位置から)
                     dist_tmp = float(calc_dist(node.x, node.y, ap_list[0].x, ap_list[0].y))
+                    pl = PL(node.f,dist_tmp)
 
                     #ネットワーク実測値の計算
                     ahp_current[const.BLE] = calc_energy_ble(node.cluNum, ble_ap_list,ahp_current[const.SF12])
                     ahp_current_norm = ahp_normrize(ahp_current)
                     ahp_delay[const.BLE] = calc_delay_ble(node.cluNum, ble_ap_list)
                     ahp_delay_norm = ahp_normrize(ahp_delay)
-                    ahp_per = calc_per(node.cluNum, area, const.PARAM)
+                    ahp_per = calc_per(node.cluNum, area, const.PARAM,pl)
                     ahp_per_norm = ahp_normrize(ahp_per)
                     #AHP計算とシステム選択
                     systemlist = [system for system in const.SYSTEM_LIST if ahp_per[system] <= const.PER_THRESHOLD]

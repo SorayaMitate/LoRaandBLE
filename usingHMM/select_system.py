@@ -107,7 +107,7 @@ def calc_energy_ble(cluNum, ble_ap_list, e_sf12):
 
 #各メッシュの遷移先からPERを算出する処理
 #入力 : ノードのcluNNum, 対象エリア(DF), SNR-PER曲線(システムごとのparam)
-def calc_per(cluNum, area, snrper):
+def calc_per(cluNum, area, snrper,pl):
     size = trans_prob_mat[cluNum].shape[0]
     trans_clu = [(index_clusterNo_df.at[i,'ClusterNo'], trans_prob_mat[cluNum][i]) \
         for i in range(size) if trans_prob_mat[cluNum][i] > 0.0]
@@ -129,7 +129,7 @@ def calc_per(cluNum, area, snrper):
         if len(index) > 0:
             #各メッシュ毎のPERを算出
             for i in index:
-                SNR = tvtodBm(dBmtotv(area.at[i,'SHADOWING']-area.at[i,'PL']+const.TPOW)\
+                SNR = tvtodBm(dBmtotv(area.at[i,'SHADOWING']-pl+const.TPOW)\
                     /dBmtotv(const.AWGN))
                 for system in const.SF_LIST:
                     if nonlinear_fit(SNR, *snrper[system]) >1.0:
