@@ -213,7 +213,6 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     if node_list[i].cluNum in ble_cluNum_list:
                         ble_tx_index.append(i)
                     else:
-                        print('toSF12')
                         node_list[i].BLEtoSF12()
             if len(ble_tx_index) > 0:
                 results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)                

@@ -32,10 +32,10 @@ class Result():
         self.result_ave['arrival'] += self.packet_arrival
         self.result_ave['energy'] += self.energy
         self.result_ave['delay'] += self.delay 
-        
+
     #引数：アプリケーション要求(辞書)のキー
     def average(self, ite, app):
-        self.result_ave['app'] = app
+        self.result_ave['app'] = str(app)
         self.result_ave['occur'] = float(self.result_ave['occur']) / float(ite)
         self.result_ave['arrival'] = float(self.result_ave['arrival']) / float(ite)
         self.result_ave['PER'] = self.result_ave['arrival'] / self.result_ave['occur']

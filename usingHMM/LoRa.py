@@ -54,7 +54,6 @@ def LoRa_comm(node_list, ap_list, index_list, cluNum_list, area):
                     arrival_packet += 1
                     node_list[i].tosleep()
             else :
-                print('Loss Packet')
                 node_list[i].tosleep()
     
     return arrival_packet

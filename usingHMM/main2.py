@@ -63,7 +63,7 @@ def main():
                         results_system[k] += v
                     else :
                         if isinstance(v, str) == True:
-                            results.result_ave[k] = v
+                            results.result_ave[k] = const.wariai[i]
                         else:
                             results.result_ave[k] += v
 
