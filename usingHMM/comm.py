@@ -78,6 +78,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     break
             ap.cluNum = tmp
             ap.x, ap.y = CluNumtoPosi(ap.cluNum)            
+        ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
 
         #ノードの状態、モード設定
         for node in node_list:
@@ -154,9 +155,8 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
 
                     if node.sf_tmp == const.BLE:
+                        results.delay += delay_tmp
                         results.energy += delay_tmp * const.BLE_CURRENT['IDLE']
-                    else:
-                        results.energy += ahp_current[node.sf_tmp]
 
                     #utilityのカウント
                     #clu_systemにはシステムインデクスを格納
@@ -204,14 +204,16 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     pass
 
             #BLE通信処理
-            ble_tx_index = [i for i in range(NUM_NODE) if (node_list[i].state == const.BLE_DATA_T)\
-                and (node_list[i].cluNum in ble_cluNum_list)]
-            if len(ble_tx_index) != 0:
-                results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)
-                results.delay += delay_tmp                
-            #BLEAPが遷移先にない場合の処理
-            [node_list[i].BLEtoSF12 for i in range(NUM_NODE) if (node_list[i].state == const.BLE_DATA_T)\
-                and ((node_list[i].cluNum in ble_cluNum_list) == False)]
+            ble_index = [i for i in range(NUM_NODE) if (node_list[i].state == const.BLE_DATA_T)]
+            if len(ble_index) > 0:
+                ble_tx_index = []
+                for i in range(NUM_NODE):
+                    if node_list[i].cluNum in ble_cluNum_list:
+                        ble_tx_index.append(i)
+                    else:
+                        node_list[i].BLEtoSF12()
+            if len(ble_tx_index) > 0:
+                results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)                
 
             #LoRa通信処理
             tx_index = [i for i in range(NUM_NODE) if node_list[i].state == const.DATA_T]
@@ -219,6 +221,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                 cluNum_list = [convertClusterNO(node_list[i].cluNum) for i in tx_index]
                 results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index, cluNum_list, area)
                 results.delay += ahp_delay[node.sf]
+                results.energy += ahp_current[node.sf_tmp]
 
             #BLE ADV処理
             ble_adv_index = [i for i in range(NUM_NODE) if node_list[i].state == const.BLE_ADV]
