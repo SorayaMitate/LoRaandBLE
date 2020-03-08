@@ -21,9 +21,6 @@ def LoRa_comm(node_list, ap_list, index_list, cluNum_list, area):
             #tmp = [j for j in range(map_size) \
             #    if ap.map[j][0:2] == (node_list[i].x, node_list[i].y)]
             dist_tmp = calc_dist(node_list[i].x, node_list[i].y, ap.x, ap.y)
-            print('x,y =',node_list[i].x,node_list[i].y)
-            print('clu =',cluNum_list[i])
-            print('area=',area[area['cluNum']==cluNum_list[i]]['shadowing_avg'])
             s = area[area['cluNum']==cluNum_list[i]]['shadowing_avg'].index
             ap.rpow[i] = node_list[i].tpow - PL(node_list[i].freq, dist_tmp)\
                     + Fading(node_list[i].speed, node_list[i].freq)\
@@ -56,6 +53,9 @@ def LoRa_comm(node_list, ap_list, index_list, cluNum_list, area):
                 if node_list[i].packet <= 0:
                     arrival_packet += 1
                     node_list[i].tosleep()
+            else :
+                print('Loss Packet')
+                node_list[i].tosleep()
     
     return arrival_packet
                     

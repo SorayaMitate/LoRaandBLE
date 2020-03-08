@@ -75,15 +75,16 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
             #ap.map = [(i, j, calc_dist(ap.x, ap.y, i, j), Shadowing())\
             #    for i in range(const.A,const.B+1) for j in range(const.A, const.B+1) \
             #        if sqrt((ap.x-i)**2+(ap.y-j)**2) <= 200]
-            ap.cluNum = randomCluNum()
-            ap.x, ap.y = CluNumtoPosi(ap.cluNum)
-        ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
+            tmp = randomCluNum()
+            if tmp in ble_cluNum_list == False: 
+                ap.cluNum = randomCluNum()
+                ap.x, ap.y = CluNumtoPosi(ap.cluNum)
+            ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
 
         #ノードの状態、モード設定
         for node in node_list:
             #アプリケーション要求の定義
             node.qos_matrix = app[1]
-            print('app  =',app)
             node.mode_tmp = const.WAIT
             node.state_tmp = const.SLEEP
             node.sf_tmp = const.SF7
@@ -151,7 +152,6 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     ahp_per_norm = ahp_normrize(ahp_per)
                     #AHP計算とシステム選択
                     systemlist = [system for system in const.SYSTEM_LIST if ahp_per[system] <= const.PER_THRESHOLD]
-                    print('app =',app)
                     node.sf_tmp = AdaptionAlgorithm_AHP(systemlist, node.qos_matrix,\
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
 
@@ -218,7 +218,6 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
             #LoRa通信処理
             tx_index = [i for i in range(NUM_NODE) if node_list[i].state == const.DATA_T]
             if len(tx_index) != 0:
-                [print('before =',node_list[i].cluNum) for i in tx_index]
                 cluNum_list = [convertClusterNO(node_list[i].cluNum) for i in tx_index]
                 results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index, cluNum_list, area)
                 results.delay += ahp_delay[node.sf]
