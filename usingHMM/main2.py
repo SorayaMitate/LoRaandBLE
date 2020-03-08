@@ -39,8 +39,10 @@ def main():
     results = Result()
     df_results = pd.DataFrame(results.result_ave.values(), \
         index=results.result_ave.keys()).T
+    
+    bleAP_num = [int(CLU_NUM*i) for i in const.wariai]
 
-    for qos in const.app.items():
+    for i in range(len(bleAP_num)):
     
         for k,v in results.result_ave.items():
             results.result_ave[k] = 0.0
@@ -48,7 +50,7 @@ def main():
 
         q = mp.Queue()
         p_list = [mp.Process(target=comm, args=(const.NODE_MIN,const.app['energy']\
-            ,area, 100,q,)) \
+            ,area, bleAP_num[i], q,)) \
             for j in range(NUM_CORE)]
         [p.start() for p in p_list]
 
@@ -76,7 +78,7 @@ def main():
             if isinstance(v, str) == False:
                 results.result_ave[k] = results.result_ave[k] / float(NUM_CORE)
 
-        print('qos =',qos)
+        print('The number of bleAPs =', bleAP_num[i])
         print('results.result_ave',results.result_ave)
 
         tmp = pd.DataFrame(results.result_ave.values(), \
@@ -84,7 +86,7 @@ def main():
         df_results = df_results.append(tmp, ignore_index = True)
 
         #ファイル出力処理
-        file_name = path + qos[0] + 'system_results.csv'
+        file_name = path + str(const.wariai[i]) + 'system_results.csv'
         df = pd.DataFrame({
             'clu_system':results_system['clu_system'],
             'shadowing_avg':results_system['shadowing_avg'],

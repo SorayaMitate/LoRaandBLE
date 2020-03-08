@@ -125,6 +125,8 @@ class Const():
             'delay':Matrix([[1,1/qos,1],[qos,1,qos],[1,1/qos,1]]),\
             'per':Matrix([[1,1,1/qos],[1,1,1/qos],[1,qos,qos]])}
 
+        self.wariai = [0.2,0.4,0.6,0.8,1.0]
+
         #色指定
         self.SYSTEM_COLOR = {self.SF7:'blue', self.SF8:'green', self.SF10:'red',\
             self.SF11:'yellow', self.SF12:'peru', self.BLE:'orange'}
