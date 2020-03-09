@@ -218,6 +218,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                         print('cluNum =',node_list[i].cluNum)
             if len(ble_tx_index) > 0:
                 print('use BLE')
+                print('cluNum =',node_list[0].cluNum)
                 results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)                
 
             #LoRa通信処理
