@@ -123,26 +123,28 @@ def calc_per(cluNum, area, snrper,pl):
     for value in trans_clu:
         #遷移先毎のperを算出
         #areaとdfの対応
-        posi = [(observation.at[i,'lat'],observation.at[i,'lon']) \
+        posi = [(observation.at[i,'lat'],observation.at[i,'lon'],observation.at[i,'trans_prob']) \
             for i in observation[observation['cluNum']==int(value[0])].index]
         #対応するarea(df)のインデックスをサーチ
         index = [area[(area['X']==int(v[0]))&(area['Y']==int(v[1]))].index[0] for v in posi\
             if (v[0]<const.B) and (v[1]<const.B)]
-        
+        print('len(posi)',len(posi) )
+        print('len(index)',len(index) )
+        leng = len(posi)
         if len(index) > 0:
             #各メッシュ毎のPERを算出
-            for i in index:
-                SNR = tvtodBm(dBmtotv(area.at[i,'SHADOWING']-pl+const.TPOW)\
+            for i in range(leng):
+                SNR = tvtodBm(dBmtotv(area.at[index[i],'SHADOWING']-pl+const.TPOW)\
                     /dBmtotv(const.AWGN))
                 for system in const.SF_LIST:
                     if nonlinear_fit(SNR, *snrper[system]) >1.0:
                         tmp = 1.0
                     else:
                         tmp = nonlinear_fit(SNR, *snrper[system])
-                    per[system] += value[1]*tmp
+                    per[system] += value[1]*posi[i][2]*tmp
 
             for system in const.SF_LIST:            
-                per_ave[system] += per[system]
+                per_ave[system] += per[system] 
 
     for system in const.SF_LIST:
         per_ave[system] = per_ave[system] / len(trans_clu)
