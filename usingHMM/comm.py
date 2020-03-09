@@ -130,9 +130,9 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                 if flame % 2 == 0:
                     #Nodeの遷移
                     #clusterNo.はクラスタ番号からインデックスへ変更
-                    print('cluNum =',node.cluNum)
+                    #print('cluNum =',node.cluNum)
                     node.cluNum = convertIndex(traj_list.pop(0))
-                    print('after cluNum=',node.cluNum)
+                    #print('after cluNum=',node.cluNum)
 
                     #遅延時間の計算
                     #print('before =', node.x, node.y)
