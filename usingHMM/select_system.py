@@ -83,12 +83,12 @@ def calc_delay_ble(cluNum, ble_ap_list):
     delay = 0.0
     for i in l:
         x2, y2 = CluNumtoPosi(i)
-        dist_tmp = calc_dist(x1,y1,x2,y2)
+        dist_tmp = calc_dist(x1,y1,x2,y2)-const.PACKET_INTERVAL
         if (i in ble_cluNum_list) == True:
             delay += trans_prob_mat[cluNum][i] * dist_tmp
         else:
             delay += trans_prob_mat[cluNum][i] * dist_tmp + const.PACKET/const.RATE[const.SF12]
-    return delay-const.PACKET_INTERVAL
+    return delay
 
 #BLE通信の消費電流の計算
 #入力：Cluster No., BLE APリスト, BLEの電流
@@ -101,12 +101,12 @@ def calc_energy_ble(cluNum, ble_ap_list, e_sf12):
     delay = 0.0
     for i in l:
         x2, y2 = CluNumtoPosi(i)
-        dist_tmp = calc_dist(x1,y1,x2,y2)
+        dist_tmp = calc_dist(x1,y1,x2,y2)-const.PACKET_INTERVAL
         if (i in ble_cluNum_list) == True:
             delay += trans_prob_mat[cluNum][i] * (dist_tmp)*const.BLE_CURRENT['IDLE']
         else:
             delay += trans_prob_mat[cluNum][i] * dist_tmp*const.BLE_CURRENT['IDLE'] + e_sf12
-    return delay-const.PACKET_INTERVAL
+    return delay
 
 #各メッシュの遷移先からPERを算出する処理
 #入力 : ノードのcluNNum, 対象エリア(DF), SNR-PER曲線(システムごとのparam)
