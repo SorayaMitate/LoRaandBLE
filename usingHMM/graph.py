@@ -21,8 +21,8 @@ from const import *
 #sns.heatmap(pivot,cmap = 'jet', linecolor='Black',square = True)
 #plt.show()
 
-#path = 'C:\\Users\\soraya-PC\\code\\results\\system\\3\\'
-path = 'C:\\Users\\soraya-PC\\code\\results\\system\\3\\shaped\\'
+#path = 'C:\\Users\\soraya-PC\\code\\results\\system\\5\\'
+path = 'C:\\Users\\soraya-PC\\code\\results\\system\\5\\shaped\\'
 file_list = glob.glob(path+'*')
 
 sns.set_style("darkgrid")
@@ -41,7 +41,7 @@ BIN = 200
 dist_bin = np.arange(BIN, 1400, BIN)
 
 fig, ax = plt.subplots(figsize=(10, 8))
-for_replace = r'C:\\Users\\soraya-PC\\code\\results\\system\\3\\'
+for_replace = r'C:\\Users\\soraya-PC\\code\\results\\system\\5\\'
 for f in file_list:
     df = pd.read_csv(f)
     
@@ -60,8 +60,8 @@ for f in file_list:
     file_name = f.replace(path,'re')
     tmp = pd.DataFrame(result.values(), index=result.keys()).T
     tmp.to_csv(path+file_name)
-'''
 
+'''
 fig, ax = plt.subplots(2, 2)
 plt.style.use('ggplot') 
 font = {'family' : 'meiryo'}
