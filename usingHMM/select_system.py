@@ -128,8 +128,6 @@ def calc_per(cluNum, area, snrper,pl):
         #対応するarea(df)のインデックスをサーチ
         index = [area[(area['X']==int(v[0]))&(area['Y']==int(v[1]))].index[0] for v in posi\
             if (v[0]<const.B) and (v[1]<const.B)]
-        print('len(posi)',len(posi) )
-        print('len(index)',len(index) )
         leng = len(posi)
         if len(index) > 0:
             #各メッシュ毎のPERを算出
