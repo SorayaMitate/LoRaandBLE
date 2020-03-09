@@ -49,12 +49,12 @@ def LoRa_comm(node_list, ap_list, index_list, cluNum_list, area):
             if SINR > const.SNR[node_list[i].sf] and \
                 tvtodBm(tmp1) >= const.SENSING_LEVEL[node_list[i].sf]:
 
-                node_list[i].packet -= node_list[i].rate * const.TIMEPERFLAME
-                if node_list[i].packet <= 0:
-                    arrival_packet += 1
-                    node_list[i].tosleep()
+                #node_list[i].packet -= node_list[i].rate * const.TIMEPERFLAME
+                #if node_list[i].packet <= 0:
+                arrival_packet += 1
             else :
-                node_list[i].tosleep()
+                pass
+            node_list[i].tosleep()
     
     return arrival_packet
                     
