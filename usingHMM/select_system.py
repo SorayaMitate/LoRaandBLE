@@ -75,6 +75,10 @@ def return_perAvg(cluNum):
 def calc_delay_ble(cluNum, ble_ap_list):
     size = trans_prob_mat[cluNum].shape[0]
     l = [i for i in range(size) if trans_prob_mat[cluNum][i] > 0.0]
+
+    tmp = [trans_prob_mat[cluNum][i] for i in range(size) if trans_prob_mat[cluNum][i] > 0.0]
+    print('sum =',sum(tmp))
+
     ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
     x1, y1 = CluNumtoPosi(cluNum)
     delay = 0.0
