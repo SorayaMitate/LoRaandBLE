@@ -60,7 +60,6 @@ for f in file_list:
     file_name = f.replace(path,'re')
     tmp = pd.DataFrame(result.values(), index=result.keys()).T
     tmp.to_csv(path+file_name)
-
 '''
 
 '''
@@ -95,6 +94,7 @@ plt.subplots_adjust(hspace=0.3)
 plt.show()
 #plt.savefig(file_name)
 '''
+
 '''
 path = 'C:\\Users\\soraya-PC\\code\\results\\app\\5\\'
 file_name = 'results.csv'
@@ -134,9 +134,9 @@ def hist_cluster():
                 dist.append(calc_dist(x_tmp,y_tmp,x,y))
                 x_tmp = x
                 y_tmp = y
-        print(dist)
     path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
     dist_df = pd.Series(dist,name='dist')
     dist_df.to_csv(path+'cluster_dist.csv')
 
 hist_cluster()
+
