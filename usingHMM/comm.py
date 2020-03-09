@@ -159,8 +159,8 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
 
                     if node.sf_tmp == const.BLE:
-                        results.delay += delay_tmp
-                        results.energy += delay_tmp *0.01* const.BLE_CURRENT['IDLE']
+                        results.delay += (delay_tmp-const.PACKET_INTERVAL)
+                        results.energy += (delay_tmp-const.PACKET_INTERVAL) * const.BLE_CURRENT['IDLE']
 
                     #utilityのカウント
                     #clu_systemにはシステムインデクスを格納
