@@ -209,12 +209,13 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
             ble_index = [i for i in range(NUM_NODE) if (node_list[i].state == const.BLE_DATA_T)]
             ble_tx_index = []
             if len(ble_index) > 0:
-                for i in range(NUM_NODE):
+                for i in ble_index:
                     if node_list[i].cluNum in ble_cluNum_list:
                         ble_tx_index.append(i)
                     else:
                         node_list[i].BLEtoSF12()
             if len(ble_tx_index) > 0:
+                print('use BLE')
                 results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)                
 
             #LoRa通信処理
