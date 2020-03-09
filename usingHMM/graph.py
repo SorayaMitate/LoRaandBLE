@@ -125,13 +125,15 @@ def hist_cluster():
         flag = 0
         for clu in traj:
             if flag == 0:
-                print(df[(df['cluNum']==int(clu))&(df['clu_head']==True)])
-                x_tmp = df[(df['cluNum']==int(clu))&(df['clu_head']==True)]['lat']
-                y_tmp = df[(df['cluNum']==int(clu))&(df['clu_head']==True)]['lon']
+                index = df[(df['cluNum']==int(clu))&(df['clu_head']==True)].index
+                x_tmp = df.at[index[0],'lat']
+                y_tmp = df.at[index[0],'lon']
+                print('x_tmp, y_tmp',x_tmp,y_tmp)
                 flag = 1
             else:
-                x = df[(df['cluNum']==int(clu))&(df['clu_head']==True)]['lat']
-                y = df[(df['cluNum']==int(clu))&(df['clu_head']==True)]['lon']
+                index = df[(df['cluNum']==int(clu))&(df['clu_head']==True)].index
+                x = df.at[index[0],'lat']
+                y = df.at[index[0],'lon']
                 dist.append(calc_dist(x_tmp,y_tmp,x,y))
                 x_tmp = x
                 y_tmp = y
