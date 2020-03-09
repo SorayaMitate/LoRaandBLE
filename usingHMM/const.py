@@ -120,7 +120,7 @@ class Const():
                 self.BLE_CURRENT['RX']*float(packet_num)*self.BLE_LENGTH['RX']*4*8 + \
                 self.BLE_CURRENT['TIFS']*float(2*packet_num-1)*self.BLE_LENGTH['TIFS']
 
-        qos = 3
+        qos = 1
         self.app = {'equal':Matrix([[1,1,1],[1,1,1],[1,1,1]]), \
             'energy':Matrix([[1,qos,qos],[1/qos,1,1],[1/qos,1,1]]),\
             'delay':Matrix([[1,1/qos,1],[qos,1,qos],[1,1/qos,1]]),\

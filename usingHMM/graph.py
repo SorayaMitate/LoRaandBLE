@@ -36,10 +36,36 @@ sns.set_style("darkgrid")
 
 const = Const()
 
+#BIN = 200
+#dist_bin = np.arange(BIN, 1400, BIN)
 '''
-BIN = 200
-dist_bin = np.arange(BIN, 1400, BIN)
 
+BIN = 4
+dist_bin = np.arange(-8, 12, BIN)
+
+fig, ax = plt.subplots(figsize=(10, 8))
+for_replace = r'C:\\Users\\soraya-PC\\code\\results\\system\\5\\'
+for f in file_list:
+    df = pd.read_csv(f)
+    print(df['shadowing_avg'].value_counts())
+    #結果格納用
+    result = {'shadowing_avg':[],const.SF7:[],const.SF8:[],const.SF10:[]\
+        ,const.SF11:[],const.SF12:[],const.BLE:[]} 
+
+    for d in dist_bin:
+        result['shadowing_avg'].append(d)
+        tmp = df[(d-BIN<=df['shadowing_avg'])&(df['shadowing_avg']<d)]
+        
+        for system in const.SYSTEM_LIST:
+            result[system].append(len(tmp[tmp['clu_system']==system]) / len(tmp))
+    
+    #ファイル名の置換
+    file_name = f.replace(path,'re')
+    tmp = pd.DataFrame(result.values(), index=result.keys()).T
+    tmp.to_csv(path+file_name)
+'''
+
+'''
 fig, ax = plt.subplots(figsize=(10, 8))
 for_replace = r'C:\\Users\\soraya-PC\\code\\results\\system\\5\\'
 for f in file_list:
@@ -108,6 +134,7 @@ df.plot.bar(fontsize=20,grid=True,legend=True)
 plt.show()
 '''
 
+'''
 import csv 
 from func import *
 
@@ -141,4 +168,4 @@ def hist_cluster():
     dist_df.to_csv(path+'cluster_dist.csv')
 
 hist_cluster()
-
+'''

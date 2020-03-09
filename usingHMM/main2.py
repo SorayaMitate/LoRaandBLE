@@ -49,7 +49,7 @@ def main():
         results_system = {'clu_system':[], 'shadowing_avg':[], 'dist':[]}
 
         q = mp.Queue()
-        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,const.app['per']\
+        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,const.app['equal']\
             ,area, bleAP_num[i], q,)) \
             for j in range(NUM_CORE)]
         [p.start() for p in p_list]
