@@ -169,6 +169,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
 
                     print('--------- node cluster = ' + str(node.cluNum) + '----------')
                     print('dist = ',dist_tmp)
+                    print('delay_tmp =',delay_tmp)
                     print('current = ',ahp_current)
                     print('current norm = ',ahp_current_norm)
                     print('delay = ',ahp_delay)
