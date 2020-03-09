@@ -95,7 +95,7 @@ plt.subplots_adjust(hspace=0.3)
 plt.show()
 #plt.savefig(file_name)
 '''
-
+'''
 path = 'C:\\Users\\soraya-PC\\code\\results\\app\\5\\'
 file_name = 'results.csv'
 df = pd.read_csv(path+file_name,index_col='app')
@@ -106,3 +106,37 @@ font = {'family' : 'meiryo'}
 matplotlib.rc('font', **font)
 df.plot.bar(fontsize=20,grid=True,legend=True)
 plt.show()
+'''
+
+def hist_cluster():
+    import csv 
+    from func import *
+
+    path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
+    df = pd.read_csv(path + 'data/traj_2000.csv', index_col=0)
+    trans_prob_mat = np.loadtxt(path + 'data/TransProb_matrix.txt')
+    index_clusterNo_df = pd.read_csv(path + 'data/IndextoClusterNo_df.csv', index_col=0, \
+        usecols=['indexName','ClusterNo'])
+    with open(path + 'data/Trajectory_list') as f:
+        reader = csv.reader(f)
+        traj_list = [row for row in reader]
+
+    dist = []
+    for traj in traj_list:
+        flag = 0
+        for clu in traj:
+            if flag == 0:
+                x_tmp = df[(df['cluNum']==int(clu))&(df['clu_head']=='True')]['lat']
+                y_tmp = df[(df['cluNum']==int(clu))&(df['clu_head']=='True')]['lon']
+                flag = 1
+            else:
+                x = df[(df['cluNum']==int(clu))&(df['clu_head']=='True')]['lat']
+                y = df[(df['cluNum']==int(clu))&(df['clu_head']=='True')]['lon']
+                dist.append(calc_dist(x_tmp,y_tmp,x,y))
+                x_tmp = x
+                y_tmp = y
+    path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
+    dist_df = pd.Series(dist,name='dist')
+    dist_df.to_csv(path+'cluster_dist.csv')
+
+hist_cluster()
