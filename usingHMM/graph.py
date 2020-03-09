@@ -127,7 +127,6 @@ def hist_cluster():
             if flag == 0:
                 x_tmp = df[(df['cluNum']==int(clu))&(df['clu_head']==True)]['lat']
                 y_tmp = df[(df['cluNum']==int(clu))&(df['clu_head']==True)]['lon']
-                print(x_tmp)
                 flag = 1
             else:
                 x = df[(df['cluNum']==int(clu))&(df['clu_head']==True)]['lat']
@@ -135,6 +134,7 @@ def hist_cluster():
                 dist.append(calc_dist(x_tmp,y_tmp,x,y))
                 x_tmp = x
                 y_tmp = y
+        print(dist)
     path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
     dist_df = pd.Series(dist,name='dist')
     dist_df.to_csv(path+'cluster_dist.csv')
