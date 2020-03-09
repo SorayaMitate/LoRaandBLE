@@ -83,8 +83,8 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
         #ノードの状態、モード設定
         for node in node_list:
             #アプリケーション要求の定義
-            node.qos_matrix = app[1]   #####main
-            #node.qos_matrix = app       #####main2
+            #node.qos_matrix = app[1]   #####main
+            node.qos_matrix = app       #####main2
             node.mode_tmp = const.WAIT
             node.state_tmp = const.SLEEP
             node.sf_tmp = const.SF7
@@ -239,8 +239,8 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
         #results.output()
         results.sum()
 
-    result = results.average(const.ITERATION, app[0])
-    #result = results.average(const.ITERATION, NUM_bleAP)
+    #result = results.average(const.ITERATION, app[0])
+    result = results.average(const.ITERATION, NUM_bleAP)
 
     #print('Packet occur =',results.result_ave['occur'])
     #print('Packet arrival =',results.result_ave['arrival'])
