@@ -86,6 +86,8 @@ def calc_delay_ble(cluNum, ble_ap_list):
         x2, y2 = CluNumtoPosi(i)
         dist_tmp = calc_dist(x1,y1,x2,y2)
         print('dist_tmp =',dist_tmp)
+        print('trans_prob_mat[cluNum][i] =',trans_prob_mat[cluNum][i])
+        print('trans_prob_mat[cluNum][i] * dist_tmp=',trans_prob_mat[cluNum][i] * dist_tmp)
         if (i in ble_cluNum_list) == True:
             delay += trans_prob_mat[cluNum][i] * dist_tmp
         else:
