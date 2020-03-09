@@ -215,7 +215,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     else:
                         node_list[i].BLEtoSF12()
                         print('change Node system')
-                        node_list[i].output()
+                        print('cluNum =',node_list[i].cluNum)
             if len(ble_tx_index) > 0:
                 print('use BLE')
                 results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)                
@@ -223,6 +223,8 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
             #LoRa通信処理
             tx_index = [i for i in range(NUM_NODE) if node_list[i].state == const.DATA_T]
             if len(tx_index) != 0:
+                print('use Lora')
+                print('cluNum =',node_list[0].cluNum)
                 cluNum_list = [convertClusterNO(node_list[i].cluNum) for i in tx_index]
                 results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index, cluNum_list, area)
                 results.delay += ahp_delay[node.sf]
