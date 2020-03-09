@@ -26,6 +26,13 @@ const = Const()
 
 def main():
 
+    path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
+    index_clusterNo_df = pd.read_csv(path + 'data/IndextoClusterNo_df.csv', index_col=0, \
+        usecols=['indexName','ClusterNo'])
+    CLU_NUM = len(index_clusterNo_df)
+    print('The number of clusters =', len(index_clusterNo_df))
+    BLEAP_NUM = int(CLU_NUM * 0.3)
+
     path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
 
     area = pd.read_csv('sample.csv',index_col=0)
@@ -41,7 +48,7 @@ def main():
         results_system = {'clu_system':[], 'shadowing_avg':[], 'dist':[]}
 
         q = mp.Queue()
-        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,qos,area,const.BLE_AP_NUM\
+        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,qos,area,BLEAP_NUM\
             ,q,)) \
             for j in range(NUM_CORE)]
         [p.start() for p in p_list]
