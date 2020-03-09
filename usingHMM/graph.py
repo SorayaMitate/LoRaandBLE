@@ -108,9 +108,10 @@ df.plot.bar(fontsize=20,grid=True,legend=True)
 plt.show()
 '''
 
+import csv 
+from func import *
+
 def hist_cluster():
-    import csv 
-    from func import *
 
     path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
     df = pd.read_csv(path + 'data/traj_2000.csv', index_col=0)
