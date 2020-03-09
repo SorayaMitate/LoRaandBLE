@@ -214,6 +214,8 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                         ble_tx_index.append(i)
                     else:
                         node_list[i].BLEtoSF12()
+                        print('change Node system')
+                        node_list[i].output()
             if len(ble_tx_index) > 0:
                 print('use BLE')
                 results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_tx_index)                
@@ -234,7 +236,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
         #results.output()
         results.sum()
 
-    result = results.average(const.ITERATION, qos[0])
+    result = results.average(const.ITERATION, app[0])
     #result = results.average(const.ITERATION, NUM_bleAP)
 
     #print('Packet occur =',results.result_ave['occur'])
