@@ -18,7 +18,7 @@ import const
 from Result import *
 
 #---------変数定義--------#
-NUM_CORE = 10 #使用するコア数(メインプロセスは含まない)
+NUM_CORE = 15 #使用するコア数(メインプロセスは含まない)
 #------------------------#
 
 #定数クラスの定義
@@ -49,7 +49,7 @@ def main():
         results_system = {'clu_system':[], 'shadowing_avg':[], 'dist':[]}
 
         q = mp.Queue()
-        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,const.app['energy']\
+        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,const.app['per']\
             ,area, bleAP_num[i], q,)) \
             for j in range(NUM_CORE)]
         [p.start() for p in p_list]
