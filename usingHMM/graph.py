@@ -125,6 +125,8 @@ def hist_cluster():
         flag = 0
         for clu in traj:
             if flag == 0:
+                print('df[(df[cluNum]==int(clu))] =',df[(df['cluNum']==int(clu))])
+                print('df[clu_head]==True=',df[df['clu_head']==True])
                 x_tmp = df[(df['cluNum']==int(clu))&(df['clu_head']==True)]['lat']
                 y_tmp = df[(df['cluNum']==int(clu))&(df['clu_head']==True)]['lon']
                 flag = 1
