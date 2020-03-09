@@ -160,7 +160,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
 
                     if node.sf_tmp == const.BLE:
                         results.delay += delay_tmp
-                        results.energy += delay_tmp * const.BLE_CURRENT['IDLE']
+                        results.energy += delay_tmp *0.1* const.BLE_CURRENT['IDLE']
 
                     #utilityのカウント
                     #clu_systemにはシステムインデクスを格納
