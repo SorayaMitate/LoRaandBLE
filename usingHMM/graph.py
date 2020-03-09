@@ -134,7 +134,6 @@ def hist_cluster():
                 x = df.at[index[0],'lat']
                 y = df.at[index[0],'lon']
                 dist.append(calc_dist(x_tmp,y_tmp,x,y))
-                print(dist)
                 x_tmp = x
                 y_tmp = y
     path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
