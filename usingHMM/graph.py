@@ -62,6 +62,8 @@ for f in file_list:
     tmp.to_csv(path+file_name)
 
 '''
+
+'''
 fig, ax = plt.subplots(2, 2)
 plt.style.use('ggplot') 
 font = {'family' : 'meiryo'}
@@ -92,3 +94,15 @@ for i in range(len(df)):
 plt.subplots_adjust(hspace=0.3)
 plt.show()
 #plt.savefig(file_name)
+'''
+
+path = 'C:\\Users\\soraya-PC\\code\\results\\app\\5\\'
+file_name = 'results.csv'
+df = pd.read_csv(path+file_name,index_col='app')
+df = df.drop('Unnamed: 0', axis=1)
+
+plt.style.use('ggplot') 
+font = {'family' : 'meiryo'}
+matplotlib.rc('font', **font)
+df.plot.bar(fontsize=20,grid=True,legend=True)
+plt.show()
