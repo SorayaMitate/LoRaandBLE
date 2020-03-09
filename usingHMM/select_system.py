@@ -145,7 +145,7 @@ def calc_per(cluNum, area, snrper,pl):
                 per_ave[system] += per[system]
 
     for system in const.SF_LIST:
-        per_ave[system] = per_ave[system]
+        per_ave[system] = per_ave[system] / len(trans_clu)
 
     per_ave[const.BLE] = 0.0001
     return per_ave
