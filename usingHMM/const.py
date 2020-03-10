@@ -8,13 +8,13 @@ class Const():
         #self.TIME_MAX = 193750 #(3.1kmを走るのにかかる時間[sec] * 100)[*10msec]
         self.TIME_MAX = 200 #(3.1kmを走るのにかかる時間[sec] * 100)[*10msec]
         self.TIMEPERFLAME = 1 #1フレームの時間[1sec]
-        self.ITERATION = 6
+        self.ITERATION = 60
         self.NODE_MIN = 1
         self.NODE_MAX = 1
         self.DELTA_NODE = 1
         self.AP_MAX = 1
         #self.BLE_AP_NUM = 100
-        self.PACKET_INTERVAL = 1
+        self.PACKET_INTERVAL = 100
 
         #座標パラメータ
         self.A = 0
