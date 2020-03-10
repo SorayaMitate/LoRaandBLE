@@ -121,18 +121,30 @@ plt.show()
 #plt.savefig(file_name)
 '''
 
-'''
 path = 'C:\\Users\\soraya-PC\\code\\results\\app\\5\\'
 file_name = 'results.csv'
-df = pd.read_csv(path+file_name,index_col='app')
-df = df.drop('Unnamed: 0', axis=1)
+#df = pd.read_csv(path+file_name,index_col='app')
+df = pd.read_csv(path+file_name)
+#df = df.drop('Unnamed: 0', axis=1)
+for k,row in df.iterrows():
+    df.at[k,'PER'] = 1.0-df.at[k,'PER'] 
+
+qos = [row['app'] for i,row in df.iterrows()]
+per = [row['PER'] for i,row in df.iterrows()]
+ene = [row['energy'] for i,row in df.iterrows()]
+delay = [row['delay'] for i,row in df.iterrows()]
 
 plt.style.use('ggplot') 
 font = {'family' : 'meiryo'}
 matplotlib.rc('font', **font)
-df.plot.bar(fontsize=20,grid=True,legend=True)
+#df.plot.bar(y='PER',fontsize=20,grid=True,legend=True)
+#df.plot.bar(y='energy',fontsize=20,grid=True,legend=True)
+plt.bar(qos,per)
+plt.legend(loc='upper right',fontsize=20)
 plt.show()
-'''
+plt.bar(qos,delay,color="#1E7F00")
+plt.legend(loc='upper right',fontsize=20)
+plt.show()
 
 '''
 import csv 
@@ -169,3 +181,26 @@ def hist_cluster():
 
 hist_cluster()
 '''
+
+def hist():
+    file_name = 'cluster_dist.csv'
+    df = pd.read_csv(file_name)
+    print(df.columns)
+    df = df.sort_values('dist')
+
+    leng = len(df)
+    BIN = 10
+    l = np.arange(100,210,BIN)
+    result = []
+    for b in l:
+        tmp = df[(b<=df['dist'])&(df['dist']<b+BIN)]
+        result.append(len(tmp)/leng)
+    print(result)
+
+    l = [i+5 for i in l]
+    plt.style.use('ggplot') 
+    font = {'family' : 'meiryo'}
+    matplotlib.rc('font', **font)
+    plt.bar(l,result,width=10)
+    plt.legend(loc='upper right',fontsize=20)
+    plt.show()
