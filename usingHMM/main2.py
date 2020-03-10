@@ -18,7 +18,7 @@ import const
 from Result import *
 
 #---------変数定義--------#
-NUM_CORE = 1 #使用するコア数(メインプロセスは含まない)
+NUM_CORE = 15 #使用するコア数(メインプロセスは含まない)
 #------------------------#
 
 #定数クラスの定義
@@ -64,7 +64,7 @@ def main():
                         results_system[k] += v
                     else :
                         if isinstance(v, str) == True:
-                            results.result_ave[k] = str(const.wariai[i])
+                            results.result_ave[k] = str(interval_list[i])
                         else:
                             results.result_ave[k] += v
 
@@ -87,7 +87,7 @@ def main():
         df_results = df_results.append(tmp, ignore_index = True)
 
         #ファイル出力処理
-        file_name = path + str(const.wariai[i]) + 'system_results.csv'
+        file_name = path + str(interval_list[i]) + 'system_results.csv'
         df = pd.DataFrame({
             'clu_system':results_system['clu_system'],
             'shadowing_avg':results_system['shadowing_avg'],

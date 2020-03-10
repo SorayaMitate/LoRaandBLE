@@ -21,8 +21,7 @@ from const import *
 #sns.heatmap(pivot,cmap = 'jet', linecolor='Black',square = True)
 #plt.show()
 
-#path = 'C:\\Users\\soraya-PC\\code\\results\\system\\5\\'
-path = 'C:\\Users\\soraya-PC\\code\\results\\system\\5\\shaped\\'
+path = 'C:\\Users\\soraya-PC\\code\\results\\system\\5\\'
 file_list = glob.glob(path+'*')
 
 sns.set_style("darkgrid")
@@ -36,8 +35,8 @@ sns.set_style("darkgrid")
 
 const = Const()
 
-#BIN = 200
-#dist_bin = np.arange(BIN, 1400, BIN)
+BIN = 200
+dist_bin = np.arange(BIN, 1400, BIN)
 '''
 
 BIN = 4
@@ -64,8 +63,8 @@ for f in file_list:
     tmp = pd.DataFrame(result.values(), index=result.keys()).T
     tmp.to_csv(path+file_name)
 '''
-
 '''
+
 fig, ax = plt.subplots(figsize=(10, 8))
 for_replace = r'C:\\Users\\soraya-PC\\code\\results\\system\\5\\'
 for f in file_list:
@@ -88,7 +87,7 @@ for f in file_list:
     tmp.to_csv(path+file_name)
 '''
 
-'''
+path = 'C:\\Users\\soraya-PC\\code\\results\\system\\5\\shaped\\'
 fig, ax = plt.subplots(2, 2)
 plt.style.use('ggplot') 
 font = {'family' : 'meiryo'}
@@ -119,7 +118,6 @@ for i in range(len(df)):
 plt.subplots_adjust(hspace=0.3)
 plt.show()
 #plt.savefig(file_name)
-'''
 
 '''
 path = 'C:\\Users\\soraya-PC\\code\\results\\app\\5\\'
@@ -212,4 +210,3 @@ def hist():
     plt.tick_params(labelsize=40)
     plt.show()
 
-hist()
