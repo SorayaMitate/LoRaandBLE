@@ -21,7 +21,7 @@ from select_system import *
 const = Const()
 
 #入力：アプリケーション要求(タプル)
-def comm(NUM_NODE,app,area,NUM_bleAP,queue):
+def comm(NUM_NODE,app,area,NUM_bleAP,INTERVAL,queue):
 
     #ランダムシードをプロセスIDで初期化
     random.seed(os.getpid())
@@ -83,11 +83,14 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
         #ノードの状態、モード設定
         for node in node_list:
             #アプリケーション要求の定義
-            node.qos_matrix = app[1]   #####main
-            #node.qos_matrix = app       #####main2
+            #node.qos_matrix = app[1]   #####main
+            node.qos_matrix = app       #####main2
             node.mode_tmp = const.WAIT
             node.state_tmp = const.SLEEP
             node.sf_tmp = const.SF7
+
+            #node.interval = const.PACKET_INTERVAL ##main
+            node.interval = INTERVAL   ###main2
             #node.output()
  
         #APの状態定義
@@ -138,7 +141,9 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     #print('before =', node.x, node.y)
                     #print('after =',CluNumtoPosi(node.cluNum))
                     #print('delay =', calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum)))
-                    delay_tmp = calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum))
+                    delay_tmp = calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum)) - node.interval
+                    if delay_tmp <=1.0:
+                        delay_tmp = 1.0
 
                     node.x, node.y = CluNumtoPosi(node.cluNum)
 
@@ -147,9 +152,10 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     pl = PL(node.freq,dist_tmp)
 
                     #ネットワーク実測値の計算
-                    ahp_current[const.BLE] = calc_energy_ble(node.cluNum, ble_ap_list,ahp_current[const.SF12])
+                    ahp_current[const.BLE] = calc_energy_ble(node.cluNum, ble_ap_list,ahp_current[const.SF12],\
+                        node.interval)
                     ahp_current_norm = ahp_normrize(ahp_current)
-                    ahp_delay[const.BLE] = calc_delay_ble(node.cluNum, ble_ap_list)
+                    ahp_delay[const.BLE] = calc_delay_ble(node.cluNum, ble_ap_list,node.interval)
                     ahp_delay_norm = ahp_normrize(ahp_delay)
                     ahp_per = calc_per(node.cluNum, area, const.PARAM,pl)
                     ahp_per_norm = ahp_normrize(ahp_per)
@@ -159,8 +165,8 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
 
                     if node.sf_tmp == const.BLE:
-                        results.delay += (delay_tmp-const.PACKET_INTERVAL)
-                        results.energy += (delay_tmp-const.PACKET_INTERVAL) * const.BLE_CURRENT['IDLE']
+                        results.delay += delay_tmp
+                        results.energy += delay_tmp * const.BLE_CURRENT['IDLE']
 
                     #utilityのカウント
                     #clu_systemにはシステムインデクスを格納
@@ -242,8 +248,8 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
         #results.output()
         results.sum()
 
-    result = results.average(const.ITERATION, app[0])
-    #result = results.average(const.ITERATION, NUM_bleAP)
+    #result = results.average(const.ITERATION, app[0])
+    result = results.average(const.ITERATION, INTERVAL)
 
     #print('Packet occur =',results.result_ave['occur'])
     #print('Packet arrival =',results.result_ave['arrival'])

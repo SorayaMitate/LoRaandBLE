@@ -22,7 +22,7 @@ class Node():
         self.packet = 0
         self.timecount = 0
         self.fading_tmp = 0.0 #1パケット受信間のフェージング値の固定を保証
-        self.interval = poisson()
+        self.interval = -1
         self.mode = -1
         self.mode_tmp = -1
         self.state = -1

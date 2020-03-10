@@ -18,7 +18,7 @@ import const
 from Result import *
 
 #---------変数定義--------#
-NUM_CORE = 15 #使用するコア数(メインプロセスは含まない)
+NUM_CORE = 1 #使用するコア数(メインプロセスは含まない)
 #------------------------#
 
 #定数クラスの定義
@@ -31,6 +31,7 @@ def main():
         usecols=['indexName','ClusterNo'])
     CLU_NUM = len(index_clusterNo_df)
     print('The number of clusters =', len(index_clusterNo_df))
+    BLEAP_NUM = int(CLU_NUM * 0.3)
 
     path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
 
@@ -39,10 +40,10 @@ def main():
     results = Result()
     df_results = pd.DataFrame(results.result_ave.values(), \
         index=results.result_ave.keys()).T
-    
-    bleAP_num = [int(CLU_NUM*i) for i in const.wariai]
 
-    for i in range(len(bleAP_num)):
+    interval_list = [60, 80, 100, 120]
+    
+    for i in range(len(interval_list)):
     
         for k,v in results.result_ave.items():
             results.result_ave[k] = 0.0
@@ -50,7 +51,7 @@ def main():
 
         q = mp.Queue()
         p_list = [mp.Process(target=comm, args=(const.NODE_MIN,const.app['equal']\
-            ,area, bleAP_num[i], q,)) \
+            ,area, BLEAP_NUM,interval_list[i], q,)) \
             for j in range(NUM_CORE)]
         [p.start() for p in p_list]
 
@@ -78,7 +79,7 @@ def main():
             if isinstance(v, str) == False:
                 results.result_ave[k] = results.result_ave[k] / float(NUM_CORE)
 
-        print('The number of bleAPs =', bleAP_num[i])
+        print('The number of bleAPs =', interval_list[i])
         print('results.result_ave',results.result_ave)
 
         tmp = pd.DataFrame(results.result_ave.values(), \

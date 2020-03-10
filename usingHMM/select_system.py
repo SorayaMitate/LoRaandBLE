@@ -72,7 +72,7 @@ def return_perAvg(cluNum):
 #BLE通信の遅延計算
 #入力：Cluster No., BLE APリスト
 #出力：遅延時間(期待値)
-def calc_delay_ble(cluNum, ble_ap_list):
+def calc_delay_ble(cluNum, ble_ap_list,interval):
     size = trans_prob_mat[cluNum].shape[0]
     l = [i for i in range(size) if trans_prob_mat[cluNum][i] > 0.0]
 
@@ -82,8 +82,14 @@ def calc_delay_ble(cluNum, ble_ap_list):
     x1, y1 = CluNumtoPosi(cluNum)
     delay = 0.0
     for i in l:
+
         x2, y2 = CluNumtoPosi(i)
-        dist_tmp = calc_dist(x1,y1,x2,y2)-const.PACKET_INTERVAL
+        dist_tmp = calc_dist(x1,y1,x2,y2)-interval
+        if dist_tmp < 1.0:
+            dist_tmp = 1.0
+        else:
+            pass
+
         if (i in ble_cluNum_list) == True:
             delay += trans_prob_mat[cluNum][i] * dist_tmp
         else:
@@ -93,15 +99,21 @@ def calc_delay_ble(cluNum, ble_ap_list):
 #BLE通信の消費電流の計算
 #入力：Cluster No., BLE APリスト, BLEの電流
 #出力：消費電流(期待値)
-def calc_energy_ble(cluNum, ble_ap_list, e_sf12):
+def calc_energy_ble(cluNum, ble_ap_list, e_sf12, interval):
     size = trans_prob_mat[cluNum].shape[0]
     l = [i for i in range(size) if trans_prob_mat[cluNum][i] > 0.0]
     ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
     x1, y1 = CluNumtoPosi(cluNum)
     delay = 0.0
     for i in l:
+
         x2, y2 = CluNumtoPosi(i)
-        dist_tmp = calc_dist(x1,y1,x2,y2)-const.PACKET_INTERVAL
+        dist_tmp = calc_dist(x1,y1,x2,y2)-interval
+        if dist_tmp < 1.0:
+            dist_tmp = 1.0
+        else:
+            pass
+
         if (i in ble_cluNum_list) == True:
             delay += trans_prob_mat[cluNum][i] * (dist_tmp)*const.BLE_CURRENT['IDLE']
         else:

@@ -8,7 +8,7 @@ class Const():
         #self.TIME_MAX = 193750 #(3.1kmを走るのにかかる時間[sec] * 100)[*10msec]
         self.TIME_MAX = 200 #(3.1kmを走るのにかかる時間[sec] * 100)[*10msec]
         self.TIMEPERFLAME = 1 #1フレームの時間[1sec]
-        self.ITERATION = 6
+        self.ITERATION = 1
         self.NODE_MIN = 1
         self.NODE_MAX = 1
         self.DELTA_NODE = 1
@@ -120,7 +120,7 @@ class Const():
                 self.BLE_CURRENT['RX']*float(packet_num)*self.BLE_LENGTH['RX']*4*8 + \
                 self.BLE_CURRENT['TIFS']*float(2*packet_num-1)*self.BLE_LENGTH['TIFS']
 
-        qos = 5
+        qos = 1
         self.app = {'equal':Matrix([[1,1,1],[1,1,1],[1,1,1]]), \
             'energy':Matrix([[1,qos,qos],[1/qos,1,1],[1/qos,1,1]]),\
             'delay':Matrix([[1,1/qos,1],[qos,1,qos],[1,1/qos,1]]),\

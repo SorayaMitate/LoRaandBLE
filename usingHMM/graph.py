@@ -121,6 +121,7 @@ plt.show()
 #plt.savefig(file_name)
 '''
 
+'''
 path = 'C:\\Users\\soraya-PC\\code\\results\\app\\5\\'
 file_name = 'results.csv'
 #df = pd.read_csv(path+file_name,index_col='app')
@@ -145,6 +146,7 @@ plt.show()
 plt.bar(qos,delay,color="#1E7F00")
 plt.legend(loc='upper right',fontsize=20)
 plt.show()
+'''
 
 '''
 import csv 
@@ -198,9 +200,16 @@ def hist():
     print(result)
 
     l = [i+5 for i in l]
+
+    fig = plt.figure()
     plt.style.use('ggplot') 
     font = {'family' : 'meiryo'}
     matplotlib.rc('font', **font)
     plt.bar(l,result,width=10)
-    plt.legend(loc='upper right',fontsize=20)
+    #plt.xlabel("xlabel", fontsize=20)
+    #plt.ylabel("ylabel", fontsize=20)
+    #plt.legend(loc='upper right',fontsize=20)
+    plt.tick_params(labelsize=40)
     plt.show()
+
+hist()
