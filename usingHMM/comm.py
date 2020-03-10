@@ -21,7 +21,7 @@ from select_system import *
 const = Const()
 
 #入力：アプリケーション要求(タプル)
-def comm(NUM_NODE,app,area,NUM_bleAP,INTERVAL,queue):
+def comm(NUM_NODE,app,area,NUM_bleAP,queue):
 
     #ランダムシードをプロセスIDで初期化
     random.seed(os.getpid())
@@ -89,8 +89,8 @@ def comm(NUM_NODE,app,area,NUM_bleAP,INTERVAL,queue):
             node.state_tmp = const.SLEEP
             node.sf_tmp = const.SF7
 
-            #node.interval = const.PACKET_INTERVAL ##main
-            node.interval = INTERVAL   ###main2
+            node.interval = const.PACKET_INTERVAL ##main
+            #node.interval = INTERVAL   ###main2
             #node.output()
  
         #APの状態定義
@@ -241,15 +241,15 @@ def comm(NUM_NODE,app,area,NUM_bleAP,INTERVAL,queue):
                 results.energy += ahp_current[node.sf_tmp]
 
             #BLE ADV処理
-            ble_adv_index = [i for i in range(NUM_NODE) if node_list[i].state == const.BLE_ADV]
-            if len(ble_adv_index) != 0:
-                results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_adv_index)
+            #ble_adv_index = [i for i in range(NUM_NODE) if node_list[i].state == const.BLE_ADV]
+            #if len(ble_adv_index) != 0:
+            #    results.packet_arrival += BLEcomm(node_list, ble_ap_list, ble_adv_index)
             
         #results.output()
         results.sum()
 
-    #result = results.average(const.ITERATION, app[0])
-    result = results.average(const.ITERATION, INTERVAL)
+    result = results.average(const.ITERATION, app[0])
+    #result = results.average(const.ITERATION, INTERVAL)
 
     #print('Packet occur =',results.result_ave['occur'])
     #print('Packet arrival =',results.result_ave['arrival'])

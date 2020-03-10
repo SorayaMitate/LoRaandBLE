@@ -14,7 +14,7 @@ class Const():
         self.DELTA_NODE = 1
         self.AP_MAX = 1
         #self.BLE_AP_NUM = 100
-        self.PACKET_INTERVAL = 100
+        self.PACKET_INTERVAL = 1
 
         #座標パラメータ
         self.A = 0

@@ -22,6 +22,7 @@ from const import *
 #plt.show()
 
 path = 'C:\\Users\\soraya-PC\\code\\results\\system\\5\\'
+path = 'C:\\Users\\soraya-PC\\code\\results\\interval\\system\\'
 file_list = glob.glob(path+'*')
 
 sns.set_style("darkgrid")
@@ -37,8 +38,8 @@ const = Const()
 
 BIN = 200
 dist_bin = np.arange(BIN, 1400, BIN)
-'''
 
+'''
 BIN = 4
 dist_bin = np.arange(-8, 12, BIN)
 
@@ -64,9 +65,10 @@ for f in file_list:
     tmp.to_csv(path+file_name)
 '''
 '''
-
 fig, ax = plt.subplots(figsize=(10, 8))
 for_replace = r'C:\\Users\\soraya-PC\\code\\results\\system\\5\\'
+for_replace = r'C:\\Users\\soraya-PC\\code\\results\\interval\\system\\'
+
 for f in file_list:
     df = pd.read_csv(f)
     
@@ -88,6 +90,9 @@ for f in file_list:
 '''
 
 path = 'C:\\Users\\soraya-PC\\code\\results\\system\\5\\shaped\\'
+path = 'C:\\Users\\soraya-PC\\code\\results\\interval\\system\\shaped\\'
+file_list = glob.glob(path+'*')
+
 fig, ax = plt.subplots(2, 2)
 plt.style.use('ggplot') 
 font = {'family' : 'meiryo'}
@@ -133,16 +138,20 @@ per = [row['PER'] for i,row in df.iterrows()]
 ene = [row['energy'] for i,row in df.iterrows()]
 delay = [row['delay'] for i,row in df.iterrows()]
 
+fig, ax = plt.subplots(1, 2)
 plt.style.use('ggplot') 
 font = {'family' : 'meiryo'}
 matplotlib.rc('font', **font)
-#df.plot.bar(y='PER',fontsize=20,grid=True,legend=True)
-#df.plot.bar(y='energy',fontsize=20,grid=True,legend=True)
+
+plt.subplot(1,2,1)
 plt.bar(qos,per)
-plt.legend(loc='upper right',fontsize=20)
-plt.show()
+plt.ylabel('',fontsize=20)
+plt.tick_params(labelsize=20)
+
+plt.subplot(1,2,2)
 plt.bar(qos,delay,color="#1E7F00")
-plt.legend(loc='upper right',fontsize=20)
+plt.ylabel('',fontsize=20)
+plt.tick_params(labelsize=20)
 plt.show()
 '''
 
