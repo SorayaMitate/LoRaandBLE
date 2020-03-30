@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from const import *
-from trajectory import *
+#from trajectory import *
 
 const = Const()
 
