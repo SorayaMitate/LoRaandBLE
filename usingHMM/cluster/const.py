@@ -20,7 +20,7 @@ class Const():
         self.A = 0
         self.B = 2000 #m
         self.DELTA_MESH = 10
-        self.CLUSTER_SIZE = 100
+        self.CLUSTER_SIZE = 50
 
         self.PER_THRESHOLD = 0.1
 

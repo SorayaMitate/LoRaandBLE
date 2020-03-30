@@ -7,7 +7,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 from const import *
-#from trajectory import *
+from trajectory import *
 
 const = Const()
 
@@ -25,7 +25,6 @@ trag_path_list = [dir_name + '/Trajectory' for dir_name in dir_list]
 file_tmp = []
 file_tmp += [glob.glob(dir_name + '/*') for dir_name in trag_path_list]
 file_list = [file_name for i in file_tmp for file_name in i]
-print('file_list =', file_list)
 print('The number of Trajectory =', len(file_list))
 
 lat_list = []
@@ -54,45 +53,21 @@ for file_name in file_list:
 data = pd.DataFrame({
     'lat':lat_list,
     'lon':lon_list,
-    'tra_num':tra_num_list
+    'tra_num':tra_num_list,
+    'segment_num':-1,
+    'segment_head':False,
+    'cluNum':-1,
+    'clu_head':False
 })
 
 def normarize(data, v_min, v_max):
     norm_num = const.B
     return (data - v_min)/(v_max-v_min) * norm_num
 
-print(data)
-
 data['lat'] = normarize(data['lat'], MIN_LAT, MAX_LAT)
 data['lon'] = normarize(data['lon'], MIN_LON, MAX_LON)
 
-print(data)
-
-leng = len(lat)
-
-redata = [[(normarize(j[0], MIN_LAT, MAX_LAT), normarize(j[1], MIN_LON, MAX_LON), j[2])\
-    for j in i] for i in data]
-print('lenght of redata sets =', len(redata))
-
-lat = [j[0] for i in redata for j in i]
-lon = [j[1] for i in redata for j in i]
-tra_num = [j[2] for i in redata for j in i]
-
-#メモリ解放
-del redata
-gc.collect()
-
-#データフレーム定義
-df = pd.DataFrame({
-    'lat':lat,
-    'lon':lon,
-    'tra_num':tra_num,
-    'segment_num':-1,
-    'segment_head':False,
-    'cluNum':-1,
-    'clu_head':False
-})
-print(df)
+print('lenght of rata sets =', len(data))
 
 del lat
 del lon
@@ -101,18 +76,17 @@ gc.collect()
 
 #Alg.1 : Trajectory のクラスタリング
 #dataフレーム構成：[緯度, 経度, Trajectory No., cluNum,clu_head']
-
 #reredata = [[j[0], j[1]] for i in redata for j in i]
-print('lengh of df =', len(df))
-#Trajectory clustring 500m
-density_trag_clustering(df, 2000.0, 100)
+print('lengh of df =', len(data))
+#Trajectory clustring
+density_trag_clustering(data, const.CLUSTER_SIZE, 100)
+print(data)
 
-index_tmp = list(df[df['segment_head'] == True].index)
-print(index_tmp)
+index_tmp = list(data[data['segment_head'] == True].index)
 print('lengh of df(segment_head) =', len(index_tmp))
 
 #Trajectory clustring 100m
-tmp_list = [traSeg(df[df['segment_num']==i], 100.0) for i in index_tmp]
+tmp_list = [traSeg(data[data['segment_num']==i], 100.0) for i in index_tmp]
 i=0
 for df_tmp in tmp_list:
     print('lengh of df_tmp =', len(df_tmp))

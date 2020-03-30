@@ -6,43 +6,40 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import itertools
 
-df = pd.read_csv('data/traj_2000.csv', index_col=0)
-
 def calc_dist(x1, y1, x2, y2):
     return sqrt((x2-x1)**2 + (y2-y1)**2)
 
 #ネイバーのインデックスを返す変数
-def getNeighbors(datasets, p, r):
-    length = len(datasets)
-    neighbors = [i for i in range(length) \
-        if calc_dist(p['lat'], p['lon'], datasets.at[i,'lat'], datasets.at[i,'lon']) <= float(r)]
+def getNeighbors(data, point, r):
+    length = len(data)
+    data['dist'] = calc_dist(data['lat'],data['lon'],point['lat'],point['lon'])
+    neighbors = data[(data['dist']<=r)&(data['flag']==-1)].index
     return neighbors
 
 #軌道のクラスタリング
 #入力：datasets['lat', 'lon', 'tra_num', 'Segment_num', 'segment_head', 'cluNum', 'clu_head']
 #出力：①datasets['segment']に対応するナンバーを代入
 #　　　②clusterheadの番号
-def density_trag_clustering(datasets, r, minpts):
-    length = len(datasets)
-    index = [0] * length
+def density_trag_clustering(data, r, minpts):
+    length = len(data)
+    data['flag'] = -1
     for i in range(length):
-        if index[i] == 0 :
+        if data.at[i, 'flag'] == -1 :
             #Flag処理
-            index[i] = 1
-            S = getNeighbors(datasets, datasets.loc[i], r)
+            data.at[i, 'flag'] = 1
+            S = getNeighbors(data, data.loc[i], r)
             if len(S) < minpts:
                 pass
             else:
-                datasets.at[i,'segment_head'] = True
+                data.at[i,'segment_head'] = True
                 for j in S:
-                    index[j] = 1
-                    datasets.at[j,'segment_num'] = i
+                    data.at[i, 'flag'] = 1
+                    data.at[j,'segment_num'] = i
         else :
             pass
     
-    #メモリ解放
-    del index
-    gc.collect()
+    data.drop('dist', axis=1)
+    data.drop('flag', axis=1)
 
 #各セグメント→クラスタリングによるhidden nodeの抽出
 #入力：datasets['lat', 'lon', 'tra_num', 'Segment_num(指定)', 'segment_head', 'cluNum', 'clu_head'],  距離
@@ -100,7 +97,7 @@ def observe_prob():
 
 #trajctoryと遷移確率の出力
 #出力：遷移確率, クラスタNo.とインデックスの対応(辞書), (二次元リスト)軌跡の一覧, (リスト)cluster名
-def trajectory():
+def trajectory(df):
 
     #Groupbyによるデータフレーム分割(Segment毎)
     #df_dict = {}
@@ -152,7 +149,7 @@ def trajectory():
 
     return trans_prob_mat, trans_prob_mat_index, cluNum_2dlist, cluster_no_list
 
-def CluNumtoPosi(cluNum):
+def CluNumtoPosi(cluNum, df):
     x = df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lat']
     y = df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lon']
     return float(x),float(y)
