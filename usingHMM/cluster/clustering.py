@@ -80,11 +80,12 @@ gc.collect()
 #Trajectory clustring
 density_trag_clustering(data, const.CLUSTER_SIZE, 100)
 print(data)
+data.to_csv('trajectory.csv')
 
 index_tmp = list(data[data['segment_head'] == True].index)
 
 #Trajectory clustring 100m
-tmp_list = [traSeg(data[data['segment_num']==i], 100.0) for i in index_tmp]
+tmp_list = [traSeg(data[data['segment_num']==i], const.CLUSTER_SIZE) for i in index_tmp]
 i=0
 for df_tmp in tmp_list:
     print('lengh of df_tmp =', len(df_tmp))
