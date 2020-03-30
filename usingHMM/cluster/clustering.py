@@ -6,10 +6,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from Data import Data
-from vincenty import *
-from saigen_alg import *
 from const import *
+from trajectory import *
 
 const = Const()
 
@@ -55,18 +53,22 @@ lat = [j[0] for i in data for j in i]
 lon = [j[1] for i in data for j in i]
 tra_num = [[j[2] for i in data for j in i]]
 
-#lat_min = min(lat)
-#lat_max = max(lat)
-#lon_min = min(lon)
-#lon_max = max(lon)
-
-#正規化処理
-#lat_norm = [(i - lat_min)/(lat_max-lat_min) * norm_num for i in lat]
-#lon_norm = [(i - lon_min)/(lon_max-lon_min) * norm_num for i in lon]
+data = pd.DataFrame({
+    'lat':lat,
+    'lon':lon,
+    'tra_num':tra_num
+})
 
 def normarize(data, v_min, v_max):
     norm_num = const.B
     return (data - v_min)/(v_max-v_min) * norm_num
+
+print(data)
+
+data['lat'] = normarize(data['lat'], MIN_LAT, MAX_LAT)
+data['lon'] = normarize(data['lon'], MIN_LON, MAX_LON)
+
+print(data)
 
 leng = len(lat)
 
