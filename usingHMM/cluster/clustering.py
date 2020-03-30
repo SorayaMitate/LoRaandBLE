@@ -25,12 +25,12 @@ trag_path_list = [dir_name + '/Trajectory' for dir_name in dir_list]
 file_tmp = []
 file_tmp += [glob.glob(dir_name + '/*') for dir_name in trag_path_list]
 file_list = [file_name for i in file_tmp for file_name in i]
+print('file_list =', file_list)
 print('The number of Trajectory =', len(file_list))
 
-data = []
-
-#データタプル
-#[(lat, lon, dist)]
+lat_list = []
+lon_list = []
+tra_num_list = []
 tra_num = 1
 for file_name in file_list:
     with open(file_name, 'r', newline="") as f:
@@ -41,23 +41,20 @@ for file_name in file_list:
                 lat = float(i.rstrip('\n').split(',')[0])
                 lon = float(i.rstrip('\n').split(',')[1])
                 if MIN_LAT <= lat and lat <= MAX_LAT and MIN_LON <= lon and lon <= MAX_LON:
-                    tmp += [(lat, lon, tra_num)]
+                    lat_list.append(lat)
+                    lon_list.append(lon)
+                    tra_num_list.append(tra_num)
                 else :
                     pass
             else :
                 pass
-        data += [tmp]
         tra_num += 1
         f.close()
 
-lat = [j[0] for i in data for j in i]
-lon = [j[1] for i in data for j in i]
-tra_num = [[j[2] for i in data for j in i]]
-
 data = pd.DataFrame({
-    'lat':lat,
-    'lon':lon,
-    'tra_num':tra_num
+    'lat':lat_list,
+    'lon':lon_list,
+    'tra_num':tra_num_list
 })
 
 def normarize(data, v_min, v_max):
