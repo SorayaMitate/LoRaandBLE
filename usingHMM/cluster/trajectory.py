@@ -12,7 +12,7 @@ def calc_dist(x1, y1, x2, y2):
 #ネイバーのインデックスを返す変数
 def getNeighbors(data, point, r):
     data['dist'] = calc_dist(data['lat'],data['lon'],point['lat'],point['lon'])
-    neighbors = data[(data['dist']<=r)&(data['flag']==-1)].index
+    neighbors = data[data['dist']<=r].index
     return neighbors
 
 #軌道のクラスタリング
