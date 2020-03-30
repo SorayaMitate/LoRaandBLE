@@ -7,11 +7,10 @@ import matplotlib.pyplot as plt
 import itertools
 
 def calc_dist(x1, y1, x2, y2):
-    return sqrt((x2-x1)**2 + (y2-y1)**2)
+    return np.sqrt((x2-x1)**2 + (y2-y1)**2)
 
 #ネイバーのインデックスを返す変数
 def getNeighbors(data, point, r):
-    length = len(data)
     data['dist'] = calc_dist(data['lat'],data['lon'],point['lat'],point['lon'])
     neighbors = data[(data['dist']<=r)&(data['flag']==-1)].index
     return neighbors

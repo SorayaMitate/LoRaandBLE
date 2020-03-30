@@ -77,13 +77,11 @@ gc.collect()
 #Alg.1 : Trajectory のクラスタリング
 #dataフレーム構成：[緯度, 経度, Trajectory No., cluNum,clu_head']
 #reredata = [[j[0], j[1]] for i in redata for j in i]
-print('lengh of df =', len(data))
 #Trajectory clustring
 density_trag_clustering(data, const.CLUSTER_SIZE, 100)
 print(data)
 
 index_tmp = list(data[data['segment_head'] == True].index)
-print('lengh of df(segment_head) =', len(index_tmp))
 
 #Trajectory clustring 100m
 tmp_list = [traSeg(data[data['segment_num']==i], 100.0) for i in index_tmp]
