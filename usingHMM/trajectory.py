@@ -29,9 +29,6 @@ def density_trag_clustering(data, r, minpts):
     for i in range(length):
         if data.at[i, 'flag'] == -1 :
             S = getNeighbors(data, data.loc[i], r)
-
-            print('len(neighbors) = ',len(S))
-            
             if len(S) < minpts:
                 pass
             else:
@@ -43,10 +40,11 @@ def density_trag_clustering(data, r, minpts):
                     data.at[j, 'flag'] = 1
                     #data.at[j,'segment_num'] = i
                     data.at[j,'cluNum'] = i
-        else :
-            pass
         
-        print('len(data[data[cluNum]==%d])'%i,len(data[data['cluNum']==i]))
+            print('len(data[data[cluNum]==%d])'%i,len(data[data['cluNum']==i]))
+
+        else :
+            pass        
     
     data.drop('dist', axis=1)
     data.drop('flag', axis=1)
