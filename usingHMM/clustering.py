@@ -6,8 +6,8 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from .. import const
 from trajectory import *
+import const
 
 const = const.Const()
 
