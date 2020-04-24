@@ -45,6 +45,8 @@ def density_trag_clustering(data, r, minpts):
                     data.at[j,'cluNum'] = i
         else :
             pass
+        
+        print('len(data[data[cluNum]==%d])'%i,len(data[data['cluNum']==i]))
     
     data.drop('dist', axis=1)
     data.drop('flag', axis=1)
