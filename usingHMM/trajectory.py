@@ -6,9 +6,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import itertools
 
-import sys
-sys.path.append('../')
-
 import const
 
 conts = const.Const()
