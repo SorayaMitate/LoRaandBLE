@@ -125,6 +125,8 @@ def trajectory(df):
                     else :
                         pass
 
+            print('seniretu =',seniretu)
+
         row_sum = np.sum(prob_matrix, axis=1).reshape([length_columns,1])
         row_sum = np.where(row_sum<=0, 1, row_sum)
         prob_matrix = prob_matrix / row_sum
@@ -162,6 +164,8 @@ def CluNumtoPosi(cluNum, df):
     return float(x),float(y)
 
 def observeMat(df):
+
+    print('start making Observation Matrix')
     
     X = np.arange(const.A, const.B, const.DELTA_MESH)
     Y = np.arange(const.A, const.B, const.DELTA_MESH)
