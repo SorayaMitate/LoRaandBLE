@@ -6,10 +6,10 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from const import *
+from .. import const
 from trajectory import *
 
-const = Const()
+const = const.Const()
 
 MAX_LAT = 40.1
 MIN_LAT = 39.8
@@ -47,13 +47,13 @@ for file_name in file_list:
                     pass
             else :
                 pass
-        tra_num += 1
         f.close()
+    tra_num += 1
 
 data = pd.DataFrame({
     'lat':lat_list,
     'lon':lon_list,
-    'tra_num':tra_num_list,
+    'tra_no':tra_num_list,
     'segment_num':-1,
     'segment_head':False,
     'cluNum':-1,
@@ -78,14 +78,16 @@ gc.collect()
 #dataフレーム構成：[緯度, 経度, Trajectory No., cluNum,clu_head']
 #reredata = [[j[0], j[1]] for i in redata for j in i]
 #Trajectory clustring
-density_trag_clustering(data, const.CLUSTER_SIZE, 100)
+Minpts = 50
+density_trag_clustering(data, const.CLUSTER_SIZE, Minpts)
 print(data)
 data.to_csv('trajectory.csv')
 
-index_tmp = list(data[data['segment_head'] == True].index)
+#index_tmp = list(data[data['segment_head'] == True].index)
 
 #Trajectory clustring 100m
-tmp_list = [traSeg(data[data['segment_num']==i], const.CLUSTER_SIZE) for i in index_tmp]
+#tmp_list = [traSeg(data[data['segment_num']==i], const.CLUSTER_SIZE) for i in index_tmp]
+'''
 i=0
 for df_tmp in tmp_list:
     print('lengh of df_tmp =', len(df_tmp))
@@ -95,12 +97,15 @@ for df_tmp in tmp_list:
     else:
         df = pd.merge(df, df_tmp, how='outer')
 print('lengh of df =', len(df))
+'''
 #print(df['cluNum'].value_counts())
 
-#メモリ開放
-del tmp_list
-gc.collect()
+#df.to_csv('traj.csv')
 
-df.to_csv('traj_2000.csv')
+#index_tmp = list(df[df['clu_head'] == True].index)
 
-index_tmp = list(df[df['clu_head'] == True].index)
+#遷移確率の算出
+trajectory(data)
+
+#観測モデルの構築
+observeMat(data)
