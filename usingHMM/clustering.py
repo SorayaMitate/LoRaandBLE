@@ -53,7 +53,7 @@ for file_name in file_list:
 data = pd.DataFrame({
     'lat':lat_list,
     'lon':lon_list,
-    'tra_no':tra_num_list,
+    'tra_num':tra_num_list,
     'segment_num':-1,
     'segment_head':False,
     'cluNum':-1,
