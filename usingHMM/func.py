@@ -4,6 +4,7 @@ from cmath import exp as cexp
 import numpy as np
 import pandas as pd
 from scipy import optimize
+from scipy.special import erfc
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -93,10 +94,11 @@ def SpacialColShadowing(size, XSIZE, YSIZE, var, dcol):
         'Y':Y,
         'SHADOWING':M
     })
-    mesh.to_csv('SC_shadowing.csv')
 
     return mesh
 
-#SNR-PER曲線の近似式
-def nonlinear_fit(x,a,b):
-    return   a * np.exp(b*x)
+#LoRa変調でのSNRからBERを算出する関数
+def lora_ber(sf, snr):
+    snr = pow(10,snr/10.0)
+    tmp = np.sqrt(snr*np.power(2,sf+1))-np.sqrt(1.386*sf+1.154)
+    return 0.5*0.5*erfc(tmp/np.sqrt(2))

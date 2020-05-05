@@ -9,7 +9,7 @@ const = Const()
 #LoRa通信を行う処理
 #引数 : ノードリスト, APリスト, 送信状態のノードインデックス
 #戻り値 ： 送信パケット成功数
-def LoRa_comm(node_list, ap_list, index_list, cluNum_list, area):
+def LoRa_comm(node_list, ap_list, index_list, area):
     
     arrival_packet = 0
 
@@ -21,10 +21,9 @@ def LoRa_comm(node_list, ap_list, index_list, cluNum_list, area):
             #tmp = [j for j in range(map_size) \
             #    if ap.map[j][0:2] == (node_list[i].x, node_list[i].y)]
             dist_tmp = calc_dist(node_list[i].x, node_list[i].y, ap.x, ap.y)
-            s = area[area['cluNum']==cluNum_list[i]]['shadowing_avg'].index
             ap.rpow[i] = node_list[i].tpow - PL(node_list[i].freq, dist_tmp)\
-                    + Fading(node_list[i].speed, node_list[i].freq)\
-                        +area.at[s[0],'shadowing_avg']
+                + Fading(node_list[i].speed, node_list[i].freq)\
+                    +area[(area['X']==node_list[i].x)&(area['Y']==node_list[i].y)]['SHADOWING']
 
             #-----------デバック-------------#
             #print("----------node status---------")

@@ -35,7 +35,8 @@ def main():
 
     path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
 
-    area = pd.read_csv('sample.csv',index_col=0)
+    area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B,\
+        const.SHADOWING_VAR, const.D_COR)
 
     results = Result()
     df_results = pd.DataFrame(results.result_ave.values(), \

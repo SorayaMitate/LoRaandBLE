@@ -122,6 +122,7 @@ def trajectory(df):
                 for x, y in itertools.product(columns, columns):
                     if seniretu[i] == x and seniretu[tmp] == y:
                         prob_matrix[index_dict[x]][index_dict[y]] += 1
+                        break
                     else :
                         pass
 

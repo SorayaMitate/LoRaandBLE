@@ -134,7 +134,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     #Nodeの遷移
                     #clusterNo.はクラスタ番号からインデックスへ変更
                     #print('cluNum =',node.cluNum)
-                    node.cluNum = convertIndex(traj_list.pop(0))
+                    node.cluNum = traj_list.pop(0)
                     #print('after cluNum=',node.cluNum)
 
                     #遅延時間の計算
@@ -148,16 +148,13 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
                     node.x, node.y = CluNumtoPosi(node.cluNum)
 
                     #使用可能拡散率の選定(現在の位置から)
-                    dist_tmp = float(calc_dist(node.x, node.y, ap_list[0].x, ap_list[0].y))
-                    pl = PL(node.freq,dist_tmp)
-
                     #ネットワーク実測値の計算
                     ahp_current[const.BLE] = calc_energy_ble(node.cluNum, ble_ap_list,ahp_current[const.SF12],\
                         node.interval)
                     ahp_current_norm = ahp_normrize(ahp_current)
                     ahp_delay[const.BLE] = calc_delay_ble(node.cluNum, ble_ap_list,node.interval)
                     ahp_delay_norm = ahp_normrize(ahp_delay)
-                    ahp_per = calc_per(node.cluNum, area, const.PARAM,pl)
+                    ahp_per = calc_per(node_list[0], ap_list[0], area)
                     ahp_per_norm = ahp_normrize(ahp_per)
                     #AHP計算とシステム選択
                     systemlist = [system for system in const.SYSTEM_LIST if ahp_per[system] <= const.PER_THRESHOLD]
@@ -170,10 +167,10 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
 
                     #utilityのカウント
                     #clu_systemにはシステムインデクスを格納
-                    results.clu_system.append(node.sf_tmp)
-                    results.shadowing_avg.append(area[area['cluNum']==int(convertClusterNO(node.cluNum))]\
-                        ['shadowing_avg'].mode()[0])
-                    results.dist.append(dist_tmp)
+                    #results.clu_system.append(node.sf_tmp)
+                    #results.shadowing_avg.append(area[area['cluNum']==int(convertClusterNO(node.cluNum))]\
+                    #    ['shadowing_avg'].mode()[0])
+                    #results.dist.append(dist_tmp)
 
                     #print('--------- node cluster = ' + str(node.cluNum) + '----------')
                     #print('dist = ',dist_tmp)
@@ -235,8 +232,7 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
             if len(tx_index) != 0:
                 #print('use Lora')
                 #print('cluNum =',node_list[0].cluNum)
-                cluNum_list = [convertClusterNO(node_list[i].cluNum) for i in tx_index]
-                results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index, cluNum_list, area)
+                results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index, area)
                 results.delay += ahp_delay[node.sf]
                 results.energy += ahp_current[node.sf_tmp]
 
