@@ -67,7 +67,7 @@ def randomTraj():
 def CluNumtoPosi(cluNum):
     x_tmp = float(df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lat'])
     y_tmp = float(df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lon'])
-    for i in range(const.A, const.B, const.DELTA_MESH):
+    for i in range(const.A, const.B+const.DELTA_MESH, const.DELTA_MESH):
         
         if (i <= x_tmp) and (x_tmp < i+const.DELTA_MESH):
             x = int(i)
@@ -80,10 +80,10 @@ def CluNumtoPosi(cluNum):
             pass
     
     #デバック
-    print('xtmp =', x_tmp)
-    print('ytmp =', y_tmp)
-    print('x=', x)
-    print('y =', y)
+    #print('xtmp =', x_tmp)
+    #print('ytmp =', y_tmp)
+    #print('x=', x)
+    #print('y =', y)
 
     return x,y
 
@@ -117,7 +117,7 @@ def calc_forble(node, ble_ap_list):
 
         #遷移先クラスタにBLE APが存在する場合 : 遅延時間 = 移動距離
         # 遷移先に存在しない場合 : 遅延時間 = 移動距離 + 拡散率12のパケット送信時間
-        if h[0] in ble_cluNum_list:
+        if value[0] in ble_cluNum_list:
             addDelay = 0.0
             addEnrgy = 0.0
         else :
