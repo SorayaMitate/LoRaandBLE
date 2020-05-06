@@ -45,6 +45,7 @@ def LoRa_comm(node_list, ap_list, index_list, area):
                     tmp2 += dBmtotv(ap.rpow[j])
 
             SINR = tvtodBm(tmp1/tmp2)
+            print('SNR = ',SINR)
             if SINR > const.SNR[node_list[i].sf] and \
                 tvtodBm(tmp1) >= const.SENSING_LEVEL[node_list[i].sf]:
 
