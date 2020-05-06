@@ -79,6 +79,12 @@ def CluNumtoPosi(cluNum):
         else:
             pass
     
+    #デバック
+    print('xtmp =', xtmp)
+    print('ytmp =', ytmp)
+    print('x=', x)
+    print('y =', y)
+
     return x,y
 
 def return_perAvg(cluNum):
