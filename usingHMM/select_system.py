@@ -33,8 +33,14 @@ CLU_LIST = list(df['cluNum'].unique())
 #plt.savefig('cluster_posi.png')
 
 #クラスタNo.のランダム選択()
+#出力 : クラスタNo(value値)
 def randomCluNum():
     return random.choice(CLU_LIST)
+
+#総クラスタ数の出力
+#出力 : クラスタ数
+def numCluster():
+    return len(CLU_LIST)
 
 #Trajectoryのランダム選択
 #出力：Trajectoryリスト[クラスタNo....]

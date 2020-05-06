@@ -21,39 +21,15 @@ from select_system import *
 const = Const()
 
 #入力：アプリケーション要求(タプル)
-def comm(NUM_NODE,app,area,NUM_bleAP,queue):
+def comm(NUM_NODE,app,area,queue):
 
     #ランダムシードをプロセスIDで初期化
     random.seed(os.getpid())
 
     results = Result.Result()
 
-    #area = pd.read_csv('SC_shadowing.csv',index_col=0)
-
-    #AHPで使用する用
-    #1パケット当たりの電流
-    ahp_current = {const.SF7:1.42, const.SF8:2.48, const.SF10:7.9, \
-        const.SF11:14.4, const.SF12:26.8, const.BLE:0.0}
-    #Delay
-    ahp_delay = {const.SF7:const.PACKET/const.RATE[const.SF7], \
-        const.SF8:const.PACKET/const.RATE[const.SF8], \
-        const.SF10:const.PACKET/const.RATE[const.SF10], \
-        const.SF11:const.PACKET/const.RATE[const.SF11], \
-        const.SF12:const.PACKET/const.RATE[const.SF12], \
-        const.BLE:0.0}
-    
-    #SNR-PERfuncの読み込み
-    file_name = 'param.csv'
-    with open(file_name) as f:
-        reader = csv.reader(f)
-        for row in reader:
-            tmp_list = []
-            for i in range(len(row)):
-                if i == 0:
-                    tmp = int(row[i])
-                else:
-                    tmp_list.append(float(row[i]))
-            const.PARAM[tmp] = tmp_list
+    #BLEAP数の定義
+    ble_ap_num = const.BLE_AP_NUM * numCluster()
 
     for ite in range(1,const.ITERATION+1):
 
@@ -63,13 +39,14 @@ def comm(NUM_NODE,app,area,NUM_bleAP,queue):
         #ノードとアクセスポイントの初期化
         node_list = [Agent(1) for i in range(NUM_NODE)]
         ap_list = [AP() for i in range(const.AP_MAX)]
-        ble_ap_list = [AP() for i in range(NUM_bleAP)]
+        ble_ap_list = [AP() for i in range(ble_ap_num)]
 
-        #APの位置定義
+        #LoRa APの位置定義
         for ap in ap_list:
             ap.x = int(const.B / 2)
             ap.y = int(const.B / 2)
 
+        #BLE APの位置定義(任意のクラスタへの割り当て)
         for ap in ble_ap_list:
             ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
             while True:

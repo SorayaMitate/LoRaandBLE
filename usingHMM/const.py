@@ -13,7 +13,7 @@ class Const():
         self.NODE_MAX = 1
         self.DELTA_NODE = 1
         self.AP_MAX = 1
-        #self.BLE_AP_NUM = 100
+        self.BLE_AP_NUM = 0.3 #クラスター数×BLE_AP_NUM
         self.PACKET_INTERVAL = 100
         self.MIN_PER = pow(10,-6)
 
@@ -46,9 +46,6 @@ class Const():
 
         #AWGN(dBm)
         self.AWGN = -100.0
-
-        #PERの平均(リスト)[0.01～0.05]
-        self.PER_AVG = [i/100 for i in range(1, 6)]
 
         #パケット長
         self.PACKET = 25 * 8
@@ -92,9 +89,21 @@ class Const():
                 self.SF12:float((self.PACKET/self.RATE[self.SF12])/0.01-self.PACKET/self.RATE[self.SF12]),
                 #BLEのduty cycleはsf10のものを使用する
                 self.BLE:float((self.PACKET/self.RATE[self.SF10])/0.01-self.PACKET/self.RATE[self.SF10])}
+
+        #QoS項目の期待値を格納するのはこの定義
+        #1パケット当たりの電流
+        self.CURRENT = {self.SF7:1.42, self.SF8:2.48, self.SF10:7.9, \
+            self.SF11:14.4, self.SF12:26.8, self.BLE:0.0}
+       
+        #Delay
+        self.DELAY = {self.SF7:self.PACKET/self.RATE[self.SF7], \
+            self.SF8:self.PACKET/self.RATE[self.SF8], \
+            self.SF10:self.PACKET/self.RATE[self.SF10], \
+            self.SF11:self.PACKET/self.RATE[self.SF11], \
+            self.SF12:self.PACKET/self.RATE[self.SF12], \
+            self.BLE:0.0}
+
         
-        #PERのあれこれ
-        self.PARAM = {self.SF7:0.0, self.SF8:0.0, self.SF10:0.0, self.SF11:0.0, self.SF12:0.0}
         self.PER = {self.SF7:0.0, self.SF8:0.0, self.SF10:0.0,\
             self.SF11:.0, self.SF12:0.0, self.BLE:0.0}
 
@@ -126,9 +135,3 @@ class Const():
             'energy':Matrix([[1,qos,qos],[1/qos,1,1],[1/qos,1,1]]),\
             'delay':Matrix([[1,1/qos,1],[qos,1,qos],[1,1/qos,1]]),\
             'per':Matrix([[1,1,1/qos],[1,1,1/qos],[1,qos,qos]])}
-
-        self.wariai = [0.2,0.4,0.6,0.8,1.0]
-
-        #色指定
-        self.SYSTEM_COLOR = {self.SF7:'blue', self.SF8:'green', self.SF10:'red',\
-            self.SF11:'yellow', self.SF12:'peru', self.BLE:'orange'}
