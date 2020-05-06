@@ -121,7 +121,7 @@ def comm(NUM_NODE,app,area,queue):
                     #print('delay =', calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum)))
                     #現在の位置と遷移先クラスタの位置から遅延時間を計算
                     dist_tmp = calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum))
-                    delay_tmp = calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum)) - node.interval 
+                    delay_tmp = calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum)) - const.PACKET_INTERVAL
                     if delay_tmp <=1.0:
                         delay_tmp = 1.0
 
@@ -145,7 +145,6 @@ def comm(NUM_NODE,app,area,queue):
                         results.energy += delay_tmp * const.BLE_CURRENT['IDLE']
 
                     print('--------- node cluster = ' + str(node.cluNum) + '----------')
-                    print('node interval =', node.interval)
                     print('dist_tmp =', dist_tmp)
                     print('delay_tmp =',delay_tmp)
                     print('current = ',const.CURRENT)

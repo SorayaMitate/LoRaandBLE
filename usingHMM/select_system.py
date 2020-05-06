@@ -138,9 +138,9 @@ def calc_forble(node, ble_ap_list):
             #各メッシュ毎のPERを算出
             #ただし, PERがMIN_PERより小さい場合, MIN_PERを用いる
             for i in range(leng):
-                if  node.interval < tomesh[i][1]:
-                    delay += tomesh[i][0] * (tomesh[i][1]+ addDelay - node.interval) * value[1] 
-                    energy += tomesh[i][0] * (const.BLE_CURRENT['IDLE'] * (tomesh[i][1] - node.interval)\
+                if  const.PACKET_INTERVAL < tomesh[i][1]:
+                    delay += tomesh[i][0] * (tomesh[i][1]+ addDelay - const.PACKET_INTERVAL) * value[1] 
+                    energy += tomesh[i][0] * (const.BLE_CURRENT['IDLE'] * (tomesh[i][1] - const.PACKET_INTERVAL)\
                          + addEnrgy) * value[1]
                 else :
                     delay += tomesh[i][0] * (1.0+ addDelay) * value[1]
