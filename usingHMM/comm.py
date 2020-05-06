@@ -94,6 +94,7 @@ def comm(NUM_NODE,app,area,queue):
         #area = calc_shadowingavg(area)
         #area.to_csv('sample.csv')
 
+        #1遷移で1パケット送信
         traj_list = randomTraj()
         traj_len = len(traj_list)*2
 
@@ -118,21 +119,23 @@ def comm(NUM_NODE,app,area,queue):
                     #print('before =', node.x, node.y)
                     #print('after =',CluNumtoPosi(node.cluNum))
                     #print('delay =', calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum)))
-                    delay_tmp = calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum)) - node.interval
+                    #現在の位置と遷移先クラスタの位置から遅延時間を計算
+                    delay_tmp = calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum)) - node.interval 
                     if delay_tmp <=1.0:
                         delay_tmp = 1.0
 
+                    #ノードの位置座標の更新
                     node.x, node.y = CluNumtoPosi(node.cluNum)
 
-                    #使用可能拡散率の選定(現在の位置から)
-                    #ネットワーク実測値の計算
-                    ahp_current[const.BLE] = calc_energy_ble(node.cluNum, ble_ap_list,ahp_current[const.SF12],\
-                        node.interval)
+                    #QoS項目の期待値計算
+                    ahp_current[const.BLE] = calc_energy_ble(node.cluNum, ble_ap_list,\
+                        ahp_current[const.SF12], node.interval)
                     ahp_current_norm = ahp_normrize(ahp_current)
                     ahp_delay[const.BLE] = calc_delay_ble(node.cluNum, ble_ap_list,node.interval)
                     ahp_delay_norm = ahp_normrize(ahp_delay)
                     ahp_per = calc_per(node_list[0], ap_list[0], area)
                     ahp_per_norm = ahp_normrize(ahp_per)
+                    
                     #AHP計算とシステム選択
                     systemlist = [system for system in const.SYSTEM_LIST if ahp_per[system] <= const.PER_THRESHOLD]
                     node.sf_tmp = AdaptionAlgorithm_AHP(systemlist, node.qos_matrix,\

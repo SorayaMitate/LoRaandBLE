@@ -63,16 +63,22 @@ def randomTraj():
     return traj_list
 
 #クラスタ番号⇒クラスタのxy座標
+#出力 : クラスタのメッシュ座標
 def CluNumtoPosi(cluNum):
     x_tmp = df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lat']
     y_tmp = df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lon']
     for i in range(const.A, const.B, const.DELTA_MESH):
+        
         if (i <= x_tmp) and (x_tmp < i+const.DELTA_MESH):
             x = int(i)
-        elif (i <= y_tmp) and (y_tmp < i+const.DELTA_MESH):
+        else:
+            pass
+        
+        if (i <= y_tmp) and (y_tmp < i+const.DELTA_MESH):
             y = int(i)
         else:
             pass
+    
     return x,y
 
 def return_perAvg(cluNum):

@@ -31,6 +31,7 @@ def main():
 
     #エリアの定義
     area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B, const.SHADOWING_VAR, const.D_COR)
+    area.to_csv('area.csv')
 
     results = Result()
     df_results = pd.DataFrame(results.result_ave.values(), \
