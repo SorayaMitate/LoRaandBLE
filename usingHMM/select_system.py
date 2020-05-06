@@ -80,8 +80,8 @@ def CluNumtoPosi(cluNum):
             pass
     
     #デバック
-    print('xtmp =', xtmp)
-    print('ytmp =', ytmp)
+    print('xtmp =', x_tmp)
+    print('ytmp =', y_tmp)
     print('x=', x)
     print('y =', y)
 
