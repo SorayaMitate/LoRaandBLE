@@ -153,8 +153,8 @@ def calc_forble(node, ble_ap_list):
         else: 
             pass
 
-    delay_ave = delay_ave / len(value)
-    energy_ave = energy_ave / len(value)
+    #delay_ave = delay_ave / len(value)
+    #energy_ave = energy_ave / len(value)
 
     return delay_ave, energy_ave
 
