@@ -145,6 +145,7 @@ def comm(NUM_NODE,app,area,queue):
                         results.energy += delay_tmp * const.BLE_CURRENT['IDLE']
 
                     print('--------- node cluster = ' + str(node.cluNum) + '----------')
+                    print('node interval =', node.interval)
                     print('dist_tmp =', dist_tmp)
                     print('delay_tmp =',delay_tmp)
                     print('current = ',const.CURRENT)
