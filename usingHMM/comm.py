@@ -128,11 +128,9 @@ def comm(NUM_NODE,app,area,queue):
                     node.x, node.y = CluNumtoPosi(node.cluNum)
 
                     #QoS項目の期待値計算
-                    ahp_current[const.BLE] = calc_energy_ble(node.cluNum, ble_ap_list,\
-                        ahp_current[const.SF12], node.interval)
-                    ahp_current_norm = ahp_normrize(ahp_current)
-                    ahp_delay[const.BLE] = calc_delay_ble(node.cluNum, ble_ap_list,node.interval)
-                    ahp_delay_norm = ahp_normrize(ahp_delay)
+                    const.DELAY[const.BLE], const.CURRENT[const.BLE] = calc_forble(node_list[0], ble_ap_list)
+                    ahp_current_norm = ahp_normrize(const.CURRENT)
+                    ahp_delay_norm = ahp_normrize(const.DELAY)
                     ahp_per = calc_per(node_list[0], ap_list[0], area)
                     ahp_per_norm = ahp_normrize(ahp_per)
                     
@@ -145,18 +143,11 @@ def comm(NUM_NODE,app,area,queue):
                         results.delay += delay_tmp
                         results.energy += delay_tmp * const.BLE_CURRENT['IDLE']
 
-                    #utilityのカウント
-                    #clu_systemにはシステムインデクスを格納
-                    #results.clu_system.append(node.sf_tmp)
-                    #results.shadowing_avg.append(area[area['cluNum']==int(convertClusterNO(node.cluNum))]\
-                    #    ['shadowing_avg'].mode()[0])
-                    #results.dist.append(dist_tmp)
-
                     print('--------- node cluster = ' + str(node.cluNum) + '----------')
                     print('delay_tmp =',delay_tmp)
-                    print('current = ',ahp_current)
+                    print('current = ',const.CURRENT)
                     print('current norm = ',ahp_current_norm)
-                    print('delay = ',ahp_delay)
+                    print('delay = ',const.DELAY)
                     print('delay norm = ',ahp_delay_norm)
                     print('per =',ahp_per)
                     print('per norm= ',ahp_per_norm)
@@ -212,8 +203,8 @@ def comm(NUM_NODE,app,area,queue):
                 #print('use Lora')
                 #print('cluNum =',node_list[0].cluNum)
                 results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index, area)
-                results.delay += ahp_delay[node.sf]
-                results.energy += ahp_current[node.sf_tmp]
+                results.delay += const.DELAY[node.sf]
+                results.energy += const.CURRENT[node.sf_tmp]
 
             #BLE ADV処理
             #ble_adv_index = [i for i in range(NUM_NODE) if node_list[i].state == const.BLE_ADV]
@@ -226,7 +217,7 @@ def comm(NUM_NODE,app,area,queue):
     result = results.average(const.ITERATION, app[0])
     #result = results.average(const.ITERATION, INTERVAL)
 
-    #print('Packet occur =',results.result_ave['occur'])
-    #print('Packet arrival =',results.result_ave['arrival'])
-    #print('Packet Error Rate =',results.result_ave['PER'])
+    print('Packet occur =',results.result_ave['occur'])
+    print('Packet arrival =',results.result_ave['arrival'])
+    print('Packet Error Rate =',results.result_ave['PER'])
     queue.put(result)

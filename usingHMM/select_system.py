@@ -90,56 +90,67 @@ def return_perAvg(cluNum):
 #BLE通信の遅延計算
 #入力：Cluster No., BLE APリスト
 #出力：遅延時間(期待値)
-def calc_delay_ble(cluNum, ble_ap_list,interval):
+def calc_forble(node, ble_ap_list):
 
-    #cluNumをインデックスへ変換
-    cluNum = CLU_LIST.index(cluNum)
-
-    size = HiddenModel[cluNum].shape[0]
-    l = [i for i in range(size) if HiddenModel[cluNum][i] > 0.0]
-
-    tmp = [HiddenModel[cluNum][i] for i in range(size) if HiddenModel[cluNum][i] > 0.0]
+    index_cluNum = CLU_LIST.index(node.cluNum)
+    size = HiddenModel[index_cluNum].shape[0]
+    
+    #遷移の可能性があるクラスタ群の抽出
+    h = [(node.cluNum, HiddenModel[index_cluNum][i]) \
+        for i in range(size) if HiddenModel[index_cluNum][i] > 0.0]
 
     ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
-    x1, y1 = CluNumtoPosi(cluNum)
-    delay = 0.0
-    for i in l:
-        x2, y2 = CluNumtoPosi(i)
-        dist_tmp = calc_dist(x1,y1,x2,y2)-interval
-        if dist_tmp < 1.0:
-            dist_tmp = 1.0
-        else:
+
+    #遷移先毎の遅延時間と消費電流の期待値を算出
+    #遷移先クラスタでループ
+    delay_ave = 0.0
+    energy_ave = 0.0
+    for value in h:
+        delay = 0.0
+        energy = 0.0
+
+        #遷移先クラスタにBLE APが存在する場合 : 遅延時間 = 移動距離
+        # 遷移先に存在しない場合 : 遅延時間 = 移動距離 + 拡散率12のパケット送信時間
+        if h[0] in ble_cluNum_list:
+            addDelay = 0.0
+            addEnrgy = 0.0
+        else :
+            addDelay = const.PACKET/const.RATE[const.SF12]
+            addEnrgy = const.CURRENT[const.SF12]
+
+        #遷移可能性のあるメッシュへの距離とメッシュへの遷移確率をリスト内タプルとして出力
+        #tomesh = ([遷移確率, 現在位置からの距離])
+        tomesh = []
+        for i in ObservedModel[ObservedModel['cluNum']==int(value[0])].index:
+            xtmp = ObservedModel.at[i,'lat']
+            ytmp = ObservedModel.at[i,'lon']
+            dist_tmp = calc_dist(xtmp, ytmp, node.x, node.y)
+            tomesh.append((ObservedModel.at[i,'trans_prob'], dist_tmp))
+
+        leng = len(tomesh)
+        if leng > 0:
+            #各メッシュ毎のPERを算出
+            #ただし, PERがMIN_PERより小さい場合, MIN_PERを用いる
+            for i in range(leng):
+                if  node.interval < tomesh[i][1]:
+                    delay += tomesh[i][0] * (tomesh[i][1]+ addDelay - node.interval) * value[1] 
+                    energy += tomesh[i][0] * (const.BLE_CURRENT['IDLE'] * (tomesh[i][1] - node.interval)\
+                         + addEnrgy) * value[1]
+                else :
+                    delay += tomesh[i][0] * (1.0+ addDelay) * value[1]
+                    energy += tomesh[i][0] * (const.BLE_CURRENT['IDLE'] + addEnrgy)\
+                         * value[1]
+
+            delay_ave += delay / leng
+            energy_ave += energy / leng
+
+        else: 
             pass
 
-        if (i in ble_cluNum_list) == True:
-            delay += HiddenModel[cluNum][i] * dist_tmp
-        else:
-            delay += HiddenModel[cluNum][i] * dist_tmp + const.PACKET/const.RATE[const.SF12]
-    return delay
+    delay_ave = delay_ave / len(value)
+    energy_ave = energy_ave / len(value)
 
-#BLE通信の消費電流の計算
-#入力：Cluster No., BLE APリスト, BLEの電流
-#出力：消費電流(期待値)
-def calc_energy_ble(cluNum, ble_ap_list, e_sf12, interval):
-    size = HiddenModel[cluNum].shape[0]
-    l = [i for i in range(size) if HiddenModel[cluNum][i] > 0.0]
-    ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
-    x1, y1 = CluNumtoPosi(cluNum)
-    delay = 0.0
-    for i in l:
-
-        x2, y2 = CluNumtoPosi(i)
-        dist_tmp = calc_dist(x1,y1,x2,y2)-interval
-        if dist_tmp < 1.0:
-            dist_tmp = 1.0
-        else:
-            pass
-
-        if (i in ble_cluNum_list) == True:
-            delay += HiddenModel[cluNum][i] * (dist_tmp)*const.BLE_CURRENT['IDLE']
-        else:
-            delay += HiddenModel[cluNum][i] * dist_tmp*const.BLE_CURRENT['IDLE'] + e_sf12
-    return delay
+    return delay_ave, energy_ave
 
 #各メッシュの遷移先からPERを算出する処理
 #入力 : ノードのcluNNum, 対象エリア(DF), SNR-PER曲線(システムごとのparam)
