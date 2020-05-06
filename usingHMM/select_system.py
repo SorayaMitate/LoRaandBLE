@@ -65,8 +65,8 @@ def randomTraj():
 #クラスタ番号⇒クラスタのxy座標
 #出力 : クラスタのメッシュ座標
 def CluNumtoPosi(cluNum):
-    x_tmp = df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lat']
-    y_tmp = df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lon']
+    x_tmp = float(df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lat'])
+    y_tmp = float(df[(df['cluNum']==cluNum) & (df['clu_head']==True)]['lon'])
     for i in range(const.A, const.B, const.DELTA_MESH):
         
         if (i <= x_tmp) and (x_tmp < i+const.DELTA_MESH):
@@ -229,7 +229,7 @@ def calc_shadowingavg(area):
             if len(ObservedModel[ObservedModel['cluNum']==v]) > 0:
                 tmp = tmp / len(ObservedModel[ObservedModel['cluNum']==v])
                 for i in index_list:
-                    area.at[i,'shadowing_avg']=tmp
+                    area.at[i,'shadowing_avg'] = tmp
             else:
                 pass
 
