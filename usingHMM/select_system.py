@@ -111,9 +111,12 @@ def calc_forble(node, ble_ap_list):
     #遷移先クラスタでループ
     delay_ave = 0.0
     energy_ave = 0.0
+    delay = 0.0
+    energy = 0.0
+
     for value in h:
-        delay = 0.0
-        energy = 0.0
+        #delay = 0.0
+        #energy = 0.0
 
         #遷移先クラスタにBLE APが存在する場合 : 遅延時間 = 移動距離
         # 遷移先に存在しない場合 : 遅延時間 = 移動距離 + 拡散率12のパケット送信時間
