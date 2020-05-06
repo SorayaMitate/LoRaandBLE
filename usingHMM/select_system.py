@@ -147,8 +147,8 @@ def calc_forble(node, ble_ap_list):
                     energy += tomesh[i][0] * (const.BLE_CURRENT['IDLE'] + addEnrgy)\
                          * value[1]
 
-            delay_ave += delay / leng
-            energy_ave += energy / leng
+            #delay_ave += delay / leng
+            #energy_ave += energy / leng
 
         else: 
             pass
@@ -156,7 +156,7 @@ def calc_forble(node, ble_ap_list):
     #delay_ave = delay_ave / len(value)
     #energy_ave = energy_ave / len(value)
 
-    return delay_ave, energy_ave
+    return delay, energy
 
 #各メッシュの遷移先からPERを算出する処理
 #入力 : ノードのcluNNum, 対象エリア(DF), SNR-PER曲線(システムごとのparam)
