@@ -120,7 +120,8 @@ def calc_forble(node, ble_ap_list):
         for i in range(size) if HiddenModel[index_cluNum][i] > 0.0]
     
     #------デバック--------
-    #print('h =',h)
+    print('h =',h)
+    print('len(h) =',h)
     #tmp = 0.0
     #for i in h:
     #    tmp += i[1]
