@@ -116,15 +116,15 @@ def calc_forble(node, ble_ap_list):
     size = HiddenModel[index_cluNum].shape[0]
     
     #遷移の可能性があるクラスタ群の抽出
-    h = [(node.cluNum, HiddenModel[index_cluNum][i]) \
+    h = [(node.cluNum, i, HiddenModel[index_cluNum][i]) \
         for i in range(size) if HiddenModel[index_cluNum][i] > 0.0]
     
     #------デバック--------
-    print('h =',h)
-    tmp = 0.0
-    for i in h:
-        tmp += i[1]
-    print('tmp = ',tmp )
+    #print('h =',h)
+    #tmp = 0.0
+    #for i in h:
+    #    tmp += i[1]
+    #print('tmp = ',tmp )
 
     ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
 
@@ -141,7 +141,7 @@ def calc_forble(node, ble_ap_list):
 
         #遷移先クラスタにBLE APが存在する場合 : 遅延時間 = 移動距離
         # 遷移先に存在しない場合 : 遅延時間 = 移動距離 + 拡散率12のパケット送信時間
-        if value[0] in ble_cluNum_list:
+        if value[1] in ble_cluNum_list:
             addDelay = 0.0
             addEnrgy = 0.0
         else :
@@ -156,6 +156,7 @@ def calc_forble(node, ble_ap_list):
             ytmp = ObservedModel.at[i,'lon']
             dist_tmp = calc_dist(xtmp, ytmp, node.x, node.y)
             tomesh.append((ObservedModel.at[i,'trans_prob'], dist_tmp))
+        
 
         leng = len(tomesh)
         if leng > 0:
@@ -163,14 +164,14 @@ def calc_forble(node, ble_ap_list):
             #ただし, PERがMIN_PERより小さい場合, MIN_PERを用いる
             for i in range(leng):
                 if  const.PACKET_INTERVAL < tomesh[i][1]:
-                    delay += tomesh[i][0] * (tomesh[i][1]+ addDelay - const.PACKET_INTERVAL) * value[1] 
+                    delay += tomesh[i][0] * (tomesh[i][1]+ addDelay - const.PACKET_INTERVAL) * value[2] 
                     energy += tomesh[i][0] * (const.BLE_CURRENT['IDLE'] * (tomesh[i][1] - const.PACKET_INTERVAL)\
-                         + addEnrgy) * value[1]
+                         + addEnrgy) * value[2]
 
                 else :
-                    delay += tomesh[i][0] * (1.0+ addDelay) * value[1]
+                    delay += tomesh[i][0] * (1.0+ addDelay) * value[2]
                     energy += tomesh[i][0] * (const.BLE_CURRENT['IDLE'] + addEnrgy)\
-                         * value[1]
+                         * value[2]
 
                 #--------デバック--------
                 #print('---------value, i=',value,i)
