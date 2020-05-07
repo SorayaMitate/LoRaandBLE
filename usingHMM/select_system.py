@@ -111,7 +111,7 @@ def calc_forble(node, ble_ap_list):
     #-------デバック-------
     print('node.cluNum =',node.cluNum)
     print('type(node.cluNum) =', type(node.cluNum))
-    print('type(CLU_LIST) =', CLU_LIST)
+    print('type(CLU_LIST) =', CLU_LIST[0])
     #---------------------
 
     index_cluNum = CLU_LIST.index(node.cluNum)
