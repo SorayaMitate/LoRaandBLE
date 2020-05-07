@@ -6,42 +6,40 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from collections import deque
-from sympy import *
 
 #自作モジュール
 import Node
 import const 
 import Result
-from func import *
-from LoRa import *
-from BLE import *
-from AHP import *
-from select_system import *
+import select_system as ss
+from  func import calc_dist 
+from LoRa import LoRa_comm 
+from BLE import BLEcomm 
+from AHP import adaptionAlgorithm, ahp_normrize
 
-const = Const()
+const = const.Const()
 
 #入力：アプリケーション要求(タプル)
 def comm(NUM_NODE,app,area,queue):
 
     #ランダムシードをプロセスIDで初期化
     random.seed(os.getpid())
-    print(df)
 
     results = Result.Result()
 
     #BLEAP数の定義
     #ble_ap_num = int(const.BLE_AP_NUM * numCluster())
-    ble_ap_num = int(numCluster()) #デバック用
+    ble_ap_num = int(ss.numCluster()) #デバック用
 
     for ite in range(1,const.ITERATION+1):
 
         results.clear()
         
-        Node()
+        Node.Node()
         #ノードとアクセスポイントの初期化
-        node_list = [Agent(1) for i in range(NUM_NODE)]
-        ap_list = [AP() for i in range(const.AP_MAX)]
-        ble_ap_list = [AP() for i in range(ble_ap_num)]
+        node_list = [Node.Agent(1) for i in range(NUM_NODE)]
+        ap_list = [Node.AP() for i in range(const.AP_MAX)]
+        ble_ap_list = [Node.AP() for i in range(ble_ap_num)]
 
         #LoRa APの位置定義
         for ap in ap_list:
@@ -62,10 +60,10 @@ def comm(NUM_NODE,app,area,queue):
         '''
         
         #------デバック用------
-        CLU_LIST = out_clulist()
+        CLU_LIST = ss.out_clulist()
         for ap in ble_ap_list:
             ap.cluNum = CLU_LIST.pop(0)
-            ap.x, ap.y = CluNumtoPosi(ap.cluNum)            
+            ap.x, ap.y = ss.CluNumtoPosi(ap.cluNum)            
         ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]        
         #--------------------
 
@@ -107,7 +105,7 @@ def comm(NUM_NODE,app,area,queue):
         #area.to_csv('sample.csv')
 
         #1遷移で1パケット送信
-        traj_list = randomTraj()
+        traj_list = ss.randomTraj()
         traj_len = len(traj_list)*2
 
         for flame in range(traj_len):
@@ -132,25 +130,25 @@ def comm(NUM_NODE,app,area,queue):
                     #print('after =',CluNumtoPosi(node.cluNum))
                     #print('delay =', calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum)))
                     #現在の位置と遷移先クラスタの位置から遅延時間を計算
-                    dist_tmp = calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum))
-                    delay_tmp = calc_dist(node.x, node.y,*CluNumtoPosi(node.cluNum)) - const.PACKET_INTERVAL
+                    dist_tmp = calc_dist(node.x, node.y,*ss.CluNumtoPosi(node.cluNum))
+                    delay_tmp = calc_dist(node.x, node.y,*ss.CluNumtoPosi(node.cluNum)) - const.PACKET_INTERVAL
                     if delay_tmp <=1.0:
                         delay_tmp = 1.0
 
                     #ノードの位置座標の更新
-                    node.x, node.y = CluNumtoPosi(node.cluNum)
+                    node.x, node.y = ss.CluNumtoPosi(node.cluNum)
                     dist_loraAP = calc_dist(node.x, node.y, ap_list[0].x, ap_list[0].y)
 
                     #QoS項目の期待値計算
-                    const.DELAY[const.BLE], const.CURRENT[const.BLE] = calc_forble(node_list[0], ble_ap_list)
+                    const.DELAY[const.BLE], const.CURRENT[const.BLE] = ss.calc_forble(node_list[0], ble_ap_list)
                     ahp_current_norm = ahp_normrize(const.CURRENT)
                     ahp_delay_norm = ahp_normrize(const.DELAY)
-                    ahp_per = calc_per(node_list[0], ap_list[0], area)
+                    ahp_per = ss.calc_per(node_list[0], ap_list[0], area)
                     ahp_per_norm = ahp_normrize(ahp_per)
                     
                     #AHP計算とシステム選択
                     systemlist = [system for system in const.SYSTEM_LIST if ahp_per[system] <= const.PER_THRESHOLD]
-                    node.sf_tmp = AdaptionAlgorithm_AHP(systemlist, node.qos_matrix,\
+                    node.sf_tmp = adaptionAlgorithm(systemlist, node.qos_matrix,\
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
 
                     if node.sf_tmp == const.BLE:

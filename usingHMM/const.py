@@ -1,6 +1,6 @@
-from sympy import * 
-
 #変数定義ファイル
+
+from sympy import Matrix
 
 class Const():
     def __init__(self):

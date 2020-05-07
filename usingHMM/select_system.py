@@ -7,10 +7,10 @@ import random
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
-from const import *
-from func import *
+import const
+from func import calc_dist, tvtodBm, dBmtotv, PL, lora_ber_Raylgh
 
-const = Const()
+const = const.Const()
 
 #各種ファイル読み込み
 path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'

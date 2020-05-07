@@ -1,17 +1,6 @@
 #Proposed Method
-
 import numpy as np
-from sympy import * 
-
-#自作モジュール
-import Node
-import const 
-import Result
-from func import *
-from LoRa import *
-from BLE import *
-
-const = Const()
+from sympy import Matrix
 
 def ahp_normrize(value_dict):
     min_value = min(value_dict.values())
@@ -20,7 +9,7 @@ def ahp_normrize(value_dict):
         value_dict_norm[k] = min_value / v
     return value_dict_norm
 
-def AdaptionAlgorithm_AHP(system_list, qos_matrix, value1, value2,value3):
+def adaptionAlgorithm(system_list, qos_matrix, value1, value2,value3):
     #動的に拡散率を選択するアルゴリズム
     #N各拡散率のNODE数から一番許容量と少ない拡散率へ割り当て
     #入力：許容可能な拡散率セット、各拡散率のノード数

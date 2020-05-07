@@ -1,12 +1,12 @@
 import random
 import numpy as np
 from collections import deque
-from sympy import * 
+from sympy import Matrix
 
-from func import*
-from const import *
+import const
+from func import poisson
 
-const = Const()
+const = const.Const()
 
 class Node():
     #ノードの設定

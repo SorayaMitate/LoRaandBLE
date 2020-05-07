@@ -1,10 +1,10 @@
 #LoRa communication
 
-from func import *
-from const import *
+import const
+from func import calc_dist, Fading, PL, dBmtotv, tvtodBm
 
 #定数クラス
-const = Const()
+const = const.Const()
 
 #LoRa通信を行う処理
 #引数 : ノードリスト, APリスト, 送信状態のノードインデックス

@@ -6,24 +6,22 @@ Name : Soraya Mitate
 '''
 
 import csv
-from comm import *
 import multiprocessing as mp
 import os
 import glob
 import pandas as pd
 
 #自作モジュール
-import Node 
 import const 
-from Result import *
-from func import *
+import Result
+from comm import comm
 
 #---------変数定義--------#
 NUM_CORE = 1 #使用するコア数(メインプロセスは含まない)
 #------------------------#
 
 #定数クラスの定義
-const = Const()
+const = const.Const()
 
 def main():
 
@@ -33,7 +31,7 @@ def main():
     #area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B, const.SHADOWING_VAR, const.D_COR)
     area = pd.read_csv('area.csv')
 
-    results = Result()
+    results = Result.Result()
     df_results = pd.DataFrame(results.result_ave.values(), \
         index=results.result_ave.keys()).T
 

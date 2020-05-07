@@ -1,8 +1,8 @@
 import pandas as pd
 
-from const import *
+import const
 
-const = Const()        
+const = const.Const()        
 
 class Result():
     def __init__(self):
