@@ -6,6 +6,7 @@ import pandas as pd
 import random
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+import copy
 
 import const
 from func import calc_dist, tvtodBm, dBmtotv, PL, lora_ber_Raylgh
@@ -38,11 +39,13 @@ print('CLU_LIST =', CLU_LIST)
 #クラスタNo.のランダム選択()
 #出力 : クラスタNo(value値)
 def randomCluNum():
+
     return random.choice(CLU_LIST)
 
 #クラスタリストの出力
 def out_clulist():
-    return CLU_LIST
+    tmp = copy(CLU_LIST)
+    return tmp
 
 #総クラスタ数の出力
 #出力 : クラスタ数
