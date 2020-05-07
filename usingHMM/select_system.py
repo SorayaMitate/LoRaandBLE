@@ -185,6 +185,8 @@ def calc_forble(node, ble_ap_list):
         else: 
             print('***leng <= 0***')
             print('tomesh=',tomesh)
+            print('ObservedModel[ObservedModel[cluNum]==int(value[1])] =',
+            ObservedModel[ObservedModel['cluNum']==int(value[1])])
 
     #delay_ave = delay_ave / len(value)
     #energy_ave = energy_ave / len(value)
