@@ -173,15 +173,10 @@ def calc_forble(node, ble_ap_list):
                          * value[2]
 
                 #--------デバック--------
-                print('---------value, i=',value,i)
-                print('ObservedModel[ObservedModel[clunum]==int(value[1])][trans_prob].sum() ='\
-                    ,ObservedModel[ObservedModel['cluNum']==int(value[1])]['trans_prob'].sum())
-                print('tomesh[i][1] =', tomesh[i][1])
-                print('tomesh[i][1]+ addDelay - const.PACKET_INTERVAL=',tomesh[i][1]+ addDelay - const.PACKET_INTERVAL)
-                print('tomesh[i][0], value[1] =',tomesh[i][0],value[1])
-                print('tomesh[i][0] * (tomesh[i][1]+ addDelay - const.PACKET_INTERVAL) * value[2]=',\
-                    tomesh[i][0] * (tomesh[i][1]+ addDelay - const.PACKET_INTERVAL) * value[2])
-
+                print('---------value = ',value)
+                print('tomesh[i] =', tomesh[i])
+                print('delay[i] =',tomesh[i][0] * (tomesh[i][1]+ addDelay - const.PACKET_INTERVAL) * value[2])
+                print('delay =', delay)
 
             #delay_ave += delay / leng
             #energy_ave += energy / leng
