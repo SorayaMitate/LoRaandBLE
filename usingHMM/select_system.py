@@ -44,7 +44,7 @@ def randomCluNum():
 
 #クラスタリストの出力
 def out_clulist():
-    tmp = copy(CLU_LIST)
+    tmp = copy.copy(CLU_LIST)
     return tmp
 
 #総クラスタ数の出力
