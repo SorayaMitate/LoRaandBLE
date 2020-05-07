@@ -20,8 +20,6 @@ HiddenModel = np.loadtxt(path + 'TransProb_matrix.txt')
 ObservedModel = pd.read_csv(path + 'observationModel.csv',index_col=0)
 CLU_LIST = list(df['cluNum'].unique())
 CLU_LIST.remove(-1)
-print('CLU_LIST =', CLU_LIST)
-
 
 #クラスタヘッドの配置図作成
 #fig = plt.figure()
@@ -109,9 +107,9 @@ def return_perAvg(cluNum):
 def calc_forble(node, ble_ap_list):
     
     #-------デバック-------
-    print('node.cluNum =',node.cluNum)
-    print('type(node.cluNum) =', type(node.cluNum))
-    print('type(CLU_LIST) =', CLU_LIST[0])
+    #print('node.cluNum =',node.cluNum)
+    #print('type(node.cluNum) =', type(node.cluNum))
+    #print('type(CLU_LIST) =', CLU_LIST[0])
     #---------------------
 
     index_cluNum = CLU_LIST.index(node.cluNum)
@@ -165,6 +163,11 @@ def calc_forble(node, ble_ap_list):
                     delay += tomesh[i][0] * (1.0+ addDelay) * value[1]
                     energy += tomesh[i][0] * (const.BLE_CURRENT['IDLE'] + addEnrgy)\
                          * value[1]
+
+                #--------デバック--------
+                print('tomesh[i][1] =', tomesh[i][1])
+                print('tomesh[i][1]+ addDelay - const.PACKET_INTERVAL',tomesh[i][1]+ addDelay - const.PACKET_INTERVAL)
+                print('tomesh[i][0], value[1] =',tomesh[i][0],value[1])
 
             #delay_ave += delay / leng
             #energy_ave += energy / leng
