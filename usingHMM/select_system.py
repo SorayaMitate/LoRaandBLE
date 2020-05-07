@@ -197,7 +197,7 @@ def calc_per(node, ap, area):
                     /dBmtotv(const.AWGN))
                 for sf in const.SF_LIST:
                     #BERの計算
-                    tmp = lora_ber(sf, snr)
+                    tmp = lora_ber_Raylgh(sf, snr)
                     #PERの計算
                     tmp = 1 - pow((1-tmp), const.PACKET)
                     if tmp < const.MIN_PER:

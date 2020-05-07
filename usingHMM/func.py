@@ -42,7 +42,7 @@ def Fading(v, f):
 
 def PL(f,dis):
     #減衰定数
-    gamma = 3.0
+    gamma = 2.5
     pii = 4.0*np.pi
     fle = 2.4*10.0**9
     lam = 299792458.0 / f
@@ -97,8 +97,23 @@ def SpacialColShadowing(size, XSIZE, YSIZE, var, dcol):
 
     return mesh
 
-#LoRa変調でのSNRからBERを算出する関数
-def lora_ber(sf, snr):
+#LoRa変調でのSNRからBERを算出する関数(AWGNチャネル)
+def lora_ber_AWGN(sf, snr):
     snr = pow(10,snr/10.0)
     tmp = np.sqrt(snr*np.power(2,sf+1))-np.sqrt(1.386*sf+1.154)
     return 0.5*0.5*erfc(tmp/np.sqrt(2))
+
+#LoRa変調でのSNRからBERを算出する関数(レイリーフェージング下)
+def lora_ber_Raylgh(sf, snr):
+    def Hm(m):
+        return np.log(m)+1.0/(2.0*m)+0.57722
+    snr = np.power(10.0,snr/10.0)
+    nakami = 2*Hm(np.power(2,sf)-1)
+    sneff = np.power(2,sf)*snr
+    kou1 = 0.5*erfc((-1)*np.sqrt(nakami)/np.sqrt(2))
+    tmp = (-1)*nakami/(2*(sneff+1))
+    kou2 = np.sqrt(sneff/(sneff+1))*np.exp(tmp)
+    tmp = np.sqrt((sneff+1)/sneff)*((-1)*np.sqrt(nakami)\
+        +np.sqrt(nakami)/(sneff+1))
+    kou3 = 0.5*erfc(tmp/np.sqrt(2))
+    return 0.5*(kou1-kou2*kou3)
