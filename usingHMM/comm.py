@@ -29,7 +29,8 @@ def comm(NUM_NODE,app,area,queue):
     results = Result.Result()
 
     #BLEAP数の定義
-    ble_ap_num = int(const.BLE_AP_NUM * numCluster())
+    #ble_ap_num = int(const.BLE_AP_NUM * numCluster())
+    ble_ap_num = int(numCluster())
 
     for ite in range(1,const.ITERATION+1):
 
