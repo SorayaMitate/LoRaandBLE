@@ -50,11 +50,11 @@ def comm(NUM_NODE,app,area,queue):
         for ap in ble_ap_list:
             ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
             while True:
-                tmp = randomCluNum()
+                tmp = ss.randomCluNum()
                 if (tmp in ble_cluNum_list) == False:
                     break
             ap.cluNum = tmp
-            ap.x, ap.y = CluNumtoPosi(ap.cluNum)            
+            ap.x, ap.y = ss.CluNumtoPosi(ap.cluNum)            
         ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
         
         #------デバック用------
