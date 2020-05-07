@@ -156,7 +156,6 @@ def calc_forble(node, ble_ap_list):
             ytmp = ObservedModel.at[i,'lon']
             dist_tmp = calc_dist(xtmp, ytmp, node.x, node.y)
             tomesh.append((ObservedModel.at[i,'trans_prob'], dist_tmp))
-        
 
         leng = len(tomesh)
         if leng > 0:
@@ -175,9 +174,13 @@ def calc_forble(node, ble_ap_list):
 
                 #--------デバック--------
                 print('---------value, i=',value,i)
+                print('ObservedModel[ObservedModel[clunum]==int(value[1])][trans_prob].sum() ='\
+                    ObservedModel[ObservedModel['cluNum']==int(value[1])]['trans_prob'].sum())
                 print('tomesh[i][1] =', tomesh[i][1])
                 print('tomesh[i][1]+ addDelay - const.PACKET_INTERVAL=',tomesh[i][1]+ addDelay - const.PACKET_INTERVAL)
                 print('tomesh[i][0], value[1] =',tomesh[i][0],value[1])
+                print('tomesh[i][0] * (tomesh[i][1]+ addDelay - const.PACKET_INTERVAL) * value[2]=',\
+                    tomesh[i][0] * (tomesh[i][1]+ addDelay - const.PACKET_INTERVAL) * value[2])
 
 
             #delay_ave += delay / leng
