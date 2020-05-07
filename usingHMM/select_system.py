@@ -21,6 +21,7 @@ CLU_LIST = list(df['cluNum'].unique())
 CLU_LIST.remove(-1)
 print('CLU_LIST =', CLU_LIST)
 
+
 #クラスタヘッドの配置図作成
 #fig = plt.figure()
 #ax = plt.axes()
@@ -103,6 +104,12 @@ def return_perAvg(cluNum):
 #入力：Cluster No., BLE APリスト
 #出力：遅延時間(期待値)
 def calc_forble(node, ble_ap_list):
+    
+    #-------デバック-------
+    print('node.cluNum =',node.cluNum)
+    print('type(node.cluNum) =', type(node.cluNum))
+    print('type(CLU_LIST) =', type(CLU_LIST[0]))
+    #---------------------
 
     index_cluNum = CLU_LIST.index(node.cluNum)
     size = HiddenModel[index_cluNum].shape[0]
