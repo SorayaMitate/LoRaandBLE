@@ -121,6 +121,10 @@ def calc_forble(node, ble_ap_list):
     
     #------デバック--------
     print('h =',h)
+    tmp = 0.0
+    for i in h:
+        tmp += i[1]
+    print('tmp = ',tmp )
 
     ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
 
