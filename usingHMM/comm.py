@@ -64,7 +64,6 @@ def comm(NUM_NODE,app,area,queue):
         CLU_LIST = out_clulist()
         for ap in ble_ap_list:
             ap.cluNum = CLU_LIST.pop(0)
-            print('ap.cluNum =',ap.cluNum)
             ap.x, ap.y = CluNumtoPosi(ap.cluNum)            
         ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]        
         #--------------------

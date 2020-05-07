@@ -19,6 +19,7 @@ HiddenModel = np.loadtxt(path + 'TransProb_matrix.txt')
 ObservedModel = pd.read_csv(path + 'observationModel.csv',index_col=0)
 CLU_LIST = list(df['cluNum'].unique())
 CLU_LIST.remove(-1)
+print('CLU_LIST =', CLU_LIST)
 
 #クラスタヘッドの配置図作成
 #fig = plt.figure()
