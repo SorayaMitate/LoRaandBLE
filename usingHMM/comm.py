@@ -127,6 +127,7 @@ def comm(NUM_NODE,app,area,queue):
 
                     #ノードの位置座標の更新
                     node.x, node.y = CluNumtoPosi(node.cluNum)
+                    dist_loraAP = calc_dist(node.x, node.y, ap_list[0].x, ap_list[0].y)
 
                     #QoS項目の期待値計算
                     const.DELAY[const.BLE], const.CURRENT[const.BLE] = calc_forble(node_list[0], ble_ap_list)
@@ -145,7 +146,8 @@ def comm(NUM_NODE,app,area,queue):
                         results.energy += delay_tmp * const.BLE_CURRENT['IDLE']
 
                     print('--------- node cluster = ' + str(node.cluNum) + '----------')
-                    print('dist_tmp =', dist_tmp)
+                    print('dist_tmp bettween Cluster and LoRa AP =', dist_loraAP)
+                    print('dist_tmp bettween Cluster and Cluster =', dist_tmp)
                     print('delay_tmp =',delay_tmp)
                     print('current = ',const.CURRENT)
                     print('current norm = ',ahp_current_norm)
