@@ -160,16 +160,17 @@ def calc_forble(node, ble_ap_list):
                     energy += tomesh[i][0] * (const.BLE_CURRENT['IDLE'] * (tomesh[i][1] - const.PACKET_INTERVAL)\
                          + addEnrgy) * value[1]
 
-                    #--------デバック--------
-                    print('---------value, i=',value,i)
-                    print('tomesh[i][1] =', tomesh[i][1])
-                    print('tomesh[i][1]+ addDelay - const.PACKET_INTERVAL=',tomesh[i][1]+ addDelay - const.PACKET_INTERVAL)
-                    print('tomesh[i][0], value[1] =',tomesh[i][0],value[1])
-
                 else :
                     delay += tomesh[i][0] * (1.0+ addDelay) * value[1]
                     energy += tomesh[i][0] * (const.BLE_CURRENT['IDLE'] + addEnrgy)\
                          * value[1]
+
+                #--------デバック--------
+                print('---------value, i=',value,i)
+                print('tomesh[i][1] =', tomesh[i][1])
+                print('tomesh[i][1]+ addDelay - const.PACKET_INTERVAL=',tomesh[i][1]+ addDelay - const.PACKET_INTERVAL)
+                print('tomesh[i][0], value[1] =',tomesh[i][0],value[1])
+
 
             #delay_ave += delay / leng
             #energy_ave += energy / leng
