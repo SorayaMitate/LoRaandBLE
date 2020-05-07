@@ -118,6 +118,9 @@ def calc_forble(node, ble_ap_list):
     #遷移の可能性があるクラスタ群の抽出
     h = [(node.cluNum, HiddenModel[index_cluNum][i]) \
         for i in range(size) if HiddenModel[index_cluNum][i] > 0.0]
+    
+    #------デバック--------
+    print('h =',h)
 
     ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
 
@@ -166,10 +169,10 @@ def calc_forble(node, ble_ap_list):
                          * value[1]
 
                 #--------デバック--------
-                print('---------value, i=',value,i)
-                print('tomesh[i][1] =', tomesh[i][1])
-                print('tomesh[i][1]+ addDelay - const.PACKET_INTERVAL=',tomesh[i][1]+ addDelay - const.PACKET_INTERVAL)
-                print('tomesh[i][0], value[1] =',tomesh[i][0],value[1])
+                #print('---------value, i=',value,i)
+                #print('tomesh[i][1] =', tomesh[i][1])
+                #print('tomesh[i][1]+ addDelay - const.PACKET_INTERVAL=',tomesh[i][1]+ addDelay - const.PACKET_INTERVAL)
+                #print('tomesh[i][0], value[1] =',tomesh[i][0],value[1])
 
 
             #delay_ave += delay / leng
