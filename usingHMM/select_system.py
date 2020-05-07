@@ -116,7 +116,7 @@ def calc_forble(node, ble_ap_list):
     size = HiddenModel[index_cluNum].shape[0]
     
     #遷移の可能性があるクラスタ群の抽出
-    h = [(node.cluNum, i, HiddenModel[index_cluNum][i]) \
+    h = [(node.cluNum, CLU_LIST[i], HiddenModel[index_cluNum][i]) \
         for i in range(size) if HiddenModel[index_cluNum][i] > 0.0]
     
     #------デバック--------
