@@ -120,8 +120,8 @@ def calc_forble(node, ble_ap_list):
         for i in range(size) if HiddenModel[index_cluNum][i] > 0.0]
     
     #------デバック--------
-    print('h =',h)
-    print('len(h) =',h)
+    #print('h =',h)
+    #print('len(h) =',h)
     #tmp = 0.0
     #for i in h:
     #    tmp += i[1]
@@ -174,19 +174,19 @@ def calc_forble(node, ble_ap_list):
                          * value[2]
 
                 #--------デバック--------
-                print('---------value = ',value)
-                print('tomesh[i] =', tomesh[i])
-                print('delay[i] =',tomesh[i][0] * (tomesh[i][1]+ addDelay - const.PACKET_INTERVAL) * value[2])
-                print('delay =', delay)
+                #print('---------value = ',value)
+                #print('tomesh[i] =', tomesh[i])
+                #print('delay[i] =',tomesh[i][0] * (tomesh[i][1]+ addDelay - const.PACKET_INTERVAL) * value[2])
+                #print('delay =', delay)
 
             #delay_ave += delay / leng
             #energy_ave += energy / leng
 
         else: 
-            print('***leng <= 0***')
-            print('tomesh=',tomesh)
-            print('ObservedModel[ObservedModel[cluNum]==int(value[1])] =',
-            ObservedModel[ObservedModel['cluNum']==int(value[1])])
+            #print('***leng <= 0***')
+            #print('tomesh=',tomesh)
+            #print('ObservedModel[ObservedModel[cluNum]==int(value[1])] =',
+            #ObservedModel[ObservedModel['cluNum']==int(value[1])])
 
     #delay_ave = delay_ave / len(value)
     #energy_ave = energy_ave / len(value)
