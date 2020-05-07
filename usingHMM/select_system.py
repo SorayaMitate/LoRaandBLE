@@ -151,7 +151,7 @@ def calc_forble(node, ble_ap_list):
         #遷移可能性のあるメッシュへの距離とメッシュへの遷移確率をリスト内タプルとして出力
         #tomesh = ([遷移確率, 現在位置からの距離])
         tomesh = []
-        for i in ObservedModel[ObservedModel['cluNum']==int(value[0])].index:
+        for i in ObservedModel[ObservedModel['cluNum']==int(value[1])].index:
             xtmp = ObservedModel.at[i,'lat']
             ytmp = ObservedModel.at[i,'lon']
             dist_tmp = calc_dist(xtmp, ytmp, node.x, node.y)
