@@ -15,7 +15,7 @@ class Const():
         self.AP_MAX = 1
         self.BLE_AP_NUM = 0.3 #クラスター数×BLE_AP_NUM
         self.PACKET_INTERVAL = 100
-        self.MIN_PER = pow(10,-6)
+        self.MIN_PER = pow(10,-3)
 
         #座標パラメータ
         self.A = 0
