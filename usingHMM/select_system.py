@@ -183,6 +183,7 @@ def calc_forble(node, ble_ap_list):
             #energy_ave += energy / leng
 
         else: 
+            pass
             #print('***leng <= 0***')
             #print('tomesh=',tomesh)
             #print('ObservedModel[ObservedModel[cluNum]==int(value[1])] =',
