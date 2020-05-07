@@ -30,7 +30,7 @@ def comm(NUM_NODE,app,area,queue):
 
     #BLEAP数の定義
     #ble_ap_num = int(const.BLE_AP_NUM * numCluster())
-    ble_ap_num = int(numCluster())
+    ble_ap_num = int(numCluster()) #デバック用
 
     for ite in range(1,const.ITERATION+1):
 
@@ -57,6 +57,14 @@ def comm(NUM_NODE,app,area,queue):
             ap.cluNum = tmp
             ap.x, ap.y = CluNumtoPosi(ap.cluNum)            
         ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
+        
+        #------デバック用------
+        CLU_LIST = out_clulist()
+        for ap in ble_ap_list:
+            ap.cluNum = CLU_LIST.pop(0)
+            ap.x, ap.y = CluNumtoPosi(ap.cluNum)            
+        ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]        
+        #--------------------
 
         #ノードの状態、モード設定
         for node in node_list:

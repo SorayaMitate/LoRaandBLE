@@ -37,6 +37,10 @@ CLU_LIST = list(df['cluNum'].unique())
 def randomCluNum():
     return random.choice(CLU_LIST)
 
+#クラスタリストの出力
+def out_clulist():
+    return CLU_LIST
+
 #総クラスタ数の出力
 #出力 : クラスタ数
 def numCluster():
