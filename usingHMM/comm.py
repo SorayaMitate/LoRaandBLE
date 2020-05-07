@@ -47,7 +47,6 @@ def comm(NUM_NODE,app,area,queue):
             ap.y = int(const.B / 2)
 
         #BLE APの位置定義(任意のクラスタへの割り当て)
-        '''
         for ap in ble_ap_list:
             ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
             while True:
@@ -57,14 +56,13 @@ def comm(NUM_NODE,app,area,queue):
             ap.cluNum = tmp
             ap.x, ap.y = CluNumtoPosi(ap.cluNum)            
         ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
-        '''
         
         #------デバック用------
-        CLU_LIST = ss.out_clulist()
-        for ap in ble_ap_list:
-            ap.cluNum = CLU_LIST.pop(0)
-            ap.x, ap.y = ss.CluNumtoPosi(ap.cluNum)            
-        ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]        
+        #CLU_LIST = ss.out_clulist()
+        #for ap in ble_ap_list:
+        #    ap.cluNum = CLU_LIST.pop(0)
+        #    ap.x, ap.y = ss.CluNumtoPosi(ap.cluNum)            
+        #ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]        
         #--------------------
 
         #ノードの状態、モード設定

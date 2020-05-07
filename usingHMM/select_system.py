@@ -131,8 +131,6 @@ def calc_forble(node, ble_ap_list):
 
     #遷移先毎の遅延時間と消費電流の期待値を算出
     #遷移先クラスタでループ
-    delay_ave = 0.0
-    energy_ave = 0.0
     delay = 0.0
     energy = 0.0
 
@@ -178,9 +176,6 @@ def calc_forble(node, ble_ap_list):
                 #print('tomesh[i] =', tomesh[i])
                 #print('delay[i] =',tomesh[i][0] * (tomesh[i][1]+ addDelay - const.PACKET_INTERVAL) * value[2])
                 #print('delay =', delay)
-
-            #delay_ave += delay / leng
-            #energy_ave += energy / leng
 
         else: 
             pass
