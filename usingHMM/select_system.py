@@ -183,7 +183,8 @@ def calc_forble(node, ble_ap_list):
             #energy_ave += energy / leng
 
         else: 
-            pass
+            print('***leng <= 0***')
+            print('tomesh=',tomesh)
 
     #delay_ave = delay_ave / len(value)
     #energy_ave = energy_ave / len(value)
