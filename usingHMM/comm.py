@@ -139,13 +139,23 @@ def comm(NUM_NODE,app,area,queue):
 
                     #QoS項目の期待値計算
                     const.DELAY[const.BLE], const.CURRENT[const.BLE] = ss.calc_forble(node_list[0], ble_ap_list)
-                    ahp_per = ss.calc_per(node_list[0], ap_list[0], area)
-                    ahp_current_norm = ahp_normrize(const.CURRENT)
-                    ahp_delay_norm = ahp_normrize(const.DELAY)
+                    per_list = ss.calc_per(node_list[0], ap_list[0], area)
+
+                    #PER閾値を満たさないシステムの除去
+                    systemlist = [system for system in const.SYSTEM_LIST if per_list[system] <= const.PER_THRESHOLD]
+                    ahp_per = {}
+                    ahp_delay = {}
+                    ahp_current = {}
+                    for system in systemlist:
+                        ahp_per[system] = per_list[system]
+                        ahp_delay[system] = const.DELAY[system]
+                        ahp_current[system] = const.CURRENT[system]
+
                     ahp_per_norm = ahp_normrize(ahp_per)
+                    ahp_delay_norm = ahp_normrize(ahp_delay)
+                    ahp_current_norm = ahp_normrize(ahp_current)
                     
                     #AHP計算とシステム選択
-                    systemlist = [system for system in const.SYSTEM_LIST if ahp_per[system] <= const.PER_THRESHOLD]
                     node.sf_tmp = adaptionAlgorithm(systemlist, node.qos_matrix,\
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
 
