@@ -41,7 +41,11 @@ def main():
         print('QOS Matrix= ', qos)
 
         for k,v in results.result_ave.items():
-            results.result_ave[k] = 0.0
+            if isinstance(v, list):
+                results.result_ave[k] = []
+            else:
+                results.result_ave[k] = 0.0
+            
 
         q = mp.Queue()
         p_list = [mp.Process(target=comm, args=(const.NODE_MIN,qos,area,q,)) \
@@ -56,9 +60,6 @@ def main():
                     if isinstance(v, str) == True:
                         results.result_ave[k] = v
                     else:
-                        print('k =',k)
-                        print('v =', v)
-                        print('results.result_ave[k] =',results.result_ave[k])
                         results.result_ave[k] += v
 
                 j += 1
