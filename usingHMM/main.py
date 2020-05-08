@@ -76,7 +76,7 @@ def main():
                 else:
                     results.result_out[k] = v / float(NUM_CORE)
             else:
-                pass
+                results.result_out[k] = v
 
         print('qos =',qos)
         print('results.result_ave',results.result_ave)
