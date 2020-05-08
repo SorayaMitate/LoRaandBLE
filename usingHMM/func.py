@@ -42,7 +42,7 @@ def Fading(v, f):
 
 def PL(f,dis):
     #減衰定数
-    gamma = 2.5
+    gamma = 3.0
     pii = 4.0*np.pi
     fle = 2.4*10.0**9
     lam = 299792458.0 / f
