@@ -56,6 +56,9 @@ def main():
                     if isinstance(v, str) == True:
                         results.result_ave[k] = v
                     else:
+                        print('k =',k)
+                        print('v =', v)
+                        print('results.result_ave[k] =',results.result_ave[k])
                         results.result_ave[k] += v
 
                 j += 1
@@ -66,7 +69,7 @@ def main():
         q.close()
 
         for k, v in results.result_ave.items():
-            if (isinstance(v, str) == False):
+            if (isinstance(v, str) == False): 
                 if isinstance(v, list):
                     results.result_out_system[k] = v
                 else:

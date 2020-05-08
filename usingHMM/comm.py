@@ -139,9 +139,9 @@ def comm(NUM_NODE,app,area,queue):
 
                     #QoS項目の期待値計算
                     const.DELAY[const.BLE], const.CURRENT[const.BLE] = ss.calc_forble(node_list[0], ble_ap_list)
+                    ahp_per = ss.calc_per(node_list[0], ap_list[0], area)
                     ahp_current_norm = ahp_normrize(const.CURRENT)
                     ahp_delay_norm = ahp_normrize(const.DELAY)
-                    ahp_per = ss.calc_per(node_list[0], ap_list[0], area)
                     ahp_per_norm = ahp_normrize(ahp_per)
                     
                     #AHP計算とシステム選択
