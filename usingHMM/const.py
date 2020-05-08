@@ -13,7 +13,7 @@ class Const():
         self.NODE_MAX = 1
         self.DELTA_NODE = 1
         self.AP_MAX = 1
-        self.BLE_AP_NUM = 0.3 #クラスター数×BLE_AP_NUM
+        self.BLE_AP_NUM = 0.5 #クラスター数×BLE_AP_NUM
         self.PACKET_INTERVAL = 100
         self.MIN_PER = pow(10,-3)
 
