@@ -90,7 +90,7 @@ class Const():
                 #BLEのduty cycleはsf10のものを使用する
                 self.BLE:float((self.PACKET/self.RATE[self.SF10])/0.01-self.PACKET/self.RATE[self.SF10])}
 
-        #QoS項目の期待値を格納するのはこの定義
+        #QOS項目の期待値を格納するのはこの定義
         #1パケット当たりの電流
         self.CURRENT = {self.SF7:1.42, self.SF8:2.48, self.SF10:7.9, \
             self.SF11:14.4, self.SF12:26.8, self.BLE:0.0}
@@ -130,8 +130,8 @@ class Const():
                 self.BLE_CURRENT['RX']*float(packet_num)*self.BLE_LENGTH['RX']*4*8 + \
                 self.BLE_CURRENT['TIFS']*float(2*packet_num-1)*self.BLE_LENGTH['TIFS']
 
-        qos = 3
-        self.app = {'equal':Matrix([[1,1,1],[1,1,1],[1,1,1]]), \
-            'energy':Matrix([[1,qos,qos],[1/qos,1,1],[1/qos,1,1]]),\
-            'delay':Matrix([[1,1/qos,1],[qos,1,qos],[1,1/qos,1]]),\
-            'per':Matrix([[1,1,1/qos],[1,1,1/qos],[1,qos,qos]])}
+        QOS = 5
+        self.APP = {'equal':Matrix([[1,1,1],[1,1,1],[1,1,1]]), \
+            'energy':Matrix([[1,QOS,QOS],[1/QOS,1,1],[1/QOS,1,1]]),\
+            'delay':Matrix([[1,1/QOS,1],[QOS,1,QOS],[1,1/QOS,1]]),\
+            'per':Matrix([[1,1,1/QOS],[1,1,1/QOS],[1,QOS,QOS]])}

@@ -36,7 +36,7 @@ def main():
     df = pd.DataFrame(results.result_out.values(), \
         index=results.result_out.keys()).T
 
-    for qos in const.app.items():
+    for qos in const.APP.items():
 
         print('QOS Matrix= ', qos)
 
@@ -85,7 +85,7 @@ def main():
             index=results.result_out.keys()).T
         df = df.append(tmp, ignore_index = True)
         
-        file_name = path + 'qos' + qos + 'results.csv'
+        file_name = path + 'qos' + qos[0] + 'results.csv'
         df_system = pd.DataFrame(results.result_out_system.values(), \
             index=results.result_out_system.keys()).T
         df_system.to_csv(file_name)
