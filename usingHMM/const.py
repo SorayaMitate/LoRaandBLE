@@ -13,7 +13,7 @@ class Const():
         self.NODE_MAX = 1
         self.DELTA_NODE = 1
         self.AP_MAX = 1
-        self.BLE_AP_NUM = 0.5 #クラスター数×BLE_AP_NUM
+        self.BLE_AP_NUM = 0.3 #クラスター数×BLE_AP_NUM
         self.PACKET_INTERVAL = 100
         self.MIN_PER = pow(10,-3)
 
@@ -117,7 +117,7 @@ class Const():
         #ADOVERTISE_SIZE = 
         #BLEの消費電流[mAh/sez]
         #dutycycle10%で33mWの消費(マスタにーよるスキャン)
-        self.BLE_CURRENT = {'ADV':0.067, 'IDLE':33.0 / 3.0 / 50} 
+        self.BLE_CURRENT = {'ADV':0.067, 'IDLE':33.0 / 3.0 / 5.0} 
         #BLEの各パケット送受信にかかる長さ [sec/bit]
         self.BLE_LENGTH = {'TX':10.0**(-6), 'RX':10.0**(-6), 'TIFS':150.0**(-6)}
 
