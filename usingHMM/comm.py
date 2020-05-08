@@ -154,7 +154,10 @@ def comm(NUM_NODE,app,area,queue):
                         results.delay += delay_tmp
                         results.energy += delay_tmp * const.BLE_CURRENT['IDLE']
 
-                    results.system[node.sf_tmp] += 1
+                    #results.system[node.sf_tmp] += 1
+                    results.dist.append(dist_loraAP)
+                    results.dist_clu.append(dist_tmp)
+                    results.system.append(node.sf_tmp)
 
                     print('--------- node cluster = ' + str(node.cluNum) + '----------')
                     print('dist_tmp bettween Cluster and LoRa AP =', dist_loraAP)

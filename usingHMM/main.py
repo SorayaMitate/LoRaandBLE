@@ -33,8 +33,8 @@ def main():
     area = pd.read_csv('area.csv')
 
     results = Result.Result()
-    df_results = pd.DataFrame(results.result_ave.values(), \
-        index=results.result_ave.keys()).T
+    df = pd.DataFrame(results.result_out.values(), \
+        index=results.result_out.keys()).T
 
     for qos in const.app.items():
 
@@ -55,9 +55,6 @@ def main():
                 for k, v in tmp.items():
                     if isinstance(v, str) == True:
                         results.result_ave[k] = v
-                    elif k == 'system':
-                        print('k = ', k)
-                        print('v = ', v)
                     else:
                         results.result_ave[k] += v
 
@@ -69,18 +66,28 @@ def main():
         q.close()
 
         for k, v in results.result_ave.items():
-            if isinstance(v, str) == False:
-                results.result_ave[k] = results.result_ave[k] / float(NUM_CORE)
+            if (isinstance(v, str) == False):
+                if isinstance(v, list):
+                    results.result_out_system[k] = v
+                else:
+                    results.result_out[k] = v / float(NUM_CORE)
+            else:
+                pass
 
         print('qos =',qos)
         print('results.result_ave',results.result_ave)
 
-        tmp = pd.DataFrame(results.result_ave.values(), \
-            index=results.result_ave.keys()).T
-        df_results = df_results.append(tmp, ignore_index = True)
+        tmp = pd.DataFrame(results.result_out.values(), \
+            index=results.result_out.keys()).T
+        df = df.append(tmp, ignore_index = True)
+        
+        file_name = path + 'qos' + qos + 'results.csv'
+        df_system = pd.DataFrame(results.result_out_system.values(), \
+            index=results.result_out_system.keys()).T
+        df_system.to_csv(file_name)
 
     file_name = path + 'results.csv'
-    df_results.to_csv(file_name)
+    df.to_csv(file_name)
 
 if __name__ == "__main__":
     main()  

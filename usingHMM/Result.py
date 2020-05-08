@@ -10,18 +10,24 @@ class Result():
         self.packet_arrival = 0
         self.energy = 0.0
         self.delay = 0.0
-        self.clu_system = []
-        self.shadowing_avg = []
         self.dist = []
+        self.dist_clu = []
+        self.system = []
         self.result_ave = {'app':0, 'occur':0.0, 'arrival':0.0, 'PER':0.0,\
-            'energy':0.0, 'delay':0.0, 'system':{}}
-        self.system = {const.SF7:0, const.SF8:0, const.SF10:0,\
-            const.SF11:0, const.SF12:0, const.BLE:0}
+            'energy':0.0, 'delay':0.0, 'dist':[], 'dist_clu':[], 'system':[]}
+        self.result_out = {'app':0, 'occur':0.0, 'arrival':0.0, 'PER':0.0,\
+            'energy':0.0, 'delay':0.0}
+        self.result_out_system = {'dist':[], 'dist_clu':[], 'system':[]}
+        #self.system = {const.SF7:0, const.SF8:0, const.SF10:0,\
+        #    const.SF11:0, const.SF12:0, const.BLE:0}
     
     def clear(self):
         self.packet_occur = 0
         self.packet_arrival = 0
         self.energy = 0.0
+        self.dist = []
+        self.dist_clu = []
+        self.system = []
 
     def output(self):
         print('packet occur =', self.packet_occur)
@@ -33,7 +39,10 @@ class Result():
         self.result_ave['occur'] += self.packet_occur
         self.result_ave['arrival'] += self.packet_arrival
         self.result_ave['energy'] += self.energy
-        self.result_ave['delay'] += self.delay 
+        self.result_ave['delay'] += self.delay
+        self.result_ave['dist'] += self.dist
+        self.result_ave['dist_clu'] += self.dist_clu
+        self.result_ave['system'] += self.system
 
     #引数：アプリケーション要求(辞書)のキー
     def average(self, ite, app):
@@ -45,9 +54,10 @@ class Result():
             / float(self.result_ave['arrival']) / float(ite)
         self.result_ave['delay'] = float(self.result_ave['delay']) \
             / float(self.result_ave['arrival']) / float(ite)
-        tmp = sum( v for v in self.system.values())
-        for k,v in self.system.items():
-            self.result_ave['system'][k] = v / tmp
+
+        #tmp = sum( v for v in self.system.values())
+        #for k,v in self.system.items():
+        #    self.result_ave['system'][k] = v / tmp
 
         return self.result_ave
     
