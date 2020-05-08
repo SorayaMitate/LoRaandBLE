@@ -130,7 +130,7 @@ def comm(NUM_NODE,app,area,queue):
                     #現在の位置と遷移先クラスタの位置から遅延時間を計算
                     dist_tmp = calc_dist(node.x, node.y,*ss.CluNumtoPosi(node.cluNum))
                     delay_tmp = calc_dist(node.x, node.y,*ss.CluNumtoPosi(node.cluNum)) - const.PACKET_INTERVAL
-                    if delay_tmp <=1.0:
+                    if delay_tmp <　1.0:
                         delay_tmp = 1.0
 
                     #ノードの位置座標の更新
@@ -149,9 +149,12 @@ def comm(NUM_NODE,app,area,queue):
                     node.sf_tmp = adaptionAlgorithm(systemlist, node.qos_matrix,\
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
 
+                    #BLE通信時の結果格納
                     if node.sf_tmp == const.BLE:
                         results.delay += delay_tmp
                         results.energy += delay_tmp * const.BLE_CURRENT['IDLE']
+
+                    results.ststem[node.sf_tmp] += 1
 
                     print('--------- node cluster = ' + str(node.cluNum) + '----------')
                     print('dist_tmp bettween Cluster and LoRa AP =', dist_loraAP)

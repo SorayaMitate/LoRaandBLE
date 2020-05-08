@@ -14,7 +14,9 @@ class Result():
         self.shadowing_avg = []
         self.dist = []
         self.result_ave = {'app':0, 'occur':0.0, 'arrival':0.0, 'PER':0.0,\
-            'energy':0.0, 'delay':0.0}
+            'energy':0.0, 'delay':0.0, 'system':{}}
+        self.system = {const.SF7:0, const.SF8:0, const.SF10:0,\
+            const.SF11:0, const.SF12:0, const.BLE:0}
     
     def clear(self):
         self.packet_occur = 0
@@ -43,9 +45,9 @@ class Result():
             / float(self.result_ave['arrival']) / float(ite)
         self.result_ave['delay'] = float(self.result_ave['delay']) \
             / float(self.result_ave['arrival']) / float(ite)
+        tmp = sum( v for v in self.system.values())
+        for k,v in self.system.items():
+            self.result_ave['system'][k] = v / tmp
 
-        self.result_ave['clu_system'] = self.clu_system
-        self.result_ave['shadowing_avg'] = self.shadowing_avg
-        self.result_ave['dist'] = self.dist
         return self.result_ave
     

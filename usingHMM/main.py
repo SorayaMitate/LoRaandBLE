@@ -55,6 +55,9 @@ def main():
                 for k, v in tmp.items():
                     if isinstance(v, str) == True:
                         results.result_ave[k] = v
+                    elif k == 'system':
+                        print('k = ', k)
+                        print('v = ', v)
                     else:
                         results.result_ave[k] += v
 
