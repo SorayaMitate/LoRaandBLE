@@ -58,9 +58,7 @@ def comm(NUM_NODE,app,area,queue):
                     i += 1
                     break
             ap.cluNum = tmp
-            print(i,ble_ap_num)
             ap.x, ap.y = ss.CluNumtoPosi(ap.cluNum)
-        print(ble_ap_list)          
         ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
         
         #------デバック用------
@@ -109,9 +107,7 @@ def comm(NUM_NODE,app,area,queue):
         #area.to_csv('sample.csv')
 
         #1遷移で1パケット送信
-        print('before')
         traj_list = ss.randomTraj()
-        print('traj_list =',traj_list)
         traj_len = len(traj_list)*2
 
         for flame in range(traj_len):
@@ -177,8 +173,8 @@ def comm(NUM_NODE,app,area,queue):
                     results.dist_clu.append(dist_tmp)
                     results.system.append(node.sf_tmp)
 
-                    #print('--------- node cluster = ' + str(node.cluNum) + '----------')
-                    #print('dist_tmp bettween Cluster and LoRa AP =', dist_loraAP)
+                    print('--------- node cluster = ' + str(node.cluNum) + '----------')
+                    print('dist_tmp bettween Cluster and LoRa AP =', dist_loraAP)
                     #print('dist_tmp bettween Cluster and Cluster =', dist_tmp)
                     #print('delay_tmp =',delay_tmp)
                     #print('current = ',const.CURRENT)
