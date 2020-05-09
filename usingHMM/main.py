@@ -55,6 +55,7 @@ def main():
         j=0
         while True:
             if q.empty() is False:
+                print(' Time = ',j)
                 tmp = q.get()
                 for k, v in tmp.items():
                     if isinstance(v, str) == True:
