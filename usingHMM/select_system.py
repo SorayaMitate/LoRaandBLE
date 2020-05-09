@@ -38,7 +38,6 @@ CLU_LIST.remove(-1)
 #クラスタNo.のランダム選択()
 #出力 : クラスタNo(value値)
 def randomCluNum():
-
     return random.choice(CLU_LIST)
 
 #クラスタリストの出力
@@ -117,11 +116,11 @@ def calc_forble(node, ble_ap_list):
     size = HiddenModel[index_cluNum].shape[0]
     
     #-------デバック-------
-    print('node.cluNum =',node.cluNum)
-    print('index_cluNum =',index_cluNum)
-    print('size =',size)
-    print('HiddenModel[index_cluNum] =',HiddenModel[index_cluNum])
-    print('len(HiddenModel[index_cluNum]) =',len(HiddenModel[index_cluNum]))
+    #print('node.cluNum =',node.cluNum)
+    #print('index_cluNum =',index_cluNum)
+    #print('size =',size)
+    #print('HiddenModel[index_cluNum] =',HiddenModel[index_cluNum])
+    #print('len(HiddenModel[index_cluNum]) =',len(HiddenModel[index_cluNum]))
     #---------------------
     
     #遷移の可能性があるクラスタ群の抽出
