@@ -104,6 +104,7 @@ def comm(NUM_NODE,app,area,queue):
         #area.to_csv('sample.csv')
 
         #1遷移で1パケット送信
+        print('before')
         traj_list = ss.randomTraj()
         print('traj_list =',traj_list)
         traj_len = len(traj_list)*2
