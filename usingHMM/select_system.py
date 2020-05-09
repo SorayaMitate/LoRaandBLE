@@ -20,7 +20,7 @@ df = pd.read_csv(path + 'trajectory.csv', index_col=0)
 HiddenModel = np.loadtxt(path + 'TransProb_matrix.txt')
 ObservedModel = pd.read_csv(path + 'observationModel.csv',index_col=0)
 CLU_LIST = list(df['cluNum'].unique())
-CLU_LIST.remove(-1)
+BUG_CLUNUM = -1
 
 #クラスタヘッドの配置図作成
 #fig = plt.figure()
@@ -38,7 +38,13 @@ CLU_LIST.remove(-1)
 #クラスタNo.のランダム選択()
 #出力 : クラスタNo(value値)
 def randomCluNum():
-    return random.choice(CLU_LIST)
+    while True :
+        tmp = random.choice(CLU_LIST)
+        if tmp != BUG_CLUNUM:
+            break
+        else:
+            pass
+    return tmp
 
 #クラスタリストの出力
 def out_clulist():
@@ -64,7 +70,7 @@ def randomTraj():
                 tmp = cluNum
             else:
                 pass
-        if len(traj_list) > 1:
+        if (len(traj_list) > 1) and ((BUG_CLUNUM in traj_list)==False):
             break
         else:
             pass
