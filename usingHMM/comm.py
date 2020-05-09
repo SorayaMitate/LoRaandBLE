@@ -29,7 +29,7 @@ def comm(NUM_NODE,app,area,queue):
 
     #BLEAP数の定義
     #ble_ap_num = int(const.BLE_AP_NUM * numCluster())
-    ble_ap_num = int(ss.numCluster()) #デバック用
+    ble_ap_num = int(ss.numCluster()) -1#デバック用
 
     for ite in range(1,const.ITERATION+1):
         #print('iteration = ',ite)
@@ -48,15 +48,17 @@ def comm(NUM_NODE,app,area,queue):
             ap.y = int(const.B / 2)
 
         #BLE APの位置定義(任意のクラスタへの割り当て)
+        i=0
         for ap in ble_ap_list:
             ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
             while True:
                 tmp = ss.randomCluNum()
                 if ((tmp in ble_cluNum_list)== False) \
                     and (tmp != const.BUG_CLUNUM):
+                    i += 1
                     break
             ap.cluNum = tmp
-            print(ap.cluNum)
+            print(i,ble_ap_num)
             ap.x, ap.y = ss.CluNumtoPosi(ap.cluNum)
         print(ble_ap_list)          
         ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
