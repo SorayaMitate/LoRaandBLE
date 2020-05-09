@@ -79,8 +79,8 @@ def main():
             else:
                 results.result_out[k] = v
 
-        print('qos =',qos)
-        print('results.result_ave',results.result_ave)
+        #print('qos =',qos)
+        #print('results.result_ave',results.result_ave)
 
         tmp = pd.DataFrame(results.result_out.values(), \
             index=results.result_out.keys()).T
