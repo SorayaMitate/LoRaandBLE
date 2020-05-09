@@ -56,6 +56,7 @@ def comm(NUM_NODE,app,area,queue):
                     and (tmp != const.BUG_CLUNUM):
                     break
             ap.cluNum = tmp
+            print(ap.cluNum)
             ap.x, ap.y = ss.CluNumtoPosi(ap.cluNum)            
         ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
         
