@@ -57,7 +57,8 @@ def comm(NUM_NODE,app,area,queue):
                     break
             ap.cluNum = tmp
             print(ap.cluNum)
-            ap.x, ap.y = ss.CluNumtoPosi(ap.cluNum)            
+            ap.x, ap.y = ss.CluNumtoPosi(ap.cluNum)
+        print(ble_ap_list)          
         ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
         
         #------デバック用------
