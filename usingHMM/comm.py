@@ -32,6 +32,7 @@ def comm(NUM_NODE,app,area,queue):
     ble_ap_num = int(ss.numCluster()) #デバック用
 
     for ite in range(1,const.ITERATION+1):
+        print('iteration = ',ite)
 
         results.clear()
         
