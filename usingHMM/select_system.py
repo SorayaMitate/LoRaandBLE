@@ -59,7 +59,6 @@ def randomTraj():
         tmp = -1
         for cluNum in df_tmp['cluNum']:
             if tmp != cluNum:
-                print('cluNum =',cluNum)
                 traj_list.append(cluNum)
                 tmp = cluNum
             else:
