@@ -70,7 +70,7 @@ def randomTraj():
                 tmp = cluNum
             else:
                 pass
-        if (len(traj_list) > 1) and ((BUG_CLUNUM in traj_list)==False):
+        if len(traj_list) > 1 and (BUG_CLUNUM in traj_list)==False:
             break
         else:
             pass

@@ -52,7 +52,6 @@ def comm(NUM_NODE,app,area,queue):
             ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
             while True:
                 tmp = ss.randomCluNum()
-                print('tmp =',tmp)
                 if (tmp in ble_cluNum_list) == False:
                     break
             ap.cluNum = tmp
