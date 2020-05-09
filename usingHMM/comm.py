@@ -173,8 +173,8 @@ def comm(NUM_NODE,app,area,queue):
                     results.dist_clu.append(dist_tmp)
                     results.system.append(node.sf_tmp)
 
-                    print('--------- node cluster = ' + str(node.cluNum) + '----------')
-                    print('dist_tmp bettween Cluster and LoRa AP =', dist_loraAP)
+                    #print('--------- node cluster = ' + str(node.cluNum) + '----------')
+                    #print('dist_tmp bettween Cluster and LoRa AP =', dist_loraAP)
                     #print('dist_tmp bettween Cluster and Cluster =', dist_tmp)
                     #print('delay_tmp =',delay_tmp)
                     #print('current = ',const.CURRENT)
