@@ -245,6 +245,7 @@ def calc_per(node, ap, ble_ap_list, area):
                 per[const.BLE] = const.MIN_PER * value[1]
             else :
                 per[const.BLE] = per[const.SF12]
+                print('per[const.BLE]')
 
             for system in const.SYSTEM_LIST:
                 if per[system] < const.MIN_PER:
