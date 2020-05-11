@@ -237,20 +237,20 @@ def calc_per(node, ap, ble_ap_list, area):
                     tmp = lora_ber_Raylgh(sf, snr)
                     #PERの計算
                     tmp = 1 - pow((1-tmp), const.PACKET)
-                    if tmp < const.MIN_PER:
-                        tmp = const.MIN_PER
                     per[sf] += value[1]*tomesh[i][1]*tmp
 
             #遷移先クラスタにBLE APが存在する場合 : 10^-3
             # 遷移先に存在しない場合 : SF12の拡散率
             if value[1] in ble_cluNum_list:
-                per[const.BLE] = const.MIN_PER
+                per[const.BLE] = const.MIN_PER * value[1]
             else :
                 per[const.BLE] = per[const.SF12]
 
             print('per =',per)
 
-            for system in const.SYSTEM_LIST:            
+            for system in const.SYSTEM_LIST:
+                if per[system] < const.MIN_PER:
+                    per[system] = const.MIN_PER
                 per_ave[system] += per[system]
 
         else:
