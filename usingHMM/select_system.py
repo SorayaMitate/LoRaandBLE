@@ -203,7 +203,7 @@ def calc_per(node, ap, ble_ap_list, area):
     size = HiddenModel[index_cluNum].shape[0]
     
     #遷移の可能性があるクラスタ群の抽出
-    h = [(node.cluNum, HiddenModel[index_cluNum][i]) \
+    h = [(node.cluNum, HiddenModel[index_cluNum][i], CLU_LIST[i]) \
         for i in range(size) if HiddenModel[index_cluNum][i] > 0.0]
 
     ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
@@ -237,12 +237,11 @@ def calc_per(node, ap, ble_ap_list, area):
                     tmp = lora_ber_Raylgh(sf, snr)
                     #PERの計算
                     tmp = 1 - pow((1-tmp), const.PACKET)
-                    print('tmp =',tmp)
                     per[sf] += value[1]*tomesh[i][1]*tmp
 
             #遷移先クラスタにBLE APが存在する場合 : 10^-3
             # 遷移先に存在しない場合 : SF12の拡散率
-            if value[1] in ble_cluNum_list:
+            if value[2] in ble_cluNum_list:
                 per[const.BLE] = const.MIN_PER * value[1]
             else :
                 per[const.BLE] = per[const.SF12]
@@ -256,7 +255,7 @@ def calc_per(node, ap, ble_ap_list, area):
             pass 
 
     for system in const.SF_LIST:
-        per_ave[system] = per_ave[system] / len(h)
+        per_ave[system] = per_ave[system]
 
     return per_ave
 
