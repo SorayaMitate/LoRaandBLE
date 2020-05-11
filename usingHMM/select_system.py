@@ -255,7 +255,7 @@ def calc_per(node, ap, ble_ap_list, area):
             pass 
 
     for system in const.SF_LIST:
-        per_ave[system] = per_ave[system]
+        per_ave[system] = per_ave[system] / len(h)
 
     return per_ave
 
