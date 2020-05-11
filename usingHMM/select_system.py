@@ -207,6 +207,7 @@ def calc_per(node, ap, ble_ap_list, area):
         for i in range(size) if HiddenModel[index_cluNum][i] > 0.0]
 
     ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
+    print('ble_cluNum_list',ble_cluNum_list)
     
     per = {system:0.0 for system in const.SYSTEM_LIST}
     per_ave = {system:0.0 for system in const.SYSTEM_LIST}
