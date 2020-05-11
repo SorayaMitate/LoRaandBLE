@@ -234,7 +234,7 @@ def calc_per(node, ap, ble_ap_list, area):
                 ###################
                 #snr = tvtodBm(dBmtotv(tomesh[i][0]-tomesh[i][2]+const.TPOW)\
                 #    /dBmtotv(const.AWGN))
-                snr = tvtodBm(dBmtotv(tomesh[i][2]+const.TPOW)\
+                snr = tvtodBm(dBmtotv((-1)*tomesh[i][2]+const.TPOW)\
                     /dBmtotv(const.AWGN))                
                 ####################
                 for sf in const.SF_LIST:
