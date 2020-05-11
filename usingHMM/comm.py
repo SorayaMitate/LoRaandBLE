@@ -144,12 +144,11 @@ def comm(NUM_NODE,app,area,queue):
                     #QoS項目の期待値計算
                     const.DELAY[const.BLE], const.CURRENT[const.BLE] = ss.calc_forble(node_list[0], ble_ap_list)
                     per_list = ss.calc_per(node_list[0], ap_list[0], ble_ap_list, area)
-                    print('per =',ahp_per)
 
                     #PER閾値を満たさないシステムの除去
                     systemlist = [system for system in const.SYSTEM_LIST if per_list[system] <= const.PER_THRESHOLD]
-                    if len(system_list) ==0:
-                        system_list.append(const.SF12)
+                    if len(systemlist) ==0:
+                        systemlist.append(const.SF12)
                     ahp_per = {}
                     ahp_delay = {}
                     ahp_current = {}
