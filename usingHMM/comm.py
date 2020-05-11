@@ -144,7 +144,7 @@ def comm(NUM_NODE,app,area,queue):
                     #QoS項目の期待値計算
                     const.DELAY[const.BLE], const.CURRENT[const.BLE] = ss.calc_forble(node_list[0], ble_ap_list)
                     per_list = ss.calc_per(node_list[0], ap_list[0], ble_ap_list, area)
-                    print('per_list =',per_list)
+                    #print('per_list =',per_list)
 
                     #PER閾値を満たさないシステムの除去
                     systemlist = [system for system in const.SYSTEM_LIST if per_list[system] <= const.PER_THRESHOLD]
@@ -176,18 +176,18 @@ def comm(NUM_NODE,app,area,queue):
                     results.dist_clu.append(dist_tmp)
                     results.system.append(node.sf_tmp)
 
-                    print('--------- node cluster = ' + str(node.cluNum) + '----------')
-                    print('dist_tmp bettween Cluster and LoRa AP =', dist_loraAP)
-                    print('dist_tmp bettween Cluster and Cluster =', dist_tmp)
-                    print('delay_tmp =',delay_tmp)
-                    print('current = ',const.CURRENT)
-                    print('current norm = ',ahp_current_norm)
-                    print('delay = ',const.DELAY)
-                    print('delay norm = ',ahp_delay_norm)
-                    print('per =',ahp_per)
-                    print('per norm= ',ahp_per_norm)
-                    print('system list =',systemlist)
-                    print('node.sf_tmp',node.sf_tmp)
+                    #print('--------- node cluster = ' + str(node.cluNum) + '----------')
+                    #print('dist_tmp bettween Cluster and LoRa AP =', dist_loraAP)
+                    #print('dist_tmp bettween Cluster and Cluster =', dist_tmp)
+                    #print('delay_tmp =',delay_tmp)
+                    #print('current = ',const.CURRENT)
+                    #print('current norm = ',ahp_current_norm)
+                    #print('delay = ',const.DELAY)
+                    #print('delay norm = ',ahp_delay_norm)
+                    #print('per =',ahp_per)
+                    #print('per norm= ',ahp_per_norm)
+                    #print('system list =',systemlist)
+                    #print('node.sf_tmp',node.sf_tmp)
 
                 else :
                     pass
