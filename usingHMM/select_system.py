@@ -230,8 +230,13 @@ def calc_per(node, ap, ble_ap_list, area):
             #各メッシュ毎のPERを算出
             #ただし, PERがMIN_PERより小さい場合, MIN_PERを用いる
             for i in range(leng):
-                snr = tvtodBm(dBmtotv(tomesh[i][0]-tomesh[i][2]+const.TPOW)\
-                    /dBmtotv(const.AWGN))
+                
+                ###################
+                #snr = tvtodBm(dBmtotv(tomesh[i][0]-tomesh[i][2]+const.TPOW)\
+                #    /dBmtotv(const.AWGN))
+                snr = tvtodBm(dBmtotv(tomesh[i][2]+const.TPOW)\
+                    /dBmtotv(const.AWGN))                
+                ####################
                 for sf in const.SF_LIST:
                     #BERの計算
                     tmp = lora_ber_Raylgh(sf, snr)
