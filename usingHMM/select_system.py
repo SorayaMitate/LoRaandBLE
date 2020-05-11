@@ -207,7 +207,6 @@ def calc_per(node, ap, ble_ap_list, area):
         for i in range(size) if HiddenModel[index_cluNum][i] > 0.0]
 
     ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
-    print('ble_cluNum_list',ble_cluNum_list)
     
     per = {system:0.0 for system in const.SYSTEM_LIST}
     per_ave = {system:0.0 for system in const.SYSTEM_LIST}
@@ -243,11 +242,9 @@ def calc_per(node, ap, ble_ap_list, area):
             #遷移先クラスタにBLE APが存在する場合 : 10^-3
             # 遷移先に存在しない場合 : SF12の拡散率
             if value[2] in ble_cluNum_list:
-                print('value[2]',value[2])
                 per[const.BLE] = const.MIN_PER * value[1]
             else :
                 per[const.BLE] = per[const.SF12]
-                print('per[const.BLE]',per[const.BLE])
 
             for system in const.SYSTEM_LIST:
                 if per[system] < const.MIN_PER:
