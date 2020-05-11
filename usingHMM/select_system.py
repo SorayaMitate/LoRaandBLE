@@ -237,6 +237,7 @@ def calc_per(node, ap, ble_ap_list, area):
                     tmp = lora_ber_Raylgh(sf, snr)
                     #PERの計算
                     tmp = 1 - pow((1-tmp), const.PACKET)
+                    print('tmp =',tmp)
                     per[sf] += value[1]*tomesh[i][1]*tmp
 
             #遷移先クラスタにBLE APが存在する場合 : 10^-3
