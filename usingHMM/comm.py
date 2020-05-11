@@ -176,18 +176,18 @@ def comm(NUM_NODE,app,area,queue):
                     results.dist_clu.append(dist_tmp)
                     results.system.append(node.sf_tmp)
 
-                    print('--------- node cluster = ' + str(node.cluNum) + '----------')
-                    print('dist_tmp bettween Cluster and LoRa AP =', dist_loraAP)
-                    print('dist_tmp bettween Cluster and Cluster =', dist_tmp)
-                    print('delay_tmp =',delay_tmp)
-                    print('current = ',const.CURRENT)
-                    print('current norm = ',ahp_current_norm)
-                    print('delay = ',const.DELAY)
-                    print('delay norm = ',ahp_delay_norm)
-                    print('per =',ahp_per)
-                    print('per norm= ',ahp_per_norm)
-                    print('system list =',systemlist)
-                    print('node.sf_tmp',node.sf_tmp)
+                    #print('--------- node cluster = ' + str(node.cluNum) + '----------')
+                    #print('dist_tmp bettween Cluster and LoRa AP =', dist_loraAP)
+                    #print('dist_tmp bettween Cluster and Cluster =', dist_tmp)
+                    #print('delay_tmp =',delay_tmp)
+                    #print('current = ',const.CURRENT)
+                    #print('current norm = ',ahp_current_norm)
+                    #print('delay = ',const.DELAY)
+                    #print('delay norm = ',ahp_delay_norm)
+                    #print('per =',ahp_per)
+                    #print('per norm= ',ahp_per_norm)
+                    #print('system list =',systemlist)
+                    #print('node.sf_tmp',node.sf_tmp)
 
                 else :
                     pass
@@ -235,8 +235,8 @@ def comm(NUM_NODE,app,area,queue):
             #LoRa通信処理
             tx_index = [i for i in range(NUM_NODE) if node_list[i].state == const.DATA_T]
             if len(tx_index) != 0:
-                print('use Lora')
-                print('cluNum =',node_list[0].cluNum)
+                #print('use Lora')
+                #print('cluNum =',node_list[0].cluNum)
                 results.packet_arrival += LoRa_comm(node_list, ap_list, tx_index, area)
                 results.delay += const.DELAY[node.sf]
                 results.energy += const.CURRENT[node.sf_tmp]
