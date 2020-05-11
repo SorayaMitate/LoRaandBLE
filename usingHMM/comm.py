@@ -149,7 +149,7 @@ def comm(NUM_NODE,app,area,queue):
                     #PER閾値を満たさないシステムの除去
                     systemlist = [system for system in const.SYSTEM_LIST if per_list[system] <= const.PER_THRESHOLD]
                     if len(systemlist) ==0:
-                        systemlist.append(const.SF12)
+                        systemlist.append(const.BLE)
                     ahp_per = {}
                     ahp_delay = {}
                     ahp_current = {}
