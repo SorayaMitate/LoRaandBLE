@@ -254,7 +254,7 @@ def calc_per(node, ap, ble_ap_list, area):
         else:
             pass 
 
-    for system in const.SF_LIST:
+    for system in const.SYSTEM_LIST:
         per_ave[system] = per_ave[system] / len(h)
 
     return per_ave
