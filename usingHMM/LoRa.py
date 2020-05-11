@@ -20,13 +20,13 @@ def LoRa_comm(node_list, ap_list, index_list, area):
             #距離計算（抽出）
             #tmp = [j for j in range(map_size) \
             #    if ap.map[j][0:2] == (node_list[i].x, node_list[i].y)]
-            tmp = area[(area['X']==node_list[i].x)&(area['Y']==node_list[i].y)]
+            tmp = area[(area['X']==node_list[i].x)&(area['Y']==node_list[i].y)]['SHADOWING']
             if len(tmp)>0:
                 dist_tmp = calc_dist(node_list[i].x, node_list[i].y, ap.x, ap.y)
                 ap.rpow[i] = node_list[i].tpow - PL(node_list[i].freq, dist_tmp)\
                     + Fading(node_list[i].speed, node_list[i].freq)\
-                        +float(area[(area['X']==node_list[i].x)&(area['Y']==node_list[i].y)]['SHADOWING'])
-                print('ok')
+                        +float(tmp)
+                print('tmp=',tmp)
             else:
                 dist_tmp = calc_dist(node_list[i].x, node_list[i].y, ap.x, ap.y)
                 ap.rpow[i] = node_list[i].tpow - PL(node_list[i].freq, dist_tmp)\
