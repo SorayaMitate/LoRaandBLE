@@ -58,9 +58,9 @@ for i in range(len(file_list)):
             kaisu = (tmp['system'] == system).sum()
             df.at[b,system] = float(kaisu / leng)
 
-    df = df.rename(columns={str(const.SF7):'SF7',str(const.SF8):'SF8',\
-        str(const.SF10):'SF10',str(const.SF11):'SF11',str(const.SF12):'SF12',\
-            str(const.BLE):'BLE'})
+    df = df.rename(columns={const.SF7:'SF7',const.SF8:'SF8',\
+        const.SF10:'SF10',const.SF11:'SF11',const.SF12:'SF12',\
+            const.BLE:'BLE'})
     
     #file_name[i] = file_list[i].replace(path+'re','')
     #file_name[i] = file_name[i].replace('system_results.csv','.png')

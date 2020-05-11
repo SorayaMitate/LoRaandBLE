@@ -198,16 +198,18 @@ def calc_forble(node, ble_ap_list):
 
 #各メッシュの遷移先からPERを算出する処理
 #入力 : ノードのcluNNum, 対象エリア(DF), SNR-PER曲線(システムごとのparam)
-def calc_per(node, ap, area):
+def calc_per(node, ap, ble_ap_list, area):
     index_cluNum = CLU_LIST.index(node.cluNum)
     size = HiddenModel[index_cluNum].shape[0]
     
     #遷移の可能性があるクラスタ群の抽出
     h = [(node.cluNum, HiddenModel[index_cluNum][i]) \
         for i in range(size) if HiddenModel[index_cluNum][i] > 0.0]
+
+    ble_cluNum_list = [ap.cluNum for ap in ble_ap_list]
     
-    per = {system:0.0 for system in const.SF_LIST}
-    per_ave = {system:0.0 for system in const.SF_LIST}
+    per = {system:0.0 for system in const.SYSTEM_LIST}
+    per_ave = {system:0.0 for system in const.SYSTEM_LIST}
 
     #遷移先毎のperを算出
     #遷移先クラスタでループ
@@ -239,7 +241,14 @@ def calc_per(node, ap, area):
                         tmp = const.MIN_PER
                     per[sf] += value[1]*tomesh[i][1]*tmp
 
-            for system in const.SF_LIST:            
+            #遷移先クラスタにBLE APが存在する場合 : 10^-3
+            # 遷移先に存在しない場合 : SF12の拡散率
+            if value[1] in ble_cluNum_list:
+                per[const.BLE] = const.MIN_PER
+            else :
+                per[const.BLE] = per[const.SF12]
+
+            for system in const.SYSTEM_LIST:            
                 per_ave[system] += per[system]
 
         else:
@@ -248,7 +257,6 @@ def calc_per(node, ap, area):
     for system in const.SF_LIST:
         per_ave[system] = per_ave[system] / len(h)
 
-    per_ave[const.BLE] = const.MIN_PER
     return per_ave
 
 #クラスタごとの平均シャドウィング値を算出するプログラム
