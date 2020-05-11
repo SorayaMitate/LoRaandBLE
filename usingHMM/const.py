@@ -24,7 +24,7 @@ class Const():
         self.DELTA_MESH = 10
         self.CLUSTER_SIZE = 100
 
-        self.PER_THRESHOLD = 0.1
+        self.PER_THRESHOLD = 0.2
 
         #シャドウィングパラメータ
         self.D_COR = 30
