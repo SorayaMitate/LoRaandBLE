@@ -26,6 +26,8 @@ def LoRa_comm(node_list, ap_list, index_list, area):
                     +float(area[(area['X']==node_list[i].x)&(area['Y']==node_list[i].y)]['SHADOWING'])
 
             #-----------デバック-------------#
+            print('node_list[i].x, node_list[i].y',node_list[i].x ,node_list[i].y)
+            print('area =',area[(area['X']==node_list[i].x)&(area['Y']==node_list[i].y)])
             #print("----------node status---------")
             #print('dist =', dist_tmp)
             #print('ap_pow =', ap.rpow[i])
