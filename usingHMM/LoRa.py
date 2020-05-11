@@ -26,10 +26,9 @@ def LoRa_comm(node_list, ap_list, index_list, area):
                     +area[(area['X']==node_list[i].x)&(area['Y']==node_list[i].y)]['SHADOWING']
 
             #-----------デバック-------------#
-            #print("----------node status---------")
-            #node_l[i].output()
-            #print('dist =', dist_tmp)
-            #print('ap_pow =', ap.rpow[i])
+            print("----------node status---------")
+            print('dist =', dist_tmp)
+            print('ap_pow =', ap.rpow[i])
             #-------------------------------#
 
     #APによる受信処理
@@ -43,6 +42,9 @@ def LoRa_comm(node_list, ap_list, index_list, area):
                     tmp1 = dBmtotv(ap.rpow[i])
                 elif i != j and node_list[i].sf == node_list[j].sf:
                     tmp2 += dBmtotv(ap.rpow[j])
+            
+            print('tmp1 =',tmp1)
+            print('tmp2 =',tmp2)
 
             SINR = tvtodBm(tmp1/tmp2)
             #print('SNR = ',SINR)
