@@ -243,6 +243,7 @@ def calc_per(node, ap, ble_ap_list, area):
             #遷移先クラスタにBLE APが存在する場合 : 10^-3
             # 遷移先に存在しない場合 : SF12の拡散率
             if value[2] in ble_cluNum_list:
+                print('value[2]',value[2])
                 per[const.BLE] = const.MIN_PER * value[1]
             else :
                 per[const.BLE] = per[const.SF12]
