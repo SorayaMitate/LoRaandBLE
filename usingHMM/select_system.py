@@ -14,8 +14,8 @@ from func import calc_dist, tvtodBm, dBmtotv, PL, lora_ber_Raylgh
 const = const.Const()
 
 #各種ファイル読み込み
-#path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
-path = '/home/flab/mitate/data/MieSCOPE/usingHMM/' #flab@192.168.7.247
+path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
+#path = '/home/flab/mitate/data/MieSCOPE/usingHMM/' #flab@192.168.7.247
 df = pd.read_csv(path + 'trajectory.csv', index_col=0)
 HiddenModel = np.loadtxt(path + 'TransProb_matrix.txt')
 ObservedModel = pd.read_csv(path + 'observationModel.csv',index_col=0)
