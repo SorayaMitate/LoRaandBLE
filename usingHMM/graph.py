@@ -137,8 +137,7 @@ def hist():
         leng = len(tmp)
         for d in range(0,MAC_CLU_DIST,CLU_DIST_BIN):
             tmp2 = tmp[(tmp['dist_clu']>=d)&(tmp['dist_clu']<d+CLU_DIST_BIN)]
-            print('b ,d =',b,d)
-            df.iat[d,b] = float(len(tmp2))/float(leng)
+            df.at[d,b] = float(len(tmp2))/float(leng)
 
     df.to_csv('hist.csv')
 
