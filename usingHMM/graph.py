@@ -83,9 +83,7 @@ def cl_density():
     #データファイル読み込み
     #path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
     path = '/home/flab/mitate/data/MieSCOPE/usingHMM/' #flab@192.168.7.247
-    df = pd.read_csv(path + 'trajectory.csv', index_col=0)
-    HiddenModel = np.loadtxt(path + 'TransProb_matrix.txt')
-    CLU_LIST = list(df['cluNum'].unique())
+    data = pd.read_csv(path + 'trajectory.csv', index_col=0)
 
     dist_cl = []
     dist_ap = []
@@ -114,7 +112,7 @@ def cl_density():
                     y1 = y2
     
     df = pd.DataFrame({
-        'dist_clu':dist_clu,
+        'dist_clu':dist_cl,
         'dist_ap':dist_ap
     })
     df.to_csv('dist.csv')
