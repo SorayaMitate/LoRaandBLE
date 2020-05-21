@@ -114,16 +114,30 @@ def cl_density():
 def hist():
     MAX_DIST = 1200
     DIST_BIN = 200
+    DIST = np.arange(0,MAX_DIST,DIST_BIN)
+
+    MAC_CLU_DIST = 2200
+    CLU_DIST_BIN = 200
+    CLU_DIST = np.arange(0,MAC_CLU_DIST,CLU_DIST_BIN)
+
+    df = pd.DataFrame(index=CLU_DIST,columns=DIST)
 
     data = pd.read_csv('dist.csv')
 
     for b in range(0, MAX_DIST, DIST_BIN):
-        tmp = data[(data['dist_ap']>b)&(data['dist_ap']<b+DIST_BIN)]
+        tmp = data[(data['dist_ap']>=b)&(data['dist_ap']<b+DIST_BIN)]
         avg = tmp['dist_clu'].mean()
-        var = tmp['dist_clu'].var()
+        std = tmp['dist_clu'].std()
 
         print('bin =',b)
         print('average =',avg)
-        print('var =',var)
+        print('std =',std)
+
+        leng = len(tmp)
+        for d in range(0,MAC_CLU_DIST,CLU_DIST_BIN):
+            tmp2 = tmp[(tmp['dist_clu']>=d)&(tmp['dist_clu']<d+CLU_DIST_BIN)]
+            df.iat[d,b] = float(len(tmp2))/float(leng)
+
+    df.to_csv('hist.csv')
 
 hist()
