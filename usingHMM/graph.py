@@ -90,7 +90,7 @@ def cl_density():
     ap_x = float(const.B / 2)
     ap_y = float(const.B / 2)
 
-    traj = list(df['tra_num'].unique())
+    traj = list(data['tra_num'].unique())
     for tra in traj:
         tmp = data[data['tra_num']==tra]
         if tmp.empty:
