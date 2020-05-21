@@ -76,7 +76,7 @@ for i in range(len(file_list)):
         df.plot.bar(ax=ax[1,tmp],title=file_list[i],fontsize=20,grid=True,legend=True,stacked=True,)
         ax[1,tmp].set_xlabel('')
         ax[1,tmp].legend(loc='upper right',fontsize=15)
-plt.show()
+#plt.show()
 
 def cl_density():
     
@@ -118,3 +118,4 @@ def cl_density():
         'dist_ap':dist_ap
     })
     df.to_csv('dist.csv')
+cl_density()
