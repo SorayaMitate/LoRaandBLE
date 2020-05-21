@@ -102,14 +102,19 @@ def cl_density():
                 if k == head:
                     x1 = float(v['lat'])
                     y1 = float(v['lon'])
+                    tmp_clu = v['cluNum']
                     pass
                 else:
-                    x2 = float(v['lat'])
-                    y2 = float(v['lon'])
-                    dist_cl.append(calc_dist(x1,y1,x2,y2))
-                    dist_ap.append(calc_dist(x1,y1,ap_x,ap_y))
-                    x1 = x2
-                    y1 = y2
+                    if v['cluNum'] != tmp_clu:
+                        x2 = float(v['lat'])
+                        y2 = float(v['lon'])
+                        dist_cl.append(calc_dist(x1,y1,x2,y2))
+                        dist_ap.append(calc_dist(x1,y1,ap_x,ap_y))
+                        x1 = x2
+                        y1 = y2
+                        tmp_clu = v['cluNum']
+                    else:
+                        pass
     
     df = pd.DataFrame({
         'dist_clu':dist_cl,
