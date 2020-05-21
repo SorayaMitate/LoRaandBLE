@@ -56,17 +56,20 @@ def randomTraj():
         traj_list = []
         tra = random.choice(df['tra_num'].unique())
         df_tmp = df[df['tra_num']==tra]
-        tmp = -1
-        for cluNum in df_tmp['cluNum']:
-            if tmp != cluNum:
-                traj_list.append(cluNum)
-                tmp = cluNum
+        if df_tmp.empty:
+            pass
+        else:
+            tmp = -1
+            for cluNum in df_tmp['cluNum']:
+                if tmp != cluNum:
+                    traj_list.append(cluNum)
+                    tmp = cluNum
+                else:
+                    pass
+            if len(traj_list) > 1 and (const.BUG_CLUNUM in traj_list)==False:
+                break
             else:
                 pass
-        if len(traj_list) > 1 and (const.BUG_CLUNUM in traj_list)==False:
-            break
-        else:
-            pass
     return traj_list
 
 #クラスタ番号⇒クラスタのxy座標

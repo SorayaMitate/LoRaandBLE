@@ -20,7 +20,7 @@ from AHP import adaptionAlgorithm, ahp_normrize
 const = const.Const()
 
 #入力：アプリケーション要求(タプル)
-def comm(NUM_NODE,app,area,queue):
+def comm(NUM_NODE,app,area,ble_density,queue):
 
     #ランダムシードをプロセスIDで初期化
     random.seed(os.getpid())
@@ -44,8 +44,8 @@ def comm(NUM_NODE,app,area,queue):
 
         #LoRa APの位置定義
         for ap in ap_list:
-            ap.x = int(const.B / 2)
-            ap.y = int(const.B / 2)
+            ap.x = float(const.B / 2)
+            ap.y = float(const.B / 2)
 
         #BLE APの位置定義(任意のクラスタへの割り当て)
         i=0

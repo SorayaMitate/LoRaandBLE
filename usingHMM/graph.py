@@ -12,6 +12,7 @@ import seaborn as sns
 from mpl_toolkits.mplot3d import Axes3D
 
 from const import *
+from 
 
 #mesh = pd.read_csv('SC_shadowing.csv')
 #mesh = mesh[(mesh['X']<=1000)&(mesh['Y']<=1000)]
@@ -21,8 +22,8 @@ from const import *
 #sns.heatmap(pivot,cmap = 'jet', linecolor='Black',square = True)
 #plt.show()
 
-path = 'C:\\Users\\soraya-PC\\code\\data\\result\\backup\\sr\\qos2\\'
-#path = 'C:\\Users\\soraya-PC\\code\\data\\result\\backup\\sr\\qos2_noshad\\'
+#path = 'C:\\Users\\soraya-PC\\code\\data\\result\\backup\\sr\\qos2\\'
+path = 'C:\\Users\\soraya-PC\\code\\data\\result\\backup\\sr\\qos2_noshad\\'
 file_list = glob.glob(path+'*')
 
 sns.set_style("darkgrid")
@@ -77,3 +78,43 @@ for i in range(len(file_list)):
         ax[1,tmp].legend(loc='upper right',fontsize=15)
 plt.show()
 
+def cl_density():
+    
+    #データファイル読み込み
+    #path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
+    path = '/home/flab/mitate/data/MieSCOPE/usingHMM/' #flab@192.168.7.247
+    df = pd.read_csv(path + 'trajectory.csv', index_col=0)
+    HiddenModel = np.loadtxt(path + 'TransProb_matrix.txt')
+    CLU_LIST = list(df['cluNum'].unique())
+
+    dist_cl = []
+    dist_ap = []
+    ap_x = float(const.B / 2)
+    ap_y = float(const.B / 2)
+
+    traj = list(df['tra_num'].unique())
+    for tra in traj:
+        tmp = data[data['tra_num']==tra]
+        if tmp.empty:
+            pass
+        else:
+            #最初の行取り出し
+            head = int(tmp.head(1).index[0])
+            for k, v in tmp.iterrows():
+                if k == head:
+                    x1 = float(v['lat'])
+                    y1 = float(v['lon'])
+                    pass
+                else:
+                    x2 = float(v['lat'])
+                    y2 = float(v['lon'])
+                    dist_cl.append(calc_dist(x1,y1,x2,y2))
+                    dist_ap.append(calc_dist(x1,y1,ap_x,ap_y))
+                    x1 = x2
+                    y1 = y2
+    
+    df = pd.DataFrame({
+        'dist_clu':dist_clu,
+        'dist_ap':dist_ap
+    })
+    df.to_csv('dist.csv')

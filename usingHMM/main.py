@@ -15,6 +15,7 @@ import pandas as pd
 import const 
 import Result
 from comm import comm
+from func import SpacialColShadowing
 
 #---------変数定義--------#
 NUM_CORE = 10 #使用するコア数(メインプロセスは含まない)
@@ -30,6 +31,7 @@ def main():
 
     #エリアの定義
     #area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B, const.SHADOWING_VAR, const.D_COR)
+    #area.to_csv('area2.csv')
     area = pd.read_csv('area.csv')
 
     results = Result.Result()
