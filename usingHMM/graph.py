@@ -120,10 +120,10 @@ def hist():
     for b in range(0, MAX_DIST, DIST_BIN):
         tmp = data[(data['dist_ap']>b)&(data['dist_ap']<b+DIST_BIN)]
         avg = tmp['dist_clu'].mean()
-        std = tmp['dist_clu'].std()
+        std = tmp['dist_clu'].var()
 
         print('bin =',b)
         print('average =',avg)
-        print('std =',std)
+        print('var =',var)
 
 hist()
