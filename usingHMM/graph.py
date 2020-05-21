@@ -116,7 +116,7 @@ def hist():
     DIST_BIN = 200
     DIST = np.arange(0,MAX_DIST,DIST_BIN)
 
-    MAC_CLU_DIST = 2200
+    MAC_CLU_DIST = 1000
     CLU_DIST_BIN = 50
     CLU_DIST = np.arange(0,MAC_CLU_DIST,CLU_DIST_BIN)
 
@@ -142,3 +142,29 @@ def hist():
     df.to_csv('hist.csv')
 
 hist()
+
+def graph_hist():
+
+    data = pd.read_csv('hist.csv',index_col=0)
+
+    MAX_DIST = 1200
+    DIST_BIN = 200
+    DIST = np.arange(0,MAX_DIST,DIST_BIN)
+    leng = len(DIST)
+
+    fig, ax = plt.subplots(2, 3)
+    plt.style.use('ggplot') 
+    font = {'family' : 'meiryo'}
+    matplotlib.rc('font', **font)
+
+    for i in range(leng):
+
+        if i < 3:
+            data.plot.bar(y=[str(DIST[i])],ax=ax[0,i],title=str(DIST[i]),fontsize=10,grid=True,ylim=[0.0,0.7])
+        else:
+            tmp = i-3
+            data.plot.bar(y=[str(DIST[i])],ax=ax[1,tmp],title=str(DIST[i]),fontsize=10,grid=True,ylim=[0.0,0.7])
+
+    plt.show()
+
+graph_hist()
