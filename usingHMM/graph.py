@@ -116,7 +116,7 @@ def hist():
     DIST_BIN = 200
     DIST = np.arange(0,MAX_DIST,DIST_BIN)
 
-    MAC_CLU_DIST = 1000
+    MAC_CLU_DIST = 500
     CLU_DIST_BIN = 50
     CLU_DIST = np.arange(0,MAC_CLU_DIST,CLU_DIST_BIN)
 
@@ -140,8 +140,6 @@ def hist():
             df.at[d,b] = float(len(tmp2))/float(leng)
 
     df.to_csv('hist.csv')
-
-hist()
 
 def graph_hist():
 
@@ -167,4 +165,5 @@ def graph_hist():
 
     plt.show()
 
+hist()
 #graph_hist()
