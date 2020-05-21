@@ -12,7 +12,7 @@ import seaborn as sns
 from mpl_toolkits.mplot3d import Axes3D
 
 from const import *
-from 
+from func import calc_dist
 
 #mesh = pd.read_csv('SC_shadowing.csv')
 #mesh = mesh[(mesh['X']<=1000)&(mesh['Y']<=1000)]
