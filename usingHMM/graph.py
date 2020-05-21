@@ -167,4 +167,4 @@ def graph_hist():
 
     plt.show()
 
-graph_hist()
+#graph_hist()
