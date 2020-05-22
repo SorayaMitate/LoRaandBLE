@@ -116,7 +116,7 @@ def hist():
     DIST_BIN = 200
     DIST = np.arange(0,MAX_DIST,DIST_BIN)
 
-    MAC_CLU_DIST = 300
+    MAC_CLU_DIST = 200
     CLU_DIST_BIN = 10
     CLU_DIST = np.arange(0,MAC_CLU_DIST,CLU_DIST_BIN)
 
@@ -170,6 +170,6 @@ def graph_hist():
 
     plt.show()
 
-hist()
-#graph_hist()
+#hist()
+graph_hist()
 #graph_usedsystem()
