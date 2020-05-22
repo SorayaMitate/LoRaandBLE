@@ -183,6 +183,7 @@ def graph_hist():
 
     plt.show()
 
+cl_graph()
 #hist()
 #graph_hist()
 #graph_usedsystem()
