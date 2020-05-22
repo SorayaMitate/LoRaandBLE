@@ -116,7 +116,7 @@ def hist():
     DIST_BIN = 200
     DIST = np.arange(0,MAX_DIST,DIST_BIN)
 
-    MAC_CLU_DIST = 200
+    MAC_CLU_DIST = 250
     CLU_DIST_BIN = 10
     CLU_DIST = np.arange(0,MAC_CLU_DIST,CLU_DIST_BIN)
 
@@ -159,7 +159,7 @@ def graph_hist():
     for i in range(leng):
 
         if i < 3:
-            data.plot.bar(y=[str(DIST[i])],ax=ax[0,i],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=15,grid=True,legend=False,ylim=[0.0,0.7])
+            data.plot.bar(y=[str(DIST[i])],ax=ax[0,i],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=10,grid=True,legend=False,ylim=[0.0,0.7])
             ax[0,i].set_xlabel('Distance bettween Clusters [m]',fontsize=15)
             ax[0,i].set_ylabel('PDF',fontsize=15)
         else:
