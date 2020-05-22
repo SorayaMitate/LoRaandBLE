@@ -141,6 +141,19 @@ def hist():
 
     df.to_csv('hist.csv')
 
+def cl_graph():
+
+    path = '/home/flab/mitate/data/MieSCOPE/usingHMM/' #flab@192.168.7.247
+    data = pd.read_csv(path + 'trajectory.csv', index_col=0)
+
+    tmp = data[data['clu_head']==True]
+    x = list(tmp['lat'])
+    y = list(tmp['lon'])
+
+    plt.scatter(x,y, s=1000)
+    plt.savefig('Cluster.png')
+
+
 def graph_hist():
 
     data = pd.read_csv('hist.csv',index_col=0)
@@ -164,12 +177,12 @@ def graph_hist():
             ax[0,i].set_ylabel('PDF',fontsize=15)
         else:
             tmp = i-3
-            data.plot.bar(y=[str(DIST[i])],ax=ax[1,tmp],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=15,grid=True,legend=False,ylim=[0.0,0.7])
+            data.plot.bar(y=[str(DIST[i])],ax=ax[1,tmp],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=10,grid=True,legend=False,ylim=[0.0,0.7])
             ax[1,tmp].set_xlabel('Distance bettween Clusters [m]',fontsize=15)
             ax[1,tmp].set_ylabel('PDF',fontsize=15)
 
     plt.show()
 
-hist()
+#hist()
 #graph_hist()
 #graph_usedsystem()
