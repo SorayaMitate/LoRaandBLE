@@ -150,7 +150,7 @@ def cl_graph():
     x = list(tmp['lat'])
     y = list(tmp['lon'])
 
-    plt.scatter(x,y, s=1000)
+    plt.scatter(x,y, s=100)
     plt.savefig('Cluster.png')
 
 
