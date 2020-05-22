@@ -116,8 +116,8 @@ def hist():
     DIST_BIN = 200
     DIST = np.arange(0,MAX_DIST,DIST_BIN)
 
-    MAC_CLU_DIST = 500
-    CLU_DIST_BIN = 50
+    MAC_CLU_DIST = 300
+    CLU_DIST_BIN = 10
     CLU_DIST = np.arange(0,MAC_CLU_DIST,CLU_DIST_BIN)
 
     df = pd.DataFrame(index=CLU_DIST,columns=DIST)
@@ -151,6 +151,7 @@ def graph_hist():
     leng = len(DIST)
 
     fig, ax = plt.subplots(2, 3)
+    plt.subplots_adjust(wspace=0.3, hspace=0.5)
     plt.style.use('ggplot') 
     font = {'family' : 'meiryo'}
     matplotlib.rc('font', **font)
@@ -158,12 +159,17 @@ def graph_hist():
     for i in range(leng):
 
         if i < 3:
-            data.plot.bar(y=[str(DIST[i])],ax=ax[0,i],title=str(DIST[i]),fontsize=10,grid=True,ylim=[0.0,0.7])
+            data.plot.bar(y=[str(DIST[i])],ax=ax[0,i],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=15,grid=True,legend=False,ylim=[0.0,0.7])
+            ax[0,i].set_xlabel('Distance bettween Clusters [m]',fontsize=15)
+            ax[0,i].set_ylabel('PDF',fontsize=15)
         else:
             tmp = i-3
-            data.plot.bar(y=[str(DIST[i])],ax=ax[1,tmp],title=str(DIST[i]),fontsize=10,grid=True,ylim=[0.0,0.7])
+            data.plot.bar(y=[str(DIST[i])],ax=ax[1,tmp],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=15,grid=True,legend=False,ylim=[0.0,0.7])
+            ax[1,tmp].set_xlabel('Distance bettween Clusters [m]',fontsize=15)
+            ax[1,tmp].set_ylabel('PDF',fontsize=15)
 
     plt.show()
 
-hist()
-#graph_hist()
+#hist()
+graph_hist()
+#graph_usedsystem()
