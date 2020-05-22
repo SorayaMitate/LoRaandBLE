@@ -84,26 +84,29 @@ def cl_density():
         if tmp.empty:
             pass
         else:
-            #最初の行取り出し
-            head = int(tmp.head(1).index[0])
-            for k, v in tmp.iterrows():
-                if k == head:
-                    x1 = float(v['lat'])
-                    y1 = float(v['lon'])
-                    tmp_clu = v['cluNum']
-                    pass
-                else:
-                    if v['cluNum'] != tmp_clu:
-                        x2 = float(v['lat'])
-                        y2 = float(v['lon'])
+            tmp_clu = -1
+            for cluNum in tmp['cluNum']:
+                if tmp_clu != cluNum:
+                    if tmp_clu == -1:
+                        tmp_clu = cluNum
+                        x1 = float(data[(data['cluNum']==tmp_clu)&(data['clu_head']==True)]['lat'])
+                        y1 = float(data[(data['cluNum']==tmp_clu)&(data['clu_head']==True)]['lon'])
+                    else:
+                        tmp_clu = cluNum
+                        x2 = float(data[(data['cluNum']==tmp_clu)&(data['clu_head']==True)]['lat'])
+                        y2 = float(data[(data['cluNum']==tmp_clu)&(data['clu_head']==True)]['lon'])
+
                         dist_cl.append(calc_dist(x1,y1,x2,y2))
                         dist_ap.append(calc_dist(x1,y1,ap_x,ap_y))
+
                         x1 = x2
                         y1 = y2
-                        tmp_clu = v['cluNum']
-                    else:
-                        pass
-    
+
+                else:
+                    pass
+            else:
+                pass
+
     df = pd.DataFrame({
         'dist_clu':dist_cl,
         'dist_ap':dist_ap
@@ -183,7 +186,8 @@ def graph_hist():
 
     plt.show()
 
-cl_graph()
+cl_density()
+#cl_graph()
 #hist()
 #graph_hist()
 #graph_usedsystem()
