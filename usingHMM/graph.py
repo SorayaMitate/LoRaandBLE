@@ -170,6 +170,6 @@ def graph_hist():
 
     plt.show()
 
-#hist()
-graph_hist()
+hist()
+#graph_hist()
 #graph_usedsystem()
