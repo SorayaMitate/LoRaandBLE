@@ -88,12 +88,13 @@ def cl_density():
         else:
             tmp_clu = -1
             for cluNum in tmp['cluNum']:
-                if tmp_clu != cluNum:
-                    if tmp_clu == -1:
-                        tmp_clu = cluNum
-                        x1 = float(data[(data['cluNum']==tmp_clu)&(data['clu_head']==True)]['lat'])
-                        y1 = float(data[(data['cluNum']==tmp_clu)&(data['clu_head']==True)]['lon'])
-                    else:
+                if tmp_clu == -1:
+                    tmp_clu = cluNum
+                    x1 = float(data[(data['cluNum']==tmp_clu)&(data['clu_head']==True)]['lat'])
+                    y1 = float(data[(data['cluNum']==tmp_clu)&(data['clu_head']==True)]['lon'])
+
+                else:
+                    if tmp_clu != cluNum:
                         tmp_clu = cluNum
                         x2 = float(data[(data['cluNum']==tmp_clu)&(data['clu_head']==True)]['lat'])
                         y2 = float(data[(data['cluNum']==tmp_clu)&(data['clu_head']==True)]['lon'])
@@ -104,10 +105,8 @@ def cl_density():
                         x1 = x2
                         y1 = y2
 
-                else:
-                    pass
-            else:
-                pass
+                    else:
+                        pass
 
     df = pd.DataFrame({
         'dist_clu':dist_cl,

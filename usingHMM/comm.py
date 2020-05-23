@@ -20,7 +20,7 @@ from AHP import adaptionAlgorithm, ahp_normrize
 const = const.Const()
 
 #入力：アプリケーション要求(タプル)
-def comm(NUM_NODE,app,area,ble_density,queue):
+def comm(NUM_NODE,app,area,queue):
 
     #ランダムシードをプロセスIDで初期化
     random.seed(os.getpid())
