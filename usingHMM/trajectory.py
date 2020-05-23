@@ -48,7 +48,7 @@ def density_trag_clustering(data, r, minpts):
     
     data.drop('dist', axis=1)
     data.drop('flag', axis=1)
-    data = data.drop(data[data['cluNum']==-1])
+    data = data.drop(data[data['cluNum']==-1].index)
     data = data.reset_index()
 
 #######ここいる？？？？？？？？？
