@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from trajectory import *
+from trajectory import density_trag_clustering, traSeg, trajectory, observeMat
 import const
 
 const = const.Const()
@@ -74,7 +74,7 @@ print('lenght of rata sets =', len(data))
 #reredata = [[j[0], j[1]] for i in redata for j in i]
 #Trajectory clustring
 Minpts = 50
-density_trag_clustering(data, const.CLUSTER_SIZE, Minpts)
+data = density_trag_clustering(data, const.CLUSTER_SIZE, Minpts)
 print(data)
 data.to_csv('trajectory.csv')
 

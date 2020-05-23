@@ -16,7 +16,7 @@ def calc_dist(x1, y1, x2, y2):
 #ネイバーのインデックスを返す変数
 def getNeighbors(data, point, r):
     data['dist'] = calc_dist(data['lat'],data['lon'],point['lat'],point['lon'])
-    neighbors = data[(data['dist']<=r)&(data['flag']==-1)].index
+    neighbors = data[(data['dist']<r)&(data['flag']==-1)].index
     return neighbors
 
 #軌道のクラスタリング
@@ -46,10 +46,12 @@ def density_trag_clustering(data, r, minpts):
         else :
             pass        
     
-    data.drop('dist', axis=1)
-    data.drop('flag', axis=1)
+    data = data.drop('dist', axis=1)
+    data = data.drop('flag', axis=1)
     data = data.drop(data[data['cluNum']==-1].index)
     data = data.reset_index()
+
+    return data
 
 #######ここいる？？？？？？？？？
 #各セグメント→クラスタリングによるhidden nodeの抽出
