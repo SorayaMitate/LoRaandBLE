@@ -72,6 +72,8 @@ def cl_density():
     #path = '/home/owner/mitate/MieSCOPE/data/usingHMM/'
     path = '/home/flab/mitate/data/MieSCOPE/usingHMM/' #flab@192.168.7.247
     data = pd.read_csv(path + 'trajectory.csv', index_col=0)
+    data = data.drop(data[data['cluNum']==-1].index)
+    data = data.reset_index()
 
     dist_cl = []
     dist_ap = []
