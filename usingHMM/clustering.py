@@ -17,8 +17,8 @@ MAX_LON = 116.5
 MIN_LON = 116.2
 
 #path_download = 'C:\\Users\\soraya-PC\\Desktop\\Geolife Trajectories 1.3\\Geolife Trajectories 1.3\\Data'
-path_download = '/home/owner/mitate/MieSCOPE/Geolife Trajectories 1.3/Geolife Trajectories 1.3/Data'
-#path_download = '/home/flab/mitate/data/MieSCOPE/Geolife Trajectories 1.3/Data'
+#path_download = '/home/owner/mitate/MieSCOPE/Geolife Trajectories 1.3/Geolife Trajectories 1.3/Data'
+path_download = '/home/flab/mitate/data/MieSCOPE/Geolife Trajectories 1.3/Data'
 dir_list = glob.glob(path_download + '/*')
 
 trag_path_list = [dir_name + '/Trajectory' for dir_name in dir_list]
