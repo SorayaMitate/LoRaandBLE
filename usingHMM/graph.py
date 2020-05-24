@@ -187,8 +187,8 @@ def graph_hist():
 
     plt.show()
 
-cl_density()
+#cl_density()
 #cl_graph()
-#hist()
+hist()
 #graph_hist()
 #graph_usedsystem()
