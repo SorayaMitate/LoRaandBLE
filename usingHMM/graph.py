@@ -177,12 +177,12 @@ def graph_hist():
     for i in range(leng):
 
         if i < 3:
-            data.plot.bar(y=[str(DIST[i])],ax=ax[0,i],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=10,grid=True,legend=False,ylim=[0.0,0.7])
+            data.plot.bar(y=[str(DIST[i])],ax=ax[0,i],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=10,grid=True,legend=False,ylim=[0.0,1.0])
             ax[0,i].set_xlabel('Distance bettween Clusters [m]',fontsize=15)
             ax[0,i].set_ylabel('PDF',fontsize=15)
         else:
             tmp = i-3
-            data.plot.bar(y=[str(DIST[i])],ax=ax[1,tmp],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=10,grid=True,legend=False,ylim=[0.0,0.7])
+            data.plot.bar(y=[str(DIST[i])],ax=ax[1,tmp],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=10,grid=True,legend=False,ylim=[0.0,1.0])
             ax[1,tmp].set_xlabel('Distance bettween Clusters [m]',fontsize=15)
             ax[1,tmp].set_ylabel('PDF',fontsize=15)
 
