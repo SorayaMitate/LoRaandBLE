@@ -190,6 +190,6 @@ def graph_hist():
 
 #cl_density()
 #cl_graph()
-hist()
+#hist()
 #graph_hist()
-#graph_usedsystem()
+graph_usedsystem()
