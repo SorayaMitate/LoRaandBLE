@@ -120,9 +120,10 @@ def hist():
     DIST_BIN = 200
     DIST = np.arange(0,MAX_DIST,DIST_BIN)
 
-    MAC_CLU_DIST = 250
+    MAC_CLU_DIST = 300
+    MIN_CLU_DIST = 100
     CLU_DIST_BIN = 10
-    CLU_DIST = np.arange(0,MAC_CLU_DIST,CLU_DIST_BIN)
+    CLU_DIST = np.arange(MIN_CLU_DIST,MAC_CLU_DIST,CLU_DIST_BIN)
 
     df = pd.DataFrame(index=CLU_DIST,columns=DIST)
     print('df =',df)
@@ -139,7 +140,7 @@ def hist():
         print('std =',std)
 
         leng = len(tmp)
-        for d in range(0,MAC_CLU_DIST,CLU_DIST_BIN):
+        for d in range(MIN_CLU_DIST,MAC_CLU_DIST,CLU_DIST_BIN):
             tmp2 = tmp[(tmp['dist_clu']>=d)&(tmp['dist_clu']<d+CLU_DIST_BIN)]
             df.at[d,b] = float(len(tmp2))/float(leng)
 
