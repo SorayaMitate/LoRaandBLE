@@ -1,26 +1,30 @@
 #変数定義ファイル
 
+from sympy import Matrix
+
 class Const():
     def __init__(self):
         #シミュレーション設定項目
-        self.ITERATION = 1000
         #self.TIME_MAX = 193750 #(3.1kmを走るのにかかる時間[sec] * 100)[*10msec]
         self.TIME_MAX = 200 #(3.1kmを走るのにかかる時間[sec] * 100)[*10msec]
-        self.TIMEPERFLAME = 100000 #1フレームの時間[1sec]
-        #ITERATION = 1
+        self.TIMEPERFLAME = 1 #1フレームの時間[1sec]
+        self.ITERATION = 100
         self.NODE_MIN = 1
-        self.NODE_MAX = 2
+        self.NODE_MAX = 1
         self.DELTA_NODE = 1
         self.AP_MAX = 1
-        self.BLE_AP_NUM = 10
-
-        self.QUE_LENGTH = 50
+        self.BLE_AP_NUM = 0.3 #クラスター数×BLE_AP_NUM
+        self.PACKET_INTERVAL = 100
+        self.MIN_PER = pow(10,-3)
+        self.BUG_CLUNUM = -1
 
         #座標パラメータ
         self.A = 0
         self.B = 2000 #m
         self.DELTA_MESH = 10
         self.CLUSTER_SIZE = 100
+
+        self.PER_THRESHOLD = 0.2
 
         #シャドウィングパラメータ
         self.D_COR = 30
@@ -43,9 +47,6 @@ class Const():
 
         #AWGN(dBm)
         self.AWGN = -100.0
-
-        #PERの平均(リスト)[0.01～0.05]
-        self.PER_AVG = [i/100 for i in range(1, 6)]
 
         #パケット長
         self.PACKET = 25 * 8
@@ -89,8 +90,22 @@ class Const():
                 self.SF12:float((self.PACKET/self.RATE[self.SF12])/0.01-self.PACKET/self.RATE[self.SF12]),
                 #BLEのduty cycleはsf10のものを使用する
                 self.BLE:float((self.PACKET/self.RATE[self.SF10])/0.01-self.PACKET/self.RATE[self.SF10])}
+
+        #QOS項目の期待値を格納するのはこの定義
+        #1パケット当たりの電流
+        self.CURRENT = {self.SF7:1.42, self.SF8:2.48, self.SF10:7.9, \
+            self.SF11:14.4, self.SF12:26.8, self.BLE:0.0}
+       
+        #Delay
+        self.DELAY = {self.SF7:self.PACKET/self.RATE[self.SF7], \
+            self.SF8:self.PACKET/self.RATE[self.SF8], \
+            self.SF10:self.PACKET/self.RATE[self.SF10], \
+            self.SF11:self.PACKET/self.RATE[self.SF11], \
+            self.SF12:self.PACKET/self.RATE[self.SF12], \
+            self.BLE:0.0}
+
         
-        self.PER = {self.SF7:0.0, self.SF8:0.0, self.SF10:-0.0,\
+        self.PER = {self.SF7:0.0, self.SF8:0.0, self.SF10:0.0,\
             self.SF11:.0, self.SF12:0.0, self.BLE:0.0}
 
         #BLEの変数定義
@@ -98,12 +113,12 @@ class Const():
         #BLEのデータレート : 1M[bit/s]
         self.BLE_RATE = 1000000.0
         #スレーブによるアドバタイズインターバル:0.5[sec]
-        self.ADV_INTERVAL = 50 #500msec
+        self.ADV_INTERVAL = 0.5 #500msec
         #アドバタイズパケットの長さ
         #ADOVERTISE_SIZE = 
-        #BLEの消費電流[mAh/10ms]
-        self.BLE_CURRENT = {'TX':84.0/3.0, 'RX':66.0/3.0, 'TIFS':45.0/3.0, \
-                        'ADV':0.2/3.0}
+        #BLEの消費電流[mAh/sez]
+        #dutycycle10%で33mWの消費(マスタにーよるスキャン)
+        self.BLE_CURRENT = {'ADV':0.067, 'IDLE':33.0 / 3.0 / 5.0} 
         #BLEの各パケット送受信にかかる長さ [sec/bit]
         self.BLE_LENGTH = {'TX':10.0**(-6), 'RX':10.0**(-6), 'TIFS':150.0**(-6)}
 
@@ -116,6 +131,7 @@ class Const():
                 self.BLE_CURRENT['RX']*float(packet_num)*self.BLE_LENGTH['RX']*4*8 + \
                 self.BLE_CURRENT['TIFS']*float(2*packet_num-1)*self.BLE_LENGTH['TIFS']
 
-        #色指定
-        self.SYSTEM_COLOR = {self.SF7:'blue', self.SF8:'green', self.SF10:'red',\
-            self.SF11:'yellow', self.SF12:'peru', self.BLE:'orange'}
+        QOS = 2
+        self.APP = {'equal':Matrix([[1,1,1],[1,1,1],[1,1,1]]), \
+            'energy':Matrix([[1,QOS,QOS],[1/QOS,1,1],[1/QOS,1,1]]),\
+            'per':Matrix([[1,1,1/QOS],[1,1,1/QOS],[1,QOS,QOS]])}

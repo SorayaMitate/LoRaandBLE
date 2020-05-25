@@ -1,15 +1,15 @@
 #LoRa communication
 
-from func import *
-from const import *
+import const
+from func import calc_dist, Fading, PL, dBmtotv, tvtodBm
 
 #定数クラス
-const = Const()
+const = const.Const()
 
 #LoRa通信を行う処理
 #引数 : ノードリスト, APリスト, 送信状態のノードインデックス
 #戻り値 ： 送信パケット成功数
-def LoRa_comm(node_list, ap_list, index_list):
+def LoRa_comm(node_list, ap_list, index_list, area):
     
     arrival_packet = 0
 
@@ -20,13 +20,18 @@ def LoRa_comm(node_list, ap_list, index_list):
             #距離計算（抽出）
             #tmp = [j for j in range(map_size) \
             #    if ap.map[j][0:2] == (node_list[i].x, node_list[i].y)]
-            dist_tmp = calc_dist(node_list[i].x, node_list[i].y, ap.x, ap.y)
-
-            ap.rpow[i] = node_list[i].tpow - PL(node_list[i].freq, dist_tmp)
-
+            tmp = area[(area['X']==node_list[i].x)&(area['Y']==node_list[i].y)]['SHADOWING']
+            if len(tmp)>0:
+                dist_tmp = calc_dist(node_list[i].x, node_list[i].y, ap.x, ap.y)
+                ap.rpow[i] = node_list[i].tpow - PL(node_list[i].freq, dist_tmp)\
+                    + Fading(node_list[i].speed, node_list[i].freq)\
+                        +float(tmp)
+            else:
+                dist_tmp = calc_dist(node_list[i].x, node_list[i].y, ap.x, ap.y)
+                ap.rpow[i] = node_list[i].tpow - PL(node_list[i].freq, dist_tmp)\
+                    + Fading(node_list[i].speed, node_list[i].freq)
             #-----------デバック-------------#
             #print("----------node status---------")
-            #node_l[i].output()
             #print('dist =', dist_tmp)
             #print('ap_pow =', ap.rpow[i])
             #-------------------------------#
@@ -42,23 +47,21 @@ def LoRa_comm(node_list, ap_list, index_list):
                     tmp1 = dBmtotv(ap.rpow[i])
                 elif i != j and node_list[i].sf == node_list[j].sf:
                     tmp2 += dBmtotv(ap.rpow[j])
+            
+            #print('tmp1 =',tmp1)
+            #print('tmp2 =',tmp2)
 
             SINR = tvtodBm(tmp1/tmp2)
+            #print('SNR = ',SINR)
             if SINR > const.SNR[node_list[i].sf] and \
                 tvtodBm(tmp1) >= const.SENSING_LEVEL[node_list[i].sf]:
 
-                node_list[i].packet -= node_list[i].rate * const.TIMEPERFLAME
-                if node_list[i].packet <= 0:
-                    arrival_packet += 1
-                    node_list[i].tosleep()
-
-                #SNR格納処理
-                node_list[i].que_snr.appendleft(tvtodBm(tmp1/tmp2))
-                node_list[i].que_per.appendleft(1)
-            
-            else:
-                node_list[i].que_snr.appendleft(tvtodBm(tmp1/tmp2))
-                node_list[i].que_per.appendleft(0)
+                #node_list[i].packet -= node_list[i].rate * const.TIMEPERFLAME
+                #if node_list[i].packet <= 0:
+                arrival_packet += 1
+            else :
+                pass
+            node_list[i].tosleep()
     
     return arrival_packet
                     

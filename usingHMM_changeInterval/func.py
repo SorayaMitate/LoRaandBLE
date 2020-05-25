@@ -3,6 +3,10 @@ from math import pi, log10, cos, sqrt
 from cmath import exp as cexp
 import numpy as np
 import pandas as pd
+from scipy import optimize
+from scipy.special import erfc
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 def tvtodBm(t):
     a = 10.0*log10(t)
@@ -38,7 +42,7 @@ def Fading(v, f):
 
 def PL(f,dis):
     #減衰定数
-    gamma = 2.0
+    gamma = 2.5
     pii = 4.0*np.pi
     fle = 2.4*10.0**9
     lam = 299792458.0 / f
@@ -56,37 +60,60 @@ def poisson():
 #空間相関を持つシャドウィング値を作成する関数
 #引数 : メッシュサイズ, メッシュ範囲X, メッシュ範囲Y, 各メッシュの正規分布の分散, 相関距離
 #戻り値 : 空間相関をもつシャドウィング
-def SpacialColShadowing(size, X, Y, var, dcol):
+def SpacialColShadowing(size, XSIZE, YSIZE, var, dcol):
 
     #2地点間の相関係数を計算する関数
     #入力 : 2メッシュ間の距離
     def calc_SpatialCorrelation(d, dcol):
-        return np.exp((-1)*d/dcol*np.log10(2))
+        return np.exp((-1)*d*np.log(2)/dcol)
 
-    X = np.arange(0, X, size)
-    Y = np.arange(0, Y, size)
-    Z = [(i,j) for i in X for j in Y]
+    X = np.arange(0, XSIZE, size)
+    Y = np.arange(0, YSIZE, size)
+    XX, YY = np.meshgrid(X,Y)
+    #二次元配列を一次元に
+    X = XX.flatten()
+    Y = YY.flatten()
+    leng = len(X)
+    S = np.zeros((leng,leng))
 
     #共分散行列の計算
-    S = np.array([[calc_SpatialCorrelation(calc_dist(*i,*j), dcol)*(var**2) \
-        for i in Z] for j in Z])
+    for i in range(leng):
+        for j in range(leng):
+            tmp = calc_dist(X[i],Y[i],X[j],Y[j])
+            S[i][j] = calc_SpatialCorrelation(tmp, dcol)*(var**2)
     
     #コレスキー分解
     L = np.linalg.cholesky(S)
 
     #共分散行列の計算
-    w = np.random.rand((int(X/size)**2))
+    w = np.random.standard_normal(leng)
     M = np.dot(L, w)
 
-    U = np.zeros((int(X/size)**2))
-    S = np.random.multivariate_normal(U, S)
-
-    X = [i[0] for i in Z]
-    Y = [i[1] for i in Z]
     mesh = pd.DataFrame({
         'X':X,
         'Y':Y,
-        'SHADOWING':S
+        'SHADOWING':M
     })
 
     return mesh
+
+#LoRa変調でのSNRからBERを算出する関数(AWGNチャネル)
+def lora_ber_AWGN(sf, snr):
+    snr = pow(10,snr/10.0)
+    tmp = np.sqrt(snr*np.power(2,sf+1))-np.sqrt(1.386*sf+1.154)
+    return 0.5*0.5*erfc(tmp/np.sqrt(2))
+
+#LoRa変調でのSNRからBERを算出する関数(レイリーフェージング下)
+def lora_ber_Raylgh(sf, snr):
+    def Hm(m):
+        return np.log(m)+1.0/(2.0*m)+0.57722
+    snr = np.power(10.0,snr/10.0)
+    nakami = 2*Hm(np.power(2,sf)-1)
+    sneff = np.power(2,sf)*snr
+    kou1 = 0.5*erfc((-1)*np.sqrt(nakami)/np.sqrt(2))
+    tmp = (-1)*nakami/(2*(sneff+1))
+    kou2 = np.sqrt(sneff/(sneff+1))*np.exp(tmp)
+    tmp = np.sqrt((sneff+1)/sneff)*((-1)*np.sqrt(nakami)\
+        +np.sqrt(nakami)/(sneff+1))
+    kou3 = 0.5*erfc(tmp/np.sqrt(2))
+    return 0.5*(kou1-kou2*kou3)

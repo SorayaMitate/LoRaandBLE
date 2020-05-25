@@ -1,12 +1,12 @@
 import random
 import numpy as np
 from collections import deque
-from sympy import * 
+from sympy import Matrix
 
-from func import*
-from const import *
+import const
+from func import poisson
 
-const = Const()
+const = const.Const()
 
 class Node():
     #ノードの設定
@@ -22,11 +22,17 @@ class Node():
         self.packet = 0
         self.timecount = 0
         self.fading_tmp = 0.0 #1パケット受信間のフェージング値の固定を保証
-        self.interval = poisson()
+        self.interval = -1
         self.mode = -1
         self.mode_tmp = -1
         self.state = -1
         self.state_tmp = -1
+
+        #cluster Noの格納
+        self.cluNum = -1
+
+        #使用可能システムリスト
+        self.system_list = []
     
     def tosleep(self):
         self.buffer.clear()
@@ -40,6 +46,29 @@ class Node():
         self.packet = const.PACKET
         self.mode_tmp = const.ACTIVE
         self.state_tmp = const.DATA_T
+
+    def toBLE_ADV(self):
+        self.timecount = 0
+        self.packet = 0
+        self.mode_tmp = const.WAIT
+        self.state_tmp = const.BLE_ADV
+
+    def toBLE_DATA_T(self):
+        self.buffer.appendleft(1)
+        self.packet = const.PACKET
+        self.mode_tmp = const.ACTIVE
+        self.state_tmp = const.BLE_DATA_T
+
+    def BLE_occur_packet(self):
+        self.buffer.appendleft(1)
+        self.interval += const.DC[self.sf] + poisson()
+
+    def BLEtoSF12(self):
+        self.buffer.appendleft(1)
+        self.packet = const.PACKET
+        self.mode = const.ACTIVE
+        self.state = const.DATA_T
+        self.sf = const.SF12
 
     def output(self):
         #デバック用
@@ -60,11 +89,10 @@ class Agent(Node):
     #移動ノードの設定(固定ノードの継承)
     def __init__(self, ahp_qos):
         super(Agent, self).__init__() #Nodeのメンバ変数ごと継承
-        self.y = 0.0
         self.buffer = deque(maxlen=const.BUFFER_SIZE)
         self.speed = const.SPEED
-        self.que_snr = deque(maxlen = const.QUE_LENGTH)
-        self.que_per = deque(maxlen = const.QUE_LENGTH)
+        tmp = 1
+        self.qos_matrix = Matrix([[1,tmp,tmp],[1/tmp,1,1],[1/tmp,1,1]])
 
     def run(self):
         #agentがエリア端に到着した時、走行距離を初期化し
@@ -72,7 +100,7 @@ class Agent(Node):
         if self.x >= const.B:
             self.x = 0.0
             #self.y = random.randint(A,B)
-        self.x += self.speed
+        self.x += self.speed * float(const.TIMEPERFLAME)
 
 class AP(Node):
     def __init__(self):
