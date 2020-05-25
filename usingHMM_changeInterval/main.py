@@ -27,7 +27,7 @@ const = const.Const()
 def main():
 
     #path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
-    path = '/home/flab/mitate/LoRaandBLE/usingHMM/result/'
+    path = '/home/flab/mitate/LoRaandBLE/usingHMM_changeInterval/result/'
 
     #エリアの定義
     #area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B, const.SHADOWING_VAR, const.D_COR)
@@ -38,7 +38,10 @@ def main():
     df = pd.DataFrame(results.result_out.values(), \
         index=results.result_out.keys()).T
 
-    for qos in const.APP.items():
+    qos = const.APP['per']
+    ble_dens = [0.2, 0.4 , 0.6, 0.8, 1.0]
+
+    for dens in ble_dens:
 
         print('QOS Matrix= ', qos)
 
@@ -50,7 +53,7 @@ def main():
             
 
         q = mp.Queue()
-        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,qos,area,q,)) \
+        p_list = [mp.Process(target=comm, args=(const.NODE_MIN,qos,dens,area,q,)) \
             for j in range(NUM_CORE)]
         [p.start() for p in p_list]
 
@@ -86,9 +89,10 @@ def main():
 
         tmp = pd.DataFrame(results.result_out.values(), \
             index=results.result_out.keys()).T
+        tmp['dens'] = dens
         df = df.append(tmp, ignore_index = True)
         
-        file_name = path + 'qos' + qos[0] + 'results.csv'
+        file_name = path + str(dens) + 'results.csv'
         df_system = pd.DataFrame(results.result_out_system.values(), \
             index=results.result_out_system.keys()).T
         df_system.to_csv(file_name)
