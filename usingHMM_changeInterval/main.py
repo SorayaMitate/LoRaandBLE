@@ -18,7 +18,7 @@ from comm import comm
 from func import SpacialColShadowing
 
 #---------変数定義--------#
-NUM_CORE = 3 #使用するコア数(メインプロセスは含まない)
+NUM_CORE = 10 #使用するコア数(メインプロセスは含まない)
 #------------------------#
 
 #定数クラスの定義
@@ -44,7 +44,7 @@ def main():
     for dens in ble_dens:
 
         print('QOS Matrix= ', qos)
-        
+
 
         for k,v in results.result_ave.items():
             if isinstance(v, list):
