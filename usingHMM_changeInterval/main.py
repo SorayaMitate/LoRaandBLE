@@ -18,7 +18,7 @@ from comm import comm
 from func import SpacialColShadowing
 
 #---------変数定義--------#
-NUM_CORE = 10 #使用するコア数(メインプロセスは含まない)
+NUM_CORE = 3 #使用するコア数(メインプロセスは含まない)
 #------------------------#
 
 #定数クラスの定義
