@@ -38,7 +38,7 @@ def main():
     df = pd.DataFrame(results.result_out.values(), \
         index=results.result_out.keys()).T
 
-    qos = const.APP['per']
+    qos = {'per':const.APP['per']}
     ble_dens = [0.2, 0.4 , 0.6, 0.8, 1.0]
 
     for dens in ble_dens:
