@@ -39,7 +39,7 @@ def main():
         index=results.result_out.keys()).T
 
     qos = ('per',const.APP['per'])
-    ble_dens = [0.01, 0.05 , 0.10, 0.2, 0.3]
+    ble_dens = [0.01, 0.05 , 0.10, 0.2]
 
     for dens in ble_dens:
 
