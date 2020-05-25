@@ -30,6 +30,7 @@ def comm(NUM_NODE,app,dens,area,queue):
     #BLEAP数の定義
     ble_ap_num = int(dens * ss.numCluster())
     #ble_ap_num = int(ss.numCluster()) -1#デバック用
+    print('ble_ap_num',ble_ap_num)
 
     for ite in range(1,const.ITERATION+1):
         #print('iteration = ',ite)
