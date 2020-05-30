@@ -166,6 +166,9 @@ def comm(NUM_NODE,app,area,queue):
                     node.sf_tmp = adaptionAlgorithm(systemlist, node.qos_matrix,\
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
 
+                    ######ランダムセレクト
+                    node.sf_tmp = random.choice(systemlist)
+
                     #BLE通信時の結果格納
                     if node.sf_tmp == const.BLE:
                         results.delay += delay_tmp
