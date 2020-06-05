@@ -125,7 +125,7 @@ def hist():
 
     MAC_CLU_DIST = 200
     MIN_CLU_DIST = 100
-    CLU_DIST_BIN = 5
+    CLU_DIST_BIN = 10
     CLU_DIST = np.arange(MIN_CLU_DIST,MAC_CLU_DIST,CLU_DIST_BIN)
 
     df = pd.DataFrame(index=CLU_DIST,columns=DIST)
