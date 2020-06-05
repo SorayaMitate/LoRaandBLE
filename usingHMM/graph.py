@@ -117,6 +117,10 @@ def cl_density():
 def hist():
     MAX_DIST = 1200
     DIST_BIN = 200
+
+    MAX_DIST = 1200
+    DIST_BIN = 600
+
     DIST = np.arange(0,MAX_DIST,DIST_BIN)
 
     MAC_CLU_DIST = 200
@@ -163,18 +167,25 @@ def graph_hist():
     data = pd.read_csv('hist.csv',index_col=0)
 
     MAX_DIST = 1200
-    DIST_BIN = 200
+    #DIST_BIN = 200
+    DIST_BIN = 600
     DIST = np.arange(0,MAX_DIST,DIST_BIN)
     leng = len(DIST)
 
-    fig, ax = plt.subplots(2, 3)
+    fig, ax = plt.subplots(1, 2)
     plt.subplots_adjust(wspace=0.3, hspace=0.5)
+    plt.subplots_adjust(bottom=0.2)
     plt.style.use('ggplot') 
     font = {'family' : 'meiryo'}
     matplotlib.rc('font', **font)
 
     for i in range(leng):
 
+        data.plot.bar(y=[str(DIST[i])],ax=ax[i],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=20,grid=True,legend=False,ylim=[0.0,1.0])
+        ax[i].set_xlabel('現クラスタと遷移先クラスタ間の距離 [m]',fontname="HGGothicM",fontsize=20)
+        ax[i].set_ylabel('発生確率',fontname="HGGothicM",fontsize=20)
+
+        '''
         if i < 3:
             data.plot.bar(y=[str(DIST[i])],ax=ax[0,i],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=10,grid=True,legend=False,ylim=[0.0,1.0])
             ax[0,i].set_xlabel('Distance bettween Clusters [m]',fontsize=15)
@@ -184,11 +195,13 @@ def graph_hist():
             data.plot.bar(y=[str(DIST[i])],ax=ax[1,tmp],title=('D_ap='+str(DIST[i])+'[m]'),fontsize=10,grid=True,legend=False,ylim=[0.0,1.0])
             ax[1,tmp].set_xlabel('Distance bettween Clusters [m]',fontsize=15)
             ax[1,tmp].set_ylabel('PDF',fontsize=15)
+        '''
 
     plt.show()
 
+
 #cl_density()
 #cl_graph()
-#hist()
+hist()
 #graph_hist()
-graph_usedsystem()
+#graph_usedsystem()
