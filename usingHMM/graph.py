@@ -119,7 +119,7 @@ def hist():
     DIST_BIN = 200
 
     MAX_DIST = 1200
-    DIST_BIN = 600
+    DIST_BIN = 400
 
     DIST = np.arange(0,MAX_DIST,DIST_BIN)
 
