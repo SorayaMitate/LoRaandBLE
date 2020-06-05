@@ -151,8 +151,6 @@ def hist():
 
 def cl_graph():
 
-def cl_graph():
-
     path = '/home/flab/mitate/data/MieSCOPE/usingHMM/' #flab@192.168.7.247
     data = pd.read_csv(path + 'trajectory.csv', index_col=0)
 
