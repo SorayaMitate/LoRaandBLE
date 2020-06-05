@@ -151,6 +151,8 @@ def hist():
 
 def cl_graph():
 
+def cl_graph():
+
     path = '/home/flab/mitate/data/MieSCOPE/usingHMM/' #flab@192.168.7.247
     data = pd.read_csv(path + 'trajectory.csv', index_col=0)
 
@@ -158,8 +160,22 @@ def cl_graph():
     x = list(tmp['lat'])
     y = list(tmp['lon'])
 
+    df = pd.DataFrame({
+        'x':x,
+        'y':y
+    })
+    df.to_csv('cl_dens.csv')
+
+    plt.style.use('ggplot') 
+    font = {'family' : 'meiryo'}
+    matplotlib.rc('font', **font)
+
     plt.scatter(x,y, s=100)
-    plt.savefig('Cluster.png')
+    plt.xlim(0,2000)
+    plt.ylim(0,2000)
+    plt.xlabel('x',fontname="HGGothicM",fontsize=30)
+    plt.xlabel('y',fontname="HGGothicM",fontsize=30)
+    #plt.savefig('Cluster.png')
 
 
 def graph_hist():
