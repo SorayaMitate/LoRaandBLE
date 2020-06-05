@@ -215,7 +215,7 @@ def graph_hist():
 
 
 #cl_density()
-#cl_graph()
-hist()
+cl_graph()
+#hist()
 #graph_hist()
 #graph_usedsystem()
