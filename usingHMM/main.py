@@ -26,8 +26,8 @@ const = const.Const()
 
 def main():
 
-    path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
-    #path = '/home/flab/mitate/LoRaandBLE/usingHMM/result/'
+    #path = '/home/owner/mitate/MieSCOPE/LoRaandBLE/results/'
+    path = '/home/flab/mitate/LoRaandBLE/usingHMM/result/'
 
     #エリアの定義
     #area = SpacialColShadowing(const.DELTA_MESH, const.B, const.B, const.SHADOWING_VAR, const.D_COR)
