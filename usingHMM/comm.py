@@ -143,7 +143,6 @@ def comm(NUM_NODE,app,area,queue):
                     node.x, node.y = ss.CluNumtoPosi(node.cluNum)
                     dist_loraAP = calc_dist(node.x, node.y, ap_list[0].x, ap_list[0].y)
 
-                    '''
                     #QoS項目の期待値計算
                     const.DELAY[const.BLE], const.CURRENT[const.BLE] = ss.calc_forble(node_list[0], ble_ap_list)
                     per_list = ss.calc_per(node_list[0], ap_list[0], ble_ap_list, area)
@@ -168,11 +167,10 @@ def comm(NUM_NODE,app,area,queue):
                     #AHP計算とシステム選択
                     node.sf_tmp = adaptionAlgorithm(systemlist, node.qos_matrix,\
                         ahp_current_norm, ahp_delay_norm, ahp_per_norm)
-                    '''
 
                     ######ランダムセレクト
-                    systemlist = const.SYSTEM_LIST
-                    node.sf_tmp = random.choice(systemlist)
+                    #systemlist = const.SYSTEM_LIST
+                    #node.sf_tmp = random.choice(systemlist)
 
                     #BLE通信時の結果格納
                     if node.sf_tmp == const.BLE:
