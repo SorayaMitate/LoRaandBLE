@@ -132,9 +132,14 @@ class Const():
                 self.BLE_CURRENT['TIFS']*float(2*packet_num-1)*self.BLE_LENGTH['TIFS']
 
         QOS = 2
+
         self.APP = {'equal':Matrix([[1,1,1],[1,1,1],[1,1,1]]), \
             'energy':Matrix([[1,QOS,QOS],[1/QOS,1,1],[1/QOS,1,1]]),\
             'per':Matrix([[1,1,1/QOS],[1,1,1/QOS],[1,QOS,QOS]])}
+
+        #self.APP = {'equal':Matrix([[1,1,1],[1,1,1],[1,1,1]]), \
+        #    'energy':Matrix([[1,QOS,QOS],[1/QOS,1,1],[1/QOS,1,1]]),\
+        #    'per':Matrix([[1,1,1/QOS],[1,1,1/QOS],[1,QOS,QOS]])}
         
         #####ランダムセレクト
         #self.APP = {'equal':Matrix([[1,1,1],[1,1,1],[1,1,1]])}
